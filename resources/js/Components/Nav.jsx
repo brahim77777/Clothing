@@ -93,7 +93,7 @@ function Nav() {
               </button>
                 {/* <UserIcon className=" size-5" /> */}
                 {console.log("auth",useSelector((state)=>state.auth.value))}
-                {/* <UserDropDown toggleDarkMode={toggleDarkMode} auth={auth} /> */}
+                <UserDropDown toggleDarkMode={toggleDarkMode} auth={auth} />
                 {/* {toggleDarkMode?"true":"false"} */}
 
               <Badge content={count} className={`${(count === 0)? `hidden`:`flex`} bg-red-500 items-center justify-center min-w-4 max-h-4 ml-7 -translate-y-1`}>
