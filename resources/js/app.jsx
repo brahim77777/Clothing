@@ -4,6 +4,7 @@ import Nav from "./Components/Nav";
 import { createRoot } from 'react-dom/client';
 import { Provider } from 'react-redux';
 import {store} from "./redux/store"
+import { setAuth } from './redux/authSlice';
 import { createInertiaApp,Link, usePage } from '@inertiajs/react';
 import Footer from './Components/Footer';
 import { resolvePageComponent } from 'laravel-vite-plugin/inertia-helpers';
@@ -14,7 +15,8 @@ createInertiaApp({
     title: (title) => `${title} - ${appName}`,
     resolve: (name) => resolvePageComponent(`./Pages/${name}.jsx`, import.meta.glob('./Pages/**/*.jsx')),
     setup({ el, App, props }) {
-        let auth = props.initialPage.props.auth;
+        store.dispatch(setAuth(props.initialPage.props.auth));
+        const auth = store.getState().auth.value;
         const root = createRoot(el);
 
         root.render(

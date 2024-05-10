@@ -6,6 +6,8 @@ import changeImageReducer from './productImageSlice'
 import changeLangReducer from './changeLangSlice'
 import switchToProductPageReducer from './switchToProductPageSlice'
 import sideBarReducer from './sideBarSlice'
+import authReducer from './authSlice'
+
 export const store = configureStore({
   reducer: {
     productCounter: productCounterReducer,
@@ -14,6 +16,8 @@ export const store = configureStore({
     productImage:changeImageReducer,
     changeLang:changeLangReducer,
     switchToProductPage:switchToProductPageReducer,
-    sideBar:sideBarReducer
+    sideBar:sideBarReducer,
+    auth:authReducer
+
   },
 })
