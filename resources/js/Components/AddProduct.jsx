@@ -2,12 +2,13 @@ import CurrencyInput from 'react-currency-input-field';
 import '../../css/app.css';
 
 import { SketchPicker } from 'react-color';
-import Sketch from './Sketch';
+// import Sketch from './Sketch';
 import React, { useEffect, useState, useCallback,useRef } from 'react';
 import { MdCategory, MdColorLens, MdPublish } from 'react-icons/md';
 import { Cancel, ClearAll, Create, Publish } from '@mui/icons-material';
 import { TbCategoryPlus, TbClearAll, TbDragDrop } from 'react-icons/tb';
 import { useDropzone } from "react-dropzone";
+// import Dropdown from 'DropDownT';
 import Dropdown from './DropDownT';
 import Modal from './Modal';
 import Drag from './Drag';
@@ -121,7 +122,7 @@ export default function AddProduct(){
     }, []);
     return(
         <div className={`${(sideOpen && !isMediumScreen) ? 'lg:w-[calc(100vw-18.5rem)] w-[calc(100vw-18.5rem)]' : 'w-full'} duration-300 ease-in-out min-h-screen ${toggleDarkMode ? 'bg-neutral-700' : 'bg-neutral-100'} h-full p-4 ml-auto`}>
-            
+
         <div className='w-full mb-2 flex justify-between '>
             <h1 className="text-[1.4rem] font-semibold mb-4">Add a New Product</h1>
             <div className='flex gap-2'>

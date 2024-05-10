@@ -1,4 +1,9 @@
-import React from "react";
+import React ,{useState, useEffect} from "react";
+
+import ResponsiveNavLink from '@/Components/ResponsiveNavLink';
+import {Link} from '@inertiajs/react';
+
+
 import {
   Navbar,
   Typography,
@@ -19,37 +24,60 @@ import {
 import { UserIcon } from '@heroicons/react/24/outline';
 
 
-// profile menu component
-const profileMenuItems = [
-  {
-    label: "My Profile",
-    icon: UserCircleIcon,
-  },
-  {
-    label: "Edit Profile",
-    icon: Cog6ToothIcon,
-  },
-  {
-    label: "Inbox",
-    icon: InboxArrowDownIcon,
-  },
-  {
-    label: "Help",
-    icon: LifebuoyIcon,
-  },
-  {
-    label: "Sign Out",
-    icon: PowerIcon,
-  },
-];
 
-function ProfileMenu({toggleDarkMode}) {
+
+function ProfileMenu({toggleDarkMode , auth}) {
+
+    // profile menu component
+const [profileMenuItems, setProfileMenuItems] = useState([
+    {
+      label: "Sign Out",
+      icon: PowerIcon,
+      href: route("logout"),
+      method: "post",
+    },
+  ]);
+
+  useEffect(() => {
+    if (auth?.user) {
+      setProfileMenuItems((prevMenuItems) => [
+        ...prevMenuItems,
+        {
+          label: "Profile",
+          icon: UserCircleIcon,
+          href: route("profile.edit"),
+          method: "get",
+        },
+      ]);
+      if(auth?.user?.role === "admin"){
+        setProfileMenuItems((prevMenuItems) => [
+          ...prevMenuItems,
+          {
+            label: "Dashboard",
+            icon: Cog6ToothIcon,
+            href: route("dashboard"),
+            method: "get",
+          },
+        ]);
+      }
+    }
+
+  }, [auth]);
+    console.log("DroPDown.jsx")
+    console.log(profileMenuItems)
+  if(auth?.user?.role === "admin"){
+    profileMenuItems.push({label: "Dashboard", icon: Cog6ToothIcon , href: route("dashboard") , method:"get" })
+  }
+  if(auth?.user){
+    profileMenuItems.push({label: "Profile", icon: UserCircleIcon , href: route("profile.edit") , method:"get" })
+  }
   const [isMenuOpen, setIsMenuOpen] = React.useState(false);
 
   const closeMenu = () => setIsMenuOpen(false);
 
   return (
     <Menu open={isMenuOpen} handler={setIsMenuOpen} placement="bottom-end">
+
       <MenuHandler>
       <button className=" bg-[#0095FB]f border p-2 font-light  rounded-full ">
 
@@ -58,9 +86,10 @@ function ProfileMenu({toggleDarkMode}) {
       </MenuHandler>
 
       <MenuList className={`p-2 w-[12rem] gap-2 space-y-2 ${(toggleDarkMode) ? ` bg-zinc-900`:`bg-white`}`}>
-        {profileMenuItems.map(({ label, icon }, key) => {
+        {profileMenuItems.map(({ label, icon ,href, method }, key) => {
           const isLastItem = key === profileMenuItems.length - 1;
           return (
+            <Link href={href} method={method} key={label}>
             <MenuItem
               key={label}
               onClick={closeMenu}
@@ -80,11 +109,9 @@ function ProfileMenu({toggleDarkMode}) {
                 className="font-normal text-lg"
                 color={isLastItem ? "red" : "inherit"}
               >
-                <a href={label}>
-                {label}
-                </a>
+                <p>{label}</p>
               </Typography>
-            </MenuItem>
+            </MenuItem></Link>
           );
         })}
       </MenuList>

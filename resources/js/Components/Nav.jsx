@@ -13,7 +13,9 @@ import { useAnimation } from 'framer-motion';
 import { FaBarsStaggered } from "react-icons/fa6";
 import { Link } from '@inertiajs/react';
 
-function Nav() {
+<Link href="/">Home</Link>
+
+function Nav({auth}) {
   const count = useSelector((state)=>state.addToCart.value)
   const toggleDarkMode = useSelector((state) => state.changeTheme.value)
 
@@ -22,11 +24,13 @@ function Nav() {
 
   const menu = [
     { name: 'Home', url: '/', className: "inline-flex items-center border-b-2 border-transparent px pt-1 text-sm font-medium text-gray-500 hover:border-gray-300 hover:text-gray-700 px-0 " },
-    { name: 'dashboard', url: '/dashboard', className: "inline-flex items-center border-b-2 border-transparent px pt-1 text-sm font-medium text-gray-500 hover:border-gray-300 hover:text-gray-700  px-0 " },
     { name: 'Trending', url: '/trending', className: "inline-flex items-center border-b-2 border-transparent px pt-1 text-sm font-medium text-gray-500 hover:border-gray-300 hover:text-gray-700  px-0 " },
     { name: 'About us', url: '/about_us', className: "inline-flex items-center border-b-2 border-transparent px pt-1 text-sm font-medium text-gray-500 hover:border-gray-300 hover:text-gray-700  px-0 " },
-    { name: 'Contact us', url: '/contact_us', className: " inline-flex items-center border-b-2 border-transparent px pt-1 text-sm font-medium text-gray-500 hover:border-gray-300 hover:text-gray-700  px-0 " },
+    { name: 'Contact us', url: auth ? auth?.email+'/contact_usTURE': auth?.email+'/contact_usFALSE', className: " inline-flex items-center border-b-2 border-transparent px pt-1 text-sm font-medium text-gray-500 hover:border-gray-300 hover:text-gray-700  px-0 " },
   ];
+  if(auth?.user?.role === "admin"){
+    menu.push(    { name: 'dashboard', url: '/dashboard', className: "inline-flex items-center border-b-2 border-transparent px pt-1 text-sm font-medium text-gray-500 hover:border-gray-300 hover:text-gray-700  px-0 " })
+  }
 
   function classNames(...classes) {
     return classes.filter(Boolean).join(' ')
@@ -54,15 +58,15 @@ function Nav() {
             <button onClick={()=>{dispatch(setOpenSide(!sideOpen))}} className={`${sideOpen?` opacity-0 hidden`:` opacity-100 `} duration-500 z-50 fixed flex left-0 mx-2 p-2 hover:bg-gray-200 mt-[3.4px]  rounded cursor-pointer`}>
                 <FaBarsStaggered/>
             </button >
-              <a href="/" className={`flex font-roboto text-${color}  font-bold text-3xl flex-shrink-0 items-center `}>
+              <Link href="/" as="button" className={`flex font-roboto text-${color}  font-bold text-3xl flex-shrink-0 items-center `}>
                 BAZGI
-              </a>
+              </Link>
               <div className={`flex justify-end w-full sm:space-x-4  h-[60%] `}>
                 <div className='hidden  lg:flex mr-12 space-x-6  justify-center'>
                 {menu.map((e, index) => (
-                  <a href={e.url} key={index} className={classNames((currentPath === e.url) && " w-fit  border-b-2 border-zinc-400", e.className,` sm:${(isInputOpen)&&`hidden`}`)} >
+                  <Link as="button" href={e.url} key={index} className={classNames((currentPath === e.url) && " w-fit  border-b-2 border-zinc-400", e.className,` sm:${(isInputOpen)&&`hidden`}`)} >
                     {e.name}
-                  </a>
+                  </Link>
                 ))}
                 </div>
                 {/* <div className=" h-2 min-h-[1em] w-0.5 m-auto bg-neutral-200 dark:bg-white/10  max-md:hidden">
@@ -83,8 +87,8 @@ function Nav() {
                 <HeartIcon className=" size-5" />
               </button>
                 {/* <UserIcon className=" size-5" /> */}
-
-                <UserDropDown toggleDarkMode={toggleDarkMode}/>
+                {console.log("auth",auth)}
+                <UserDropDown toggleDarkMode={toggleDarkMode} auth={auth} />
                 {/* {toggleDarkMode?"true":"false"} */}
 
               <Badge content={count} className={`${(count === 0)? `hidden`:`flex`} bg-red-500 items-center justify-center min-w-4 max-h-4 ml-7 -translate-y-1`}>
@@ -118,7 +122,7 @@ function Nav() {
         <div className={`${(open)?`top-[3.59rem]`:`top-[-15rem]`} transition-all duration-500 ease-in-out w-full lg:hidden fixed z-10 bg-white border-b border-black`}>
           <div className="space-y-1 pt-2 pb-3 ">
             {menu?.map((e,index)=>(
-            <Link
+            <Link as="button"
               key={index}
               href={e.url}
               className={`${(currentPath === e.url) ? `bg-[#be8e5f2f] hover:bg-[#ae7b482f]`:`hover:bg-gray-50`}  block border-l-4 border-[#AC8C6F]  py-2 pl-3 pr-4 text-base font-medium text-${color} `}

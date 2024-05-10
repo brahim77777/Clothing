@@ -14,11 +14,12 @@ createInertiaApp({
     title: (title) => `${title} - ${appName}`,
     resolve: (name) => resolvePageComponent(`./Pages/${name}.jsx`, import.meta.glob('./Pages/**/*.jsx')),
     setup({ el, App, props }) {
+        let auth = props.initialPage.props.auth;
         const root = createRoot(el);
 
         root.render(
             <Provider store={store}>
-                <Nav />
+                <Nav auth={auth} />
                 <div className={'mt-[4rem]'}>
                     <App {...props} />
                 </div>
