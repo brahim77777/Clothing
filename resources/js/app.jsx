@@ -17,6 +17,7 @@ createInertiaApp({
     setup({ el, App, props }) {
         store.dispatch(setAuth(props.initialPage.props.auth));
         const auth = store.getState().auth.value;
+        console.log(auth)
         const root = createRoot(el);
 
         root.render(
