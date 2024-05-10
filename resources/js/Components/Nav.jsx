@@ -12,11 +12,16 @@ import LangMenu from './LangMenu';
 import { useAnimation } from 'framer-motion';
 import { FaBarsStaggered } from "react-icons/fa6";
 import { Link } from '@inertiajs/react';
+// import {useSelector, useDispatch} from 'react-redux';
 
 <Link href="/">Home</Link>
 
-function Nav({auth}) {
+function Nav() {
   const count = useSelector((state)=>state.addToCart.value)
+
+  const auth = useSelector((state)=>state.auth.value)
+  console.log("thisis Nav")
+  console.log(auth)
   const toggleDarkMode = useSelector((state) => state.changeTheme.value)
 
   const [currentPath] = useState(window.location.pathname);
@@ -87,8 +92,8 @@ function Nav({auth}) {
                 <HeartIcon className=" size-5" />
               </button>
                 {/* <UserIcon className=" size-5" /> */}
-                {console.log("auth",auth)}
-                <UserDropDown toggleDarkMode={toggleDarkMode} auth={auth} />
+                {console.log("auth",useSelector((state)=>state.auth.value))}
+                {/* <UserDropDown toggleDarkMode={toggleDarkMode} auth={auth} /> */}
                 {/* {toggleDarkMode?"true":"false"} */}
 
               <Badge content={count} className={`${(count === 0)? `hidden`:`flex`} bg-red-500 items-center justify-center min-w-4 max-h-4 ml-7 -translate-y-1`}>
