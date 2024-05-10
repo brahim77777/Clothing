@@ -26,7 +26,9 @@ import { UserIcon } from '@heroicons/react/24/outline';
 
 
 
-function ProfileMenu({toggleDarkMode , auth}) {
+function ProfileMenu({toggleDarkMode} , {auth}) {
+    console.log("DroPDown.jsx")
+    console.log(auth)
 
     // profile menu component
 const [profileMenuItems, setProfileMenuItems] = useState([
@@ -64,7 +66,6 @@ const [profileMenuItems, setProfileMenuItems] = useState([
 
   }, [auth]);
     console.log("DroPDown.jsx")
-    console.log(profileMenuItems)
   if(auth?.user?.role === "admin"){
     profileMenuItems.push({label: "Dashboard", icon: Cog6ToothIcon , href: route("dashboard") , method:"get" })
   }
