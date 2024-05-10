@@ -28,7 +28,8 @@ import { TbLogin as Login, TbLogout as Logout } from "react-icons/tb";
 
 function ProfileMenu({toggleDarkMode }) {
 
-    const auth = useSelector((state)=>state.auth.value)
+function ProfileMenu({toggleDarkMode}) {
+
     // profile menu component
 const [profileMenuItems, setProfileMenuItems] = useState([]);
 
@@ -80,7 +81,6 @@ const [profileMenuItems, setProfileMenuItems] = useState([]);
 
   }, [auth]);
     console.log("DroPDown.jsx")
-    console.log(profileMenuItems)
   if(auth?.user?.role === "admin"){
     profileMenuItems.push({label: "Dashboard", icon: Cog6ToothIcon , href: route("dashboard") , method:"get" })
   }
