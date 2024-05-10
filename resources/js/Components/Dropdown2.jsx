@@ -2,7 +2,7 @@ import React ,{useState, useEffect} from "react";
 
 import ResponsiveNavLink from '@/Components/ResponsiveNavLink';
 import {Link} from '@inertiajs/react';
-
+import { useSelector } from "react-redux";
 
 import {
   Navbar,
@@ -22,50 +22,65 @@ import {
 
 } from "@heroicons/react/24/solid";
 import { UserIcon } from '@heroicons/react/24/outline';
+import { TbLogin as Login } from "react-icons/tb";
 
 
 
+function ProfileMenu({toggleDarkMode }) {
 
-function ProfileMenu({toggleDarkMode} , {auth}) {
-    console.log("DroPDown.jsx")
-    console.log(auth)
-
+    const auth = useSelector((state)=>state.auth.value)
     // profile menu component
-const [profileMenuItems, setProfileMenuItems] = useState([
-    {
-      label: "Sign Out",
-      icon: PowerIcon,
-      href: route("logout"),
-      method: "post",
-    },
-  ]);
+const [profileMenuItems, setProfileMenuItems] = useState([]);
 
   useEffect(() => {
-    if (auth?.user) {
-      setProfileMenuItems((prevMenuItems) => [
-        ...prevMenuItems,
+    (auth.user == null) ?
+      setProfileMenuItems( [
         {
-          label: "Profile",
-          icon: UserCircleIcon,
+          label: "Login",
+          icon: Login,
           href: route("profile.edit"),
           method: "get",
         },
+        {
+          label: "Sign up",
+          icon: Login,
+          href: route("profile.edit"),
+          method: "get",
+        },
+      ])
+      :
+      setProfileMenuItems( [
+            {
+              label: "Profile",
+              icon: UserCircleIcon,
+              href: route("profile.edit"),
+              method: "get",
+            },
+            {
+                label: "Sign Out",
+                icon: PowerIcon,
+                href: route("logout"),
+                method: "post",
+            },
+
+      ])
+
+
+    if(auth?.user?.role === "admin"){
+      setProfileMenuItems((prevMenuItems) => [
+        ...prevMenuItems,
+        {
+          label: "Dashboard",
+          icon: Cog6ToothIcon,
+          href: route("dashboard"),
+          method: "get",
+        },
       ]);
-      if(auth?.user?.role === "admin"){
-        setProfileMenuItems((prevMenuItems) => [
-          ...prevMenuItems,
-          {
-            label: "Dashboard",
-            icon: Cog6ToothIcon,
-            href: route("dashboard"),
-            method: "get",
-          },
-        ]);
-      }
     }
 
   }, [auth]);
     console.log("DroPDown.jsx")
+    console.log(profileMenuItems)
   if(auth?.user?.role === "admin"){
     profileMenuItems.push({label: "Dashboard", icon: Cog6ToothIcon , href: route("dashboard") , method:"get" })
   }
@@ -77,7 +92,7 @@ const [profileMenuItems, setProfileMenuItems] = useState([
   const closeMenu = () => setIsMenuOpen(false);
 
   return (
-    <Menu open={isMenuOpen} handler={setIsMenuOpen} placement="bottom-end">
+    <Menu  open={isMenuOpen} handler={setIsMenuOpen} placement="bottom-end">
 
       <MenuHandler>
       <button className=" bg-[#0095FB]f border p-2 font-light  rounded-full ">
@@ -86,7 +101,7 @@ const [profileMenuItems, setProfileMenuItems] = useState([
         </button>
       </MenuHandler>
 
-      <MenuList className={`p-2 w-[12rem] gap-2 space-y-2 ${(toggleDarkMode) ? ` bg-zinc-900`:`bg-white`}`}>
+      <MenuList className={`p-2 w-[12rem] gap-2 z-50 space-y-2 ${(toggleDarkMode) ? ` bg-zinc-900`:`bg-white`}`}>
         {profileMenuItems.map(({ label, icon ,href, method }, key) => {
           const isLastItem = key === profileMenuItems.length - 1;
           return (
