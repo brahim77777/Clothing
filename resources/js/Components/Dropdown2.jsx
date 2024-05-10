@@ -22,14 +22,13 @@ import {
 
 } from "@heroicons/react/24/solid";
 import { UserIcon } from '@heroicons/react/24/outline';
-import { TbLogin as Login, TbLogout as Logout } from "react-icons/tb";
+import { TbLogin as Login } from "react-icons/tb";
 
 
 
 function ProfileMenu({toggleDarkMode }) {
 
-function ProfileMenu({toggleDarkMode}) {
-
+    const auth = useSelector((state)=>state.auth.value)
     // profile menu component
 const [profileMenuItems, setProfileMenuItems] = useState([]);
 
@@ -44,7 +43,7 @@ const [profileMenuItems, setProfileMenuItems] = useState([]);
         },
         {
           label: "Sign up",
-          icon: Logout,
+          icon: Login,
           href: route("profile.edit"),
           method: "get",
         },
@@ -81,6 +80,7 @@ const [profileMenuItems, setProfileMenuItems] = useState([]);
 
   }, [auth]);
     console.log("DroPDown.jsx")
+    console.log(profileMenuItems)
   if(auth?.user?.role === "admin"){
     profileMenuItems.push({label: "Dashboard", icon: Cog6ToothIcon , href: route("dashboard") , method:"get" })
   }
