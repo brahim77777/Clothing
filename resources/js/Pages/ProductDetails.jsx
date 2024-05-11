@@ -1,4 +1,4 @@
-import { useState,useRef  } from "react"
+import { useState,useRef,useEffect  } from "react"
 import { Rating } from "@mui/material";
 import { add } from "../redux/addToCartSlice";
 import { useSelector, useDispatch } from 'react-redux'
@@ -28,8 +28,11 @@ let ratios = {one:0 , two:0 , three:0 , four:0 , five:0}
     }})
 }
 export default function ProductDetails({product}){
-    RatioOfReview(product.reviews)
-  const count = useSelector((state) => state.addToCart.value)
+    useEffect(() => {
+        RatioOfReview(product.reviews)
+    } , [ratios])
+
+    const count = useSelector((state) => state.addToCart.value)
   const dispatch = useDispatch()
 
   const[qnt,setQnt] = useState(0)

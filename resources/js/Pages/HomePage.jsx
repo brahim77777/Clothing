@@ -48,6 +48,7 @@ function App({categories, products}) {
             <div className='w-fit'>
                 <Link className="flex items-center gap-1 font-semibold text-nowrap " href="/ViewAll">VIEW ALL <ArrowRightIcon className=" size-5 "/></Link>
             </div>
+            </div>
 
         </Disclosure>
         <div>
