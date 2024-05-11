@@ -1,57 +1,47 @@
-import { useState,useRef,useEffect  } from "react"
+import { useState  } from "react"
 import { Rating } from "@mui/material";
 import { add } from "../redux/addToCartSlice";
-import { useSelector, useDispatch } from 'react-redux'
-import { motion, useScroll } from "framer-motion";
+import { useDispatch } from 'react-redux'
 import Carousel from "@/Components/Carousel";
 import { TbMinus } from 'react-icons/tb'
 import { TbPlus } from 'react-icons/tb'
 import Modal from "../Components/ModalRiv"
-import { ArrowLeftSharp } from "@mui/icons-material";
-import { ArrowRightSharp } from "@mui/icons-material";
-
-let ratios = {one:0 , two:0 , three:0 , four:0 , five:0}
- function RatioOfReview(productReviews){
-    productReviews.map((review)=> { switch(review.rating){
-        case 1: ratios.one = ratios.one+1
-        break
-        case 2: ratios.two = ratios.two+1
-        break
-        case 3: ratios.three= ratios.three+1
-        break
-        case 4: ratios.four = ratios.four+1
-        break
-        case 5: ratios.five = ratios.five+1
 
 
-
-    }})
+function RatioOfReview(productReviews) {
+    let ratios = { one: 0, two: 0, three: 0, four: 0, five: 0 }; // Initialize ratios here
+    productReviews.forEach((review) => {
+        switch (review.rating) {
+            case 1:
+                ratios.one = ratios.one + 1;
+                break;
+            case 2:
+                ratios.two = ratios.two + 1;
+                break;
+            case 3:
+                ratios.three = ratios.three + 1;
+                break;
+            case 4:
+                ratios.four = ratios.four + 1;
+                break;
+            case 5:
+                ratios.five = ratios.five + 1;
+                break;
+            default:
+                break;
+        }
+    });
+    return ratios; // Return ratios object
 }
-export default function ProductDetails({product}){
-    useEffect(() => {
-        RatioOfReview(product.reviews)
-    } , [ratios])
 
-    const count = useSelector((state) => state.addToCart.value)
+export default function ProductDetails({product}){
+    const ratios = RatioOfReview(product.reviews);
+
+    RatioOfReview(product.reviews)
   const dispatch = useDispatch()
 
   const[qnt,setQnt] = useState(0)
-//   const [productImage, setProductImage] = useState(import.meta.env.VITE_APP_PRODUCT_IMAGE1)
-  const productImage = useSelector((state)=>state.productImage.value)
 
-  const scrollContainerRef = useRef(null);
-
-  const scrollLeft = () => {
-      if (scrollContainerRef.current) {
-          scrollContainerRef.current.scrollLeft -= 100; // Adjust the scrolling amount as needed
-      }
-  };
-
-  const scrollRight = () => {
-      if (scrollContainerRef.current) {
-          scrollContainerRef.current.scrollLeft += 100; // Adjust the scrolling amount as needed
-      }
-  };
     return(
         <div className="font-[sans-serif]  ">
       <div class="p-6 lg:max-w-7xl max-w-2xl max-lg:mx-auto">
@@ -128,7 +118,7 @@ export default function ProductDetails({product}){
                         d="M7 0L9.4687 3.60213L13.6574 4.83688L10.9944 8.29787L11.1145 12.6631L7 11.2L2.8855 12.6631L3.00556 8.29787L0.342604 4.83688L4.5313 3.60213L7 0Z" />
                     </svg>
                     <div class="bg-slate-200 rounded w-full h-2 ml-3">
-                      <div class={ "w-["+Math.floor((ratios.five/product.reviews.length)*100)+"%] h-full rounded  bg-amber-400"}></div>
+                      <div style={{width: Math.floor(ratios.five/product.reviews.length*100)+'%'}} class={ "h-full rounded  bg-amber-400"}></div>
                     </div>
                     <p class="text-sm text-whit font-bold ml-3">{Math.floor(ratios.five/product.reviews.length *100)}%</p>
                   </div>
@@ -139,7 +129,7 @@ export default function ProductDetails({product}){
                         d="M7 0L9.4687 3.60213L13.6574 4.83688L10.9944 8.29787L11.1145 12.6631L7 11.2L2.8855 12.6631L3.00556 8.29787L0.342604 4.83688L4.5313 3.60213L7 0Z" />
                     </svg>
                     <div class="bg-slate-200 rounded w-full h-2 ml-3">
-                      <div class={ "w-["+0+"%] h-full rounded  bg-amber-400"} ></div>
+                      <div style={{width: Math.floor(ratios.four/product.reviews.length*100)+'%'}} class={ " h-full rounded  bg-amber-400"} ></div>
                     </div>
                     <p class="text-sm text-whit font-bold ml-3">{Math.floor(ratios.four/product.reviews.length*100)}%</p>
                   </div>
@@ -150,7 +140,7 @@ export default function ProductDetails({product}){
                         d="M7 0L9.4687 3.60213L13.6574 4.83688L10.9944 8.29787L11.1145 12.6631L7 11.2L2.8855 12.6631L3.00556 8.29787L0.342604 4.83688L4.5313 3.60213L7 0Z" />
                     </svg>
                     <div class="bg-slate-200 rounded w-full h-2 ml-3">
-                      <div class={ "w-["+Math.floor((ratios.five/product.reviews.length)*100)+"%] h-full rounded  bg-amber-400"}></div>
+                      <div style={{width: Math.floor(ratios.three/product.reviews.length*100)+'%'}} class={ " h-full rounded  bg-amber-400"}></div>
                     </div>
                     <p class="text-sm text-whit font-bold ml-3">{Math.floor(ratios.three/product.reviews.length*100)}%</p>
                   </div>
@@ -161,7 +151,7 @@ export default function ProductDetails({product}){
                         d="M7 0L9.4687 3.60213L13.6574 4.83688L10.9944 8.29787L11.1145 12.6631L7 11.2L2.8855 12.6631L3.00556 8.29787L0.342604 4.83688L4.5313 3.60213L7 0Z" />
                     </svg>
                     <div class="bg-slate-200 rounded w-full h-2 ml-3">
-                      <div class={ "w-["+Math.floor((ratios.five/product.reviews.length)*100)+"%] h-full rounded  bg-amber-400"}></div>
+                      <div style={{width: Math.floor(ratios.one/product.reviews.length*100)+'%'}} class={ " h-full rounded  bg-amber-400"}></div>
                     </div>
                     <p class="text-sm text-whit font-bold ml-3">{Math.floor(ratios.two/product.reviews.length*100)}%</p>
                   </div>
@@ -172,7 +162,7 @@ export default function ProductDetails({product}){
                         d="M7 0L9.4687 3.60213L13.6574 4.83688L10.9944 8.29787L11.1145 12.6631L7 11.2L2.8855 12.6631L3.00556 8.29787L0.342604 4.83688L4.5313 3.60213L7 0Z" />
                     </svg>
                     <div class="bg-slate-200 rounded w-full h-2 ml-3">
-                      <div class={ "w-["+Math.floor((ratios.five/product.reviews.length)*100)+"%] h-full rounded  bg-amber-400"}></div>
+                    <div style={{width: Math.floor(ratios.one/product.reviews.length*100)+'%'}} className={` h-full rounded bg-amber-400`}></div>
                     </div>
                     <p class="text-sm text-whit font-bold ml-3">{Math.floor(ratios.one/product.reviews.length*100)}%</p>
                   </div>
