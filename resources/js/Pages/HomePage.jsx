@@ -10,13 +10,12 @@ import Footer from '../Components/Footer';
 import { ArrowUpIcon } from '@heroicons/react/24/outline';
 import Table from "../Components/Table"
 import Drag from "../Components/Drag"
-import Data from "../utils/data.json"
 import Carousel1 from '@/Components/Carousel2';
 import { More, MoreHoriz } from '@mui/icons-material';
 import { Disclosure } from '@headlessui/react'
 import { CiCircleMore } from "react-icons/ci";
 
-function App() {
+function App({categories, products}) {
 
   const toggleDarkMode = useSelector((state) => state.changeTheme.value)
 
@@ -35,26 +34,15 @@ function App() {
     return(
       <div className=''>
         <Hero/>
+
         <Disclosure as="nav" className={`sticky-filter-bar sm:text-lg text-sm bg-black sticky top-[60px] flex items-baseline transition-all duration-300   backdrop-filter bg-opacity-85 ${isExpanded ?`h-full`:`max-sm:h-[2.6rem] h-12`}   overflow-hidden  backdrop-blur-lg  z-30  text-white flex  justify-between underline gap-4 px-6 py-2  w-full border-b-[3px] border-y-white  `}>
+          //<div className=' flex flex-wrap gap-12 under'>
             <div className='sm:gap-2 gap-2 grid grid-cols-9 max-lg:grid-cols-6 max-md:grid-cols-5 max-sm:grid-cols-3'>
-                <Link className="flex items-center gap-1 font-semibold min-w-fit  " href="/">MEN <ArrowRightIcon className=" size-5 "/></Link>
-                <Link className="flex items-center gap-1 font-semibold min-w-fit " href="/">KIDS <ArrowRightIcon className=" size-5 "/></Link>
-                <Link className="flex items-center gap-1 font-semibold min-w-fit  " href="/">MEN <ArrowRightIcon className=" size-5 "/></Link>
-                <Link className="flex items-center gap-1 font-semibold min-w-fit " href="/">WOMEN <ArrowRightIcon className=" size-5 "/></Link>
-                <Link className="flex items-center gap-1 font-semibold min-w-fit " href="/">WOMEN <ArrowRightIcon className=" size-5 "/></Link>
-                <Link className="flex items-center gap-1 font-semibold min-w-fit " href="/">KIDS <ArrowRightIcon className=" size-5 "/></Link>
-                <Link className="flex items-center gap-1 font-semibold min-w-fit " href="/">WOMEN <ArrowRightIcon className=" size-5 "/></Link>
-                <Link className="flex items-center gap-1 font-semibold min-w-fit  " href="/">MEN <ArrowRightIcon className=" size-5 "/></Link>
-                <Link className="flex items-center gap-1 font-semibold min-w-fit " href="/">KIDS <ArrowRightIcon className=" size-5 "/></Link>
-                <Link className="flex items-center gap-1 font-semibold min-w-fit  " href="/">MEN <ArrowRightIcon className=" size-5 "/></Link>
-                <Link className="flex items-center gap-1 font-semibold min-w-fit " href="/">WOMEN <ArrowRightIcon className=" size-5 "/></Link>
-                <Link className="flex items-center gap-1 font-semibold min-w-fit  " href="/">MEN <ArrowRightIcon className=" size-5 "/></Link>
-                <Link className="flex items-center gap-1 font-semibold min-w-fit " href="/">KIDS <ArrowRightIcon className=" size-5 "/></Link>
-                <Link className="flex items-center gap-1 font-semibold min-w-fit  " href="/">MEN <ArrowRightIcon className=" size-5 "/></Link>
-                <Link className="flex items-center gap-1 font-semibold min-w-fit " href="/">KIDS <ArrowRightIcon className=" size-5 "/></Link>
-                <Link className="flex items-center gap-1 font-semibold min-w-fit " href="/">WOMEN <ArrowRightIcon className=" size-5 "/></Link>
-                <Link className="flex items-center gap-1 font-semibold min-w-fit " href="/">WOMEN <ArrowRightIcon className=" size-5 "/></Link>
-                <Link className="flex items-center gap-1 font-semibold min-w-fit " href="/">KIDS <ArrowRightIcon className=" size-5 "/></Link>
+
+                {categories.map((category) => (
+                    <Link className="flex items-center gap-1 font-semibold min-w-fit" key={category.id} href={category.title}>{category.title} <ArrowRightIcon className=" size-5 "/></Link>
+                ))
+                }
             </div>
             <button onClick={toggleExpand}><MoreHoriz className='border rounded-full'/></button>
             <div className='w-fit'>
@@ -64,7 +52,7 @@ function App() {
         </Disclosure>
         <div>
         {/* <div className='m-auto mx-[3rem] mt-[3rem] gap-6 grid xl:grid-cols-4 2xl:grid-cols-5 max-xl:grid-cols-3 max-md:grid-cols-2 max-sm:grid-cols-1' style={{ placeItems: 'center' }}> */}
-                  <Carousel1 isHome={true} Data={Data.products}/>
+                  <Carousel1 isHome={true} Data={products}/>
         </div>
       </div>
     )

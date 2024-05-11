@@ -135,13 +135,6 @@ function Nav() {
               {e.name}
             </Link>))}
 
-
-
-
-
-
-
-
           </div>
         </div>
       </>

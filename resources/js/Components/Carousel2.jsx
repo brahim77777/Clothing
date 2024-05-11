@@ -37,6 +37,7 @@ export default function Carousel1({Data,isHome}){
                 Data?.map((e, index) => (
                     // <div key={index} class="bg-gray-800   p-[2px] h-[8rem] w-[7rem] flex-none">
                         <Card
+                        slug={e.slug}
                         title={e.title}
                         price={e.price}
                         isHome={isHome}
