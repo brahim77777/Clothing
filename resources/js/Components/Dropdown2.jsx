@@ -23,6 +23,8 @@ import {
 } from "@heroicons/react/24/solid";
 import { UserIcon } from '@heroicons/react/24/outline';
 import { TbLogin as Login } from "react-icons/tb";
+import { SignIn } from "phosphor-react";
+import { Cancel } from "@mui/icons-material";
 
 
 
@@ -38,15 +40,21 @@ const [profileMenuItems, setProfileMenuItems] = useState([]);
         {
           label: "Login",
           icon: Login,
-          href: route("profile.edit"),
+          href: route("login"),
           method: "get",
         },
         {
           label: "Sign up",
-          icon: Login,
-          href: route("profile.edit"),
+          icon: SignIn,
+          href: route("register"),
           method: "get",
         },
+        {
+            label: "Cancel",
+            icon: Cancel,
+            href: "",
+            method: "get",
+        }
       ])
       :
       setProfileMenuItems( [
@@ -68,25 +76,19 @@ const [profileMenuItems, setProfileMenuItems] = useState([]);
 
     if(auth?.user?.role === "admin"){
       setProfileMenuItems((prevMenuItems) => [
-        ...prevMenuItems,
         {
-          label: "Dashboard",
-          icon: Cog6ToothIcon,
-          href: route("dashboard"),
-          method: "get",
-        },
+            label: "Dashboard",
+            icon: Cog6ToothIcon,
+            href: route("dashboard"),
+            method: "get",
+          },
+        ...prevMenuItems,
+
       ]);
     }
 
   }, [auth]);
-    console.log("DroPDown.jsx")
-    console.log(profileMenuItems)
-  if(auth?.user?.role === "admin"){
-    profileMenuItems.push({label: "Dashboard", icon: Cog6ToothIcon , href: route("dashboard") , method:"get" })
-  }
-  if(auth?.user){
-    profileMenuItems.push({label: "Profile", icon: UserCircleIcon , href: route("profile.edit") , method:"get" })
-  }
+
   const [isMenuOpen, setIsMenuOpen] = React.useState(false);
 
   const closeMenu = () => setIsMenuOpen(false);
@@ -112,7 +114,7 @@ const [profileMenuItems, setProfileMenuItems] = useState([]);
               className={`flex items-center gap-2 rounded ${
                 isLastItem
                   ? "hover:bg-red-500/10 focus:bg-red-500/10 active:bg-red-500/10"
-                  : ""
+                  : "hover:bg-gray-500/10 focus:bg-gray-500/10 active:bg-gray-500/10"
               }`}
             >
               {React.createElement(icon, {
