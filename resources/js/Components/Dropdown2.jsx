@@ -33,7 +33,7 @@ function ProfileMenu({toggleDarkMode }) {
 const [profileMenuItems, setProfileMenuItems] = useState([]);
 
   useEffect(() => {
-    (auth.user == null) ?
+    (auth.user !== null) ?
       setProfileMenuItems( [
         {
           label: "Login",
@@ -66,15 +66,16 @@ const [profileMenuItems, setProfileMenuItems] = useState([]);
       ])
 
 
-    if(auth?.user?.role === "admin"){
+    if(auth?.user?.role !== "admin"){
       setProfileMenuItems((prevMenuItems) => [
-        ...prevMenuItems,
+
         {
           label: "Dashboard",
           icon: Cog6ToothIcon,
           href: route("dashboard"),
           method: "get",
         },
+        ...prevMenuItems,
       ]);
     }
 
