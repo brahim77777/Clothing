@@ -82,12 +82,7 @@ const [profileMenuItems, setProfileMenuItems] = useState([]);
   }, [auth]);
     console.log("DroPDown.jsx")
     console.log(profileMenuItems)
-  if(auth?.user?.role === "admin"){
-    profileMenuItems.push({label: "Dashboard", icon: Cog6ToothIcon , href: route("dashboard") , method:"get" })
-  }
-  if(auth?.user){
-    profileMenuItems.push({label: "Profile", icon: UserCircleIcon , href: route("profile.edit") , method:"get" })
-  }
+
   const [isMenuOpen, setIsMenuOpen] = React.useState(false);
 
   const closeMenu = () => setIsMenuOpen(false);
