@@ -93,7 +93,7 @@ function Nav() {
               </button>
                 {/* <UserIcon className=" size-5" /> */}
                 {console.log("auth",useSelector((state)=>state.auth.value))}
-                <UserDropDown toggleDarkMode={toggleDarkMode} auth={auth} />
+                <UserDropDown toggleDarkMode={toggleDarkMode}  />
                 {/* {toggleDarkMode?"true":"false"} */}
 
               <Badge content={count} className={`${(count === 0)? `hidden`:`flex`} bg-red-500 items-center justify-center min-w-4 max-h-4 ml-7 -translate-y-1`}>
@@ -124,7 +124,7 @@ function Nav() {
           </div>
         </div>
         </div>
-        <div className={`${(open)?`top-[3.59rem]`:`top-[-15rem]`} transition-all duration-500 ease-in-out w-full lg:hidden fixed z-10 bg-white border-b border-black`}>
+        <div className={`${(open)?`top-[3.59rem]`:`top-[-15rem]`} transition-all z-40 duration-500 ease-in-out w-full lg:hidden fixed  bg-white border-b border-black`}>
           <div className="space-y-1 pt-2 pb-3 ">
             {menu?.map((e,index)=>(
             <Link as="button"
@@ -134,13 +134,6 @@ function Nav() {
             >
               {e.name}
             </Link>))}
-
-
-
-
-
-
-
 
           </div>
         </div>
