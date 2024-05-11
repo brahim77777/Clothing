@@ -4,10 +4,6 @@
 
 .sticky-filter-bar {
     position: -webkit-sticky;
-    position: sticky;
-    top: 60px;  /* This is the height of the navbar */
-    z-index: 40;  /* Ensure it is above other content */
-    background-color: #000; /* or any other color you need */
   }
 body {
     overflow-x: hidden;
