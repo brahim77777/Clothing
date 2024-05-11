@@ -25,7 +25,7 @@ class ProductFactory extends Factory
             'colors' => fake()->hexColor() . fake()->hexColor() . fake()->hexColor(),
             'sizes' => implode(',', fake()->randomElements(['S', 'M', 'L', 'XL'], fake()->randomElement([1, 2, 3, 4]))),
             'price' => fake()->numberBetween(100, 1000),
-            'rating' => fake()->randomDigitNotZero(),
+            'rating' => fake()->numberBetween(1, 5),
             'quantity' => fake()->numberBetween(1, 100),
             'slug' => fake()->slug(),
 

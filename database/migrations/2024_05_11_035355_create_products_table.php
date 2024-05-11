@@ -20,7 +20,7 @@ return new class extends Migration {
             $table->string('colors')->nullable();
             $table->string('sizes');
             $table->string('price');
-            $table->smallInteger('rating')->default(9);
+            $table->float('rating')->default(4.5);
             $table->integer('quantity');
             $table->string('slug')->unique();
             $table->softDeletes();

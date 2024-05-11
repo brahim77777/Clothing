@@ -10,10 +10,9 @@ import Footer from '../Components/Footer';
 import { ArrowUpIcon } from '@heroicons/react/24/outline';
 import Table from "../Components/Table"
 import Drag from "../Components/Drag"
-import Data from "../utils/data.json"
 import Carousel1 from '@/Components/Carousel2';
 
-function App() {
+function App({categories, products}) {
 
 
 
@@ -30,10 +29,11 @@ function App() {
       <div className=''>
         <Hero/>
         <div className='sticky-filter-bar  text-white flex justify-between underline gap-12 px-6 py-4 w-full border-b-[3px] border-y-white  '>
-            <div className=' flex gap-12 under'>
-                <Link className="flex items-center gap-1 font-semibold text-xl " href="/">MEN <ArrowRightIcon className=" size-5 "/></Link>
-                <Link className="flex items-center gap-1 font-semibold text-xl" href="/">WOMEN <ArrowRightIcon className=" size-5 "/></Link>
-                <Link className="flex items-center gap-1 font-semibold text-xl" href="/">KIDS <ArrowRightIcon className=" size-5 "/></Link>
+            <div className=' flex flex-wrap gap-12 under'>
+                {categories.map((category) => (
+                    <Link className="flex items-center gap-1 font-semibold text-xl " key={category.id} href={category.title}>{category.title} <ArrowRightIcon className=" size-5 "/></Link>
+                ))
+                }
             </div>
             <div className=' flex gap-12'>
                 <Link className="flex items-center gap-1 font-semibold text-xl" href="/ViewAll">VIEW ALL <ArrowRightIcon className=" size-5 "/></Link>
@@ -42,7 +42,7 @@ function App() {
         </div>
         <div>
         {/* <div className='m-auto mx-[3rem] mt-[3rem] gap-6 grid xl:grid-cols-4 2xl:grid-cols-5 max-xl:grid-cols-3 max-md:grid-cols-2 max-sm:grid-cols-1' style={{ placeItems: 'center' }}> */}
-                  <Carousel1 isHome={true} Data={Data.products}/>
+                  <Carousel1 isHome={true} Data={products}/>
         </div>
       </div>
     )

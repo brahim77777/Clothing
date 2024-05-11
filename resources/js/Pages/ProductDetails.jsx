@@ -9,7 +9,26 @@ import { TbPlus } from 'react-icons/tb'
 import Modal from "../Components/ModalRiv"
 import { ArrowLeftSharp } from "@mui/icons-material";
 import { ArrowRightSharp } from "@mui/icons-material";
-export default function ProductDetails(){
+
+let ratios = {one:0 , two:0 , three:0 , four:0 , five:0}
+ function RatioOfReview(productReviews){
+    productReviews.map((review)=> { switch(review.rating){
+        case 1: ratios.one = ratios.one+1
+        break
+        case 2: ratios.two = ratios.two+1
+        break
+        case 3: ratios.three= ratios.three+1
+        break
+        case 4: ratios.four = ratios.four+1
+        break
+        case 5: ratios.five = ratios.five+1
+
+
+
+    }})
+}
+export default function ProductDetails({product}){
+    RatioOfReview(product.reviews)
   const count = useSelector((state) => state.addToCart.value)
   const dispatch = useDispatch()
 
@@ -36,10 +55,10 @@ export default function ProductDetails(){
         <div class="grid items-start grid-cols-1 lg:grid-cols-5 gap-12">
           <div class="lg:col-span-3 w-full lg:sticky top-0 text-center">
             <div class=" relative h-[85vh] m-auto  ">
-              <img src={productImage} alt="Product"
+              <img src={product.main_image} alt="Product"
                 className=" z-10 duration-300 ease-in-out absolute top-0 left-0 object-cover hover:object-contain w-full h-full" />
                 <div className="  relative overflow-hidden  h-full">
-              <img src={productImage} alt="Product"
+              <img src={product.secondary_image} alt="Product"
                className="blur-md z-0 scale-110   object-cover hover:object-contain h-full w-full" />
                 </div>
             </div>
@@ -48,13 +67,13 @@ export default function ProductDetails(){
             </div>
           </div>
           <div class="lg:col-span-2">
-            <h2 class="text-2xl font-extrabold ">T-shirt | Men</h2>
+            <h2 class="text-2xl font-extrabold ">{product.title} | {product.category.title}</h2>
             <div class="flex flex-wrap gap-4 mt-4">
-              <p class="  text-xl font-bold">$120</p>
+              <p class="  text-xl font-bold">{product.price} MAD</p>
             </div>
             <div className="flex items-center space-x-1 mb-4">
             <Rating defaultValue={4} readOnly/>
-            <span className=" text-sm">(50 reviews)</span>
+            <span className=" text-sm">({product.reviews.length} reviews)</span>
             </div>
 {/*---------COUNTER ---------------------------------------------------------------------- */}
             <div>
@@ -90,16 +109,14 @@ export default function ProductDetails(){
             <div class="mt-8">
               <h3 class="text-lg font-bold text-yellow-30">About the Product</h3>
               <ul class="space-y-3 list-disc mt-4 pl-4 text-sm ">
-                <li>Lorem, ipsum dolor sit amet consectetur adipisicing elit. Consectetur!</li>
-                <li>Excepturi vel ipsum dolor sit amet.</li>
-                <li>Sit amet consectetur adipisicing elit. Facere itaque voluptatum quos.</li>
-                <li>Atque debitis culpa dignissimos ullam animi excepturi vel. Eos, dignissimos!</li>
+                <li>{product.description}</li>
+
               </ul>
             </div>
             <div class="mt-8">
 
               <div class="mt-8">
-                <h3 class="text-lg font-bold text-yellow-30">Reviews(10)</h3>
+                <h3 class="text-lg font-bold text-yellow-30">Reviews({product.reviews.length})</h3>
                 <div class="space-y-3 mt-4">
                   <div class="flex items-center">
                     <p class="text-sm text-whit font-bold">5.0</p>
@@ -108,9 +125,9 @@ export default function ProductDetails(){
                         d="M7 0L9.4687 3.60213L13.6574 4.83688L10.9944 8.29787L11.1145 12.6631L7 11.2L2.8855 12.6631L3.00556 8.29787L0.342604 4.83688L4.5313 3.60213L7 0Z" />
                     </svg>
                     <div class="bg-slate-200 rounded w-full h-2 ml-3">
-                      <div class="w-2/3 h-full rounded  bg-amber-400"></div>
+                      <div class={ "w-["+Math.floor((ratios.five/product.reviews.length)*100)+"%] h-full rounded  bg-amber-400"}></div>
                     </div>
-                    <p class="text-sm text-whit font-bold ml-3">66%</p>
+                    <p class="text-sm text-whit font-bold ml-3">{Math.floor(ratios.five/product.reviews.length *100)}%</p>
                   </div>
                   <div class="flex items-center">
                     <p class="text-sm text-whit font-bold">4.0</p>
@@ -119,9 +136,9 @@ export default function ProductDetails(){
                         d="M7 0L9.4687 3.60213L13.6574 4.83688L10.9944 8.29787L11.1145 12.6631L7 11.2L2.8855 12.6631L3.00556 8.29787L0.342604 4.83688L4.5313 3.60213L7 0Z" />
                     </svg>
                     <div class="bg-slate-200 rounded w-full h-2 ml-3">
-                      <div class="w-1/3 h-full rounded bg-amber-400"></div>
+                      <div class={ "w-["+0+"%] h-full rounded  bg-amber-400"} ></div>
                     </div>
-                    <p class="text-sm text-whit font-bold ml-3">33%</p>
+                    <p class="text-sm text-whit font-bold ml-3">{Math.floor(ratios.four/product.reviews.length*100)}%</p>
                   </div>
                   <div class="flex items-center">
                     <p class="text-sm text-whit font-bold">3.0</p>
@@ -130,9 +147,9 @@ export default function ProductDetails(){
                         d="M7 0L9.4687 3.60213L13.6574 4.83688L10.9944 8.29787L11.1145 12.6631L7 11.2L2.8855 12.6631L3.00556 8.29787L0.342604 4.83688L4.5313 3.60213L7 0Z" />
                     </svg>
                     <div class="bg-slate-200 rounded w-full h-2 ml-3">
-                      <div class="w-1/6 h-full rounded bg-amber-400"></div>
+                      <div class={ "w-["+Math.floor((ratios.five/product.reviews.length)*100)+"%] h-full rounded  bg-amber-400"}></div>
                     </div>
-                    <p class="text-sm text-whit font-bold ml-3">16%</p>
+                    <p class="text-sm text-whit font-bold ml-3">{Math.floor(ratios.three/product.reviews.length*100)}%</p>
                   </div>
                   <div class="flex items-center">
                     <p class="text-sm text-whit font-bold">2.0</p>
@@ -141,9 +158,9 @@ export default function ProductDetails(){
                         d="M7 0L9.4687 3.60213L13.6574 4.83688L10.9944 8.29787L11.1145 12.6631L7 11.2L2.8855 12.6631L3.00556 8.29787L0.342604 4.83688L4.5313 3.60213L7 0Z" />
                     </svg>
                     <div class="bg-slate-200 rounded w-full h-2 ml-3">
-                      <div class="w-1/12 h-full rounded bg-amber-400"></div>
+                      <div class={ "w-["+Math.floor((ratios.five/product.reviews.length)*100)+"%] h-full rounded  bg-amber-400"}></div>
                     </div>
-                    <p class="text-sm text-whit font-bold ml-3">8%</p>
+                    <p class="text-sm text-whit font-bold ml-3">{Math.floor(ratios.two/product.reviews.length*100)}%</p>
                   </div>
                   <div class="flex items-center">
                     <p class="text-sm text-whit font-bold">1.0</p>
@@ -152,9 +169,9 @@ export default function ProductDetails(){
                         d="M7 0L9.4687 3.60213L13.6574 4.83688L10.9944 8.29787L11.1145 12.6631L7 11.2L2.8855 12.6631L3.00556 8.29787L0.342604 4.83688L4.5313 3.60213L7 0Z" />
                     </svg>
                     <div class="bg-slate-200 rounded w-full h-2 ml-3">
-                      <div class="w-[6%] h-full rounded bg-amber-400"></div>
+                      <div class={ "w-["+Math.floor((ratios.five/product.reviews.length)*100)+"%] h-full rounded  bg-amber-400"}></div>
                     </div>
-                    <p class="text-sm text-whit font-bold ml-3">6%</p>
+                    <p class="text-sm text-whit font-bold ml-3">{Math.floor(ratios.one/product.reviews.length*100)}%</p>
                   </div>
                 </div>
               </div>

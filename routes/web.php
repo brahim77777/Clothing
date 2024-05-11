@@ -143,6 +143,8 @@ Route::get('/', function () {
         'canRegister' => Route::has('register'),
         'laravelVersion' => Application::VERSION,
         'phpVersion' => PHP_VERSION,
+        'categories' => \App\Models\Category::all(),
+        'products' => \App\Models\Product::all(),
     ]);
 });
 
@@ -156,7 +158,10 @@ Route::middleware('auth')->group(function () {
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 });
-
+Route::get('/products/{slug}', function ($slug) {
+    $product = \App\Models\Product::where('slug', $slug)->with('reviews')->with('category')->first();
+    return Inertia::render("ProductDetails", ["product" => $product]);
+});
 
 
 Route::get('/ProductDetails', function () {
