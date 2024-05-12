@@ -146,7 +146,7 @@ Route::get('/', function () {
         'categories' => \App\Models\Category::all(),
         'products' => \App\Models\Product::all(),
     ]);
-});
+})->name('homepage');
 
 Route::get('/dashboard', function () {
     return Inertia::render('Dashboard');
