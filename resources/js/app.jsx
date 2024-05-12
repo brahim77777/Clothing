@@ -10,6 +10,7 @@ import Footer from './Components/Footer';
 import { resolvePageComponent } from 'laravel-vite-plugin/inertia-helpers';
 import "./i18n.js"
 const appName = import.meta.env.VITE_APP_NAME || 'Laravel';
+import { useDispatch , useSelector } from 'react-redux';
 
 createInertiaApp({
     title: (title) => `${title} - ${appName}`,
@@ -17,14 +18,14 @@ createInertiaApp({
     setup({ el, App, props }) {
         store.dispatch(setAuth(props.initialPage.props.auth));
         const auth = store.getState().auth.value;
-        console.log("from app.jsx: "+auth)
+        console.log(auth)
         const root = createRoot(el);
 
         root.render(
             <Provider store={store}>
-                <Nav auth={auth} />
+                <Nav  />
                 <div className={'mt-[4rem]'}>
-                    <App auth={auth} {...props} />
+                    <App {...props} />
                 </div>
                 <Footer/>
             </Provider>

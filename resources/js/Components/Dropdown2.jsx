@@ -27,10 +27,10 @@ import { TbLogin as Login } from "react-icons/tb";
 import { setAuth } from "@/redux/authSlice";
 
 
-function ProfileMenu({toggleDarkMode  }) {
+function ProfileMenu({toggleDarkMode }) {
     const auth = useSelector((state)=>state.auth.value)
     const dispatch = useDispatch()
-    console.log("Auth from dropdown2.jsx: ",auth)
+    console.log("Auth obj: ",auth)
     // profile menu component
 const [profileMenuItems, setProfileMenuItems] = useState([]);
 
@@ -41,6 +41,7 @@ const [profileMenuItems, setProfileMenuItems] = useState([]);
           label: "Login",
           icon: Login,
           href: route("login"),
+        //   func : ()=>dispatch(setAuth(useSelector((state)=>state.auth.value))),
           method: "get",
         },
         {

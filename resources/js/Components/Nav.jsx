@@ -20,6 +20,8 @@ function Nav() {
   const count = useSelector((state)=>state.addToCart.value)
 
   const auth = useSelector((state)=>state.auth.value)
+  console.log("thisis Nav")
+  console.log(auth)
   const toggleDarkMode = useSelector((state) => state.changeTheme.value)
 
   const [currentPath] = useState(window.location.pathname);
