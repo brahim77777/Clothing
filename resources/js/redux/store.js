@@ -7,6 +7,7 @@ import changeLangReducer from './changeLangSlice'
 import switchToProductPageReducer from './switchToProductPageSlice'
 import sideBarReducer from './sideBarSlice'
 import authReducer from './authSlice'
+import refreshReducer from './refreshSlice'
 
 export const store = configureStore({
   reducer: {
@@ -17,7 +18,8 @@ export const store = configureStore({
     changeLang:changeLangReducer,
     switchToProductPage:switchToProductPageReducer,
     sideBar:sideBarReducer,
-    auth:authReducer
+    auth:authReducer,
+    refresh:refreshReducer
 
   },
 })

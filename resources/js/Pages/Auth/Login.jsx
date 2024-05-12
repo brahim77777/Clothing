@@ -6,9 +6,11 @@ import InputLabel from '@/Components/InputLabel';
 import PrimaryButton from '@/Components/PrimaryButton';
 import TextInput from '@/Components/TextInput';
 import { Head, Link, useForm } from '@inertiajs/react';
+import { useDispatch,useSelector } from 'react-redux';
+import { setRefresh } from '@/redux/refreshSlice';
 
-export default function Login({ status, canResetPassword , auth }) {
-    console.log(auth)
+export default function Login({ status, canResetPassword }) {
+    const dispatch = useDispatch()
     const { data, setData, post, processing, errors, reset } = useForm({
         email: '',
         password: '',
@@ -23,9 +25,8 @@ export default function Login({ status, canResetPassword , auth }) {
 
     const submit = (e) => {
         e.preventDefault();
-
+        dispatch(setRefresh(true))
         post(route('login'));
-
     };
 
     return (
@@ -88,10 +89,9 @@ export default function Login({ status, canResetPassword , auth }) {
                             Forgot your password?
                         </Link>
                     )}
-
-                    <PrimaryButton className="ms-4" disabled={processing}>
-                        Log in
-                    </PrimaryButton>
+                        <PrimaryButton  className="ms-4" disabled={processing}>
+                            Log in
+                        </PrimaryButton>
                 </div>
             </form>
         </GuestLayout>

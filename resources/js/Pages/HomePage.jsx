@@ -5,7 +5,7 @@ import { ArrowRightIcon } from "@heroicons/react/24/solid"
 import Hero from "../Components/Hero"
 import { ThemeProvider, createTheme } from "@mui/material/styles";
 import CssBaseline from "@mui/material/CssBaseline";
-import { useSelector } from 'react-redux';
+import { useDispatch,useSelector } from 'react-redux';
 import Footer from '../Components/Footer';
 import { ArrowUpIcon } from '@heroicons/react/24/outline';
 import Table from "../Components/Table"
@@ -14,16 +14,24 @@ import Carousel1 from '@/Components/Carousel2';
 import { More, MoreHoriz } from '@mui/icons-material';
 import { Disclosure } from '@headlessui/react'
 import { CiCircleMore } from "react-icons/ci";
+import { setRefresh } from '@/redux/refreshSlice';
 
 function App({categories, products}) {
 
   const toggleDarkMode = useSelector((state) => state.changeTheme.value)
-
+  const refresh = useSelector(state=>state.refresh.value)
+  const dispatch = useDispatch()
   const darkTheme = createTheme({
       palette: {
       mode:toggleDarkMode?'dark':"light",
       },
   });
+
+    if(refresh){
+        window.location.reload()
+        dispatch(setRefresh(false))
+    }
+
 
   const [isExpanded, setIsExpanded] = useState(false);
 
