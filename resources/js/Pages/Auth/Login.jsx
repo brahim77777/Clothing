@@ -9,8 +9,13 @@ import { Head, Link, useForm } from '@inertiajs/react';
 import { useDispatch } from 'react-redux';
 import { setRefresh } from '@/redux/refreshSlice';
 
+<<<<<<< Updated upstream
 export default function Login({ status, canResetPassword }) {
     const dispatch = useDispatch()
+=======
+export default function Login({ status, canResetPassword  }) {
+
+>>>>>>> Stashed changes
     const { data, setData, post, processing, errors, reset } = useForm({
         email: '',
         password: '',
@@ -27,6 +32,10 @@ export default function Login({ status, canResetPassword }) {
         e.preventDefault();
         dispatch(setRefresh(true))
         post(route('login'));
+<<<<<<< Updated upstream
+=======
+
+>>>>>>> Stashed changes
     };
 
     return (
