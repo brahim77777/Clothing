@@ -93,3 +93,7 @@ function App({categories, products}) {
 }
 
 export default App;
+
+
+
+
