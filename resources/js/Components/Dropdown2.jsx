@@ -2,7 +2,8 @@ import React ,{useState, useEffect} from "react";
 
 import ResponsiveNavLink from '@/Components/ResponsiveNavLink';
 import {Link} from '@inertiajs/react';
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
+
 
 import {
   Navbar,
@@ -23,13 +24,13 @@ import {
 } from "@heroicons/react/24/solid";
 import { UserIcon } from '@heroicons/react/24/outline';
 import { TbLogin as Login } from "react-icons/tb";
-
+import { setAuth } from "@/redux/authSlice";
 
 
 function ProfileMenu({toggleDarkMode }) {
-
     const auth = useSelector((state)=>state.auth.value)
-    console.log("Auth ogb: ",auth)
+    const dispatch = useDispatch()
+    console.log("Auth obj: ",auth)
     // profile menu component
 const [profileMenuItems, setProfileMenuItems] = useState([]);
 
@@ -40,6 +41,7 @@ const [profileMenuItems, setProfileMenuItems] = useState([]);
           label: "Login",
           icon: Login,
           href: route("login"),
+        //   func : ()=>dispatch(setAuth(useSelector((state)=>state.auth.value))),
           method: "get",
         },
         {
@@ -61,6 +63,7 @@ const [profileMenuItems, setProfileMenuItems] = useState([]);
                 label: "Sign Out",
                 icon: PowerIcon,
                 href: route("logout"),
+                func : ()=>dispatch(setAuth({user:null})),
                 method: "post",
             },
 
@@ -102,10 +105,10 @@ const [profileMenuItems, setProfileMenuItems] = useState([]);
       </MenuHandler>
 
       <MenuList className={`p-2 w-[12rem] gap-2 z-50 space-y-2 ${(toggleDarkMode) ? ` bg-zinc-900`:`bg-white`}`}>
-        {profileMenuItems.map(({ label, icon ,href, method }, key) => {
+        {profileMenuItems.map(({ label, icon ,href, method,func }, key) => {
           const isLastItem = key === profileMenuItems.length - 1;
           return (
-            <Link href={href} method={method} key={label}>
+            <Link href={href} onClick={func} method={method} key={label}>
             <MenuItem
               key={label}
               onClick={closeMenu}
