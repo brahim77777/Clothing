@@ -29,22 +29,23 @@ import { TbLogin as Login } from "react-icons/tb";
 function ProfileMenu({toggleDarkMode }) {
 
     const auth = useSelector((state)=>state.auth.value)
+    console.log("Auth ogb: ",auth)
     // profile menu component
 const [profileMenuItems, setProfileMenuItems] = useState([]);
 
   useEffect(() => {
-    (auth.user !== null) ?
+    (auth.user == null) ?
       setProfileMenuItems( [
         {
           label: "Login",
           icon: Login,
-          href: route("profile.edit"),
+          href: route("login"),
           method: "get",
         },
         {
           label: "Sign up",
           icon: Login,
-          href: route("profile.edit"),
+          href: route("register"),
           method: "get",
         },
       ])
@@ -66,7 +67,7 @@ const [profileMenuItems, setProfileMenuItems] = useState([]);
       ])
 
 
-    if(auth?.user?.role !== "admin"){
+    if(auth?.user?.role == "admin"){
       setProfileMenuItems((prevMenuItems) => [
 
         {
@@ -80,6 +81,9 @@ const [profileMenuItems, setProfileMenuItems] = useState([]);
     }
 
   }, [auth]);
+
+  console.log("Auth ogb: ",auth)
+
     console.log("DroPDown.jsx")
     console.log(profileMenuItems)
 
