@@ -5,8 +5,11 @@ import InputLabel from '@/Components/InputLabel';
 import PrimaryButton from '@/Components/PrimaryButton';
 import TextInput from '@/Components/TextInput';
 import { Head, Link, useForm } from '@inertiajs/react';
-
+import { useDispatch } from 'react-redux';
+import { setRefresh } from '@/redux/refreshSlice';
 export default function Register() {
+    const dispatch = useDispatch()
+
     const { data, setData, post, processing, errors, reset } = useForm({
         name: '',
         email: '',
@@ -22,7 +25,7 @@ export default function Register() {
 
     const submit = (e) => {
         e.preventDefault();
-
+        dispatch(setRefresh(true))
         post(route('register'));
     };
 
