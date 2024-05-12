@@ -106,35 +106,35 @@ use Illuminate\Http\Request;
 
 
 
-// Route::post('/dashboard', function (Request $request) {
-//     // Initialize an array to store the file paths
-//     $filePaths = [];
+Route::post('/dashboard', function (Request $request) {
+    // Initialize an array to store the file paths
+    $filePaths = [];
 
-//     // Validate the request data
-//     $request->validate([
-//         'avatars' => 'required|array', // Ensure 'avatars' is an array
-//         'avatars.*' => 'required|file|image|max:1024', // Validate each file in the array
-//     ]);
+    // Validate the request data
+    $request->validate([
+        'avatars' => 'required|array', // Ensure 'avatars' is an array
+        'avatars.*' => 'required|file|image|max:1024', // Validate each file in the array
+    ]);
 
-//     foreach ($request->file('avatars') as $index => $avatar) {
-//         // Check if the file name contains "_"
-//         if (strpos($avatar->getClientOriginalName(), '_') !== false) {
-//             // Handle edited image (uploaded as a new file)
-//             // Store the edited image
-//             $filename = uniqid() . '_' . $index . '.' . $avatar->getClientOriginalExtension();
-//             $path = $avatar->storeAs('public', $filename);
-//             $filePaths[] = $path;
-//         } else {
-//             // Handle regular file upload
-//             // Store the uploaded avatars
-//             $filename = uniqid() . '_' . $index . '.' . $avatar->getClientOriginalExtension();
-//             $path = $avatar->storeAs('public', $filename);
-//             $filePaths[] = $path;
-//         }
-//     }
+    foreach ($request->file('avatars') as $index => $avatar) {
+        // Check if the file name contains "_"
+        if (strpos($avatar->getClientOriginalName(), '_') !== false) {
+            // Handle edited image (uploaded as a new file)
+            // Store the edited image
+            $filename = uniqid() . '_' . $index . '.' . $avatar->getClientOriginalExtension();
+            $path = $avatar->storeAs('public', $filename);
+            $filePaths[] = $path;
+        } else {
+            // Handle regular file upload
+            // Store the uploaded avatars
+            $filename = uniqid() . '_' . $index . '.' . $avatar->getClientOriginalExtension();
+            $path = $avatar->storeAs('public', $filename);
+            $filePaths[] = $path;
+        }
+    }
 
-//     return Inertia::render('/dashboard');
-// });
+    return Inertia::render('/dashboard');
+});
 
 
 Route::get('/', function () {
@@ -176,6 +176,11 @@ Route::get('/ViewAll', function () {
 Route::get('/Cart', function () {
     return Inertia::render("Cart");
 })->middleware('auth')->name('Cart');
+
+
+Route::get('/Favorite', function () {
+    return Inertia::render("Favorite");
+})->middleware('auth')->name('Favorite');
 
 
 

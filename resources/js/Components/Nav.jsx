@@ -88,9 +88,9 @@ function Nav() {
 
               </div>
             <div className="hidden lg:ml-6 lg:flex lg:items-center space-x-3  h-fit  ">
-              <button className=" bg-[#0095FB]f border border-zinc-300  p-2 font-light text- rounded-full">
+              <Link href='/Favorite' as='button' className=" bg-[#0095FB]f border border-zinc-300  p-2 font-light text- rounded-full">
                 <HeartIcon className=" size-5" />
-              </button>
+              </Link>
                 {/* <UserIcon className=" size-5" /> */}
                 {console.log("auth",useSelector((state)=>state.auth.value))}
                 <UserDropDown toggleDarkMode={toggleDarkMode}  />
