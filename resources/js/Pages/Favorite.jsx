@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { GoHeartFill } from "react-icons/go";
 
 function Favorite() {
     const [focus, setFocus] = useState({state : false , target : -1});
@@ -20,24 +21,30 @@ function Favorite() {
                     <h1 className="font-bold text-3xl">MY WISHLIST</h1>
                     <div className="text-gray-900 ">{itemsLength} Items</div>
                 </div>
-                <div className="md:flex grid max-sm:grid-cols-2  max-md:grid-cols-3 gap-2 flex-wrap justify-start ">
+                <div className='m-auto mt-[3rem] gap-6 grid  grid-cols-5  max-xl:grid-cols-4 max-lg:grid-cols-3 max-md:grid-cols-2 max-sm:grid-cols-1' style={{ placeItems: 'center' }}>
                     {Array.from({ length: itemsLength }, (_, index) => (
                         <div
                             onMouseEnter={() => onEnter(index)}
                             onMouseLeave={() => onLeave(index)}
-                            className={` border border-gray-600 ${(focus.state)?((focus.target === index)?` z-50 bg-white   scale-110 `:` -z-50`):``} duration-300 p-2  `}
+                            // onClick={() => onEnter(index)}
                             key={index}
-                        >
-                            <img className="min-size-48 size-52" src={Img} alt="Item" />
-                            <div>
-                                <h1>Messi Inter Miami CF Tee</h1>
-                                <h2>Classic</h2>
+                            className="relative"
+                            >
+                            <div className="z-50 absolute w-full  end-0 justify-end flex  m-[.71rem] ">
+                                <GoHeartFill className="stroke-2 fill-black stroke-black"/>
+                            </div>
+                            <div className={`  border border-gray-600 ${(focus.state)?((focus.target === index)?` z-40 bg-white scale-105 ring `:` -z-50`):``} duration-300   `}>
+
+                                <img className="min-size-48 size-60 max-md:w-full min-w-[12rem]" src={Img} alt="Item" />
+                                <div className="m-2 h-fit">
+                                    <h1>Messi Inter Miami CF Tee</h1>
+                                    <h2>Classic</h2>
+                                </div>
                             </div>
                         </div>
                     ))}
                 </div>
             </div>
-            {/* <div className={`size-[100rem] -z-10 ${focus.state&&`bg-black opacity-60`} duration-300   absolute top-0 `}></div> */}
         </div>
     );
 }
