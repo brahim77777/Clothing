@@ -27,8 +27,11 @@ function Nav() {
   console.log(auth)
   const toggleDarkMode = useSelector((state) => state.changeTheme.value)
 
-  const [currentPath] = useState(window.location.pathname);
-
+  const [currentPath,setCurrentPath] = useState(window.location.pathname);
+  useEffect(()=>{
+    setCurrentPath(window.location.pathname)
+  },[window.location])
+console.log("Current Path: ",currentPath)
 
   const menu = [
     { name: 'Home', url: '/', className: "inline-flex items-center border-b-2 border-transparent px pt-1 text-sm font-medium text-gray-500 hover:border-gray-300 hover:text-gray-700 px-0 " },
@@ -62,6 +65,7 @@ function Nav() {
             console.log(res.data)
         })
   },[inputValue])
+
   return (
 
 
@@ -98,16 +102,12 @@ function Nav() {
 
                   } }
                   disabled={!isInputOpen} placeholder={`${(isInputOpen )?`search...`:``}`} type='text' className={` border border-zinc-300 ${(isInputOpen || inputValue !== "")?`w-[30vw]`:`w-[2.4rem] absolute bg-[#AC8C6F]k`} outline-none focus:ring-1 ring-[#AE8D70] px-3 py-[.66rem] rounded-full transition-width duration-300 ease-in-out bg-transparent h-[2.4rem] ${toggleDarkMode&&`bg-black `}`}/>
-                  <Link href='/products' onClick={(e)=>{
-                    (inputValue === "")&&setInputOpen(!isInputOpen);
-                        if (currentPath === '/products') {
-                            e.preventDefault(); // Prevent the default behavior
-                            // Add any other logic you need here
-                            // This will only be executed if the URL is "/products"
-                        }
-                    } } className={`  ${(!isInputOpen)&&` bg-[#AC8C6F]k text-whitek `} duration-200 outline-none  absolute   mr-[.29rem] border-zinc-300  p-1  font-light text- rounded-full`}>
+               {(currentPath !== '/products')? <Link href='/products' onClick={(e)=>{(inputValue === "")&&setInputOpen(!isInputOpen)}} className={`  ${(!isInputOpen)&&` bg-[#AC8C6F]k text-whitek `} duration-200 outline-none  absolute   mr-[.29rem] border-zinc-300  p-1  font-light text- rounded-full`}>
                     <MagnifyingGlassIcon className=" size-5 " />
-                  </Link>
+                  </Link>:
+                  <button onClick={(e)=>{(inputValue === "")&&setInputOpen(!isInputOpen)}} className={`  ${(!isInputOpen)&&` bg-[#AC8C6F]k text-whitek `} duration-200 outline-none  absolute   mr-[.29rem] border-zinc-300  p-1  font-light text- rounded-full`}>
+                    <MagnifyingGlassIcon className=" size-5 " />
+                  </button>}
                 </div>
 
               </div>
