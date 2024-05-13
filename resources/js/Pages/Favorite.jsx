@@ -30,10 +30,10 @@ function Favorite() {
                             key={index}
                             className="relative"
                             >
-                            <div className="z-50 absolute w-full  end-0 justify-end flex  m-[.71rem] ">
+                            <div className=" absolute w-full z-30  end-0 justify-end flex  m-[.71rem] ">
                                 <GoHeartFill className="stroke-2 fill-black stroke-black"/>
                             </div>
-                            <div className={`  border border-gray-600 ${(focus.state)?((focus.target === index)?` z-40 bg-white scale-105 ring `:` -z-50`):``} duration-300   `}>
+                            <div className={`  border border-gray-600 ${(focus.state)?((focus.target === index)?` z-405 bg-white scale-105 ring `:` -z-50`):``} duration-300   `}>
 
                                 <img className="min-size-48 size-60 max-md:w-full min-w-[12rem]" src={Img} alt="Item" />
                                 <div className="m-2 h-fit">

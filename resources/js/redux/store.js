@@ -4,10 +4,11 @@ import addToCartReducer from './addToCartSlice'
 import changeThemeReducer from './changeThemeSlice'
 import changeImageReducer from './productImageSlice'
 import changeLangReducer from './changeLangSlice'
-import switchToProductPageReducer from './switchToProductPageSlice'
+import openStatReducer from './openStatSlice'
 import sideBarReducer from './sideBarSlice'
 import authReducer from './authSlice'
 import refreshReducer from './refreshSlice'
+import openProductsReducer from './openProductsSlice'
 
 export const store = configureStore({
   reducer: {
@@ -16,10 +17,11 @@ export const store = configureStore({
     changeTheme:changeThemeReducer,
     productImage:changeImageReducer,
     changeLang:changeLangReducer,
-    switchToProductPage:switchToProductPageReducer,
+    openStatState:openStatReducer,
     sideBar:sideBarReducer,
     auth:authReducer,
-    refresh:refreshReducer
+    refresh:refreshReducer,
+    openProductsState:openProductsReducer
 
   },
 })
