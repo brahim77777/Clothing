@@ -15,7 +15,7 @@ import { Link } from '@inertiajs/react';
 import { Search } from '@mui/icons-material';
 import axios from 'axios';
 // import {useSelector, useDispatch} from 'react-redux';
-
+import Logo from "../../../public/Logo.svg"
 <Link href="/">Home</Link>
 
 function Nav() {
@@ -74,7 +74,7 @@ function Nav() {
                 <FaBarsStaggered/>
             </button >
               <Link href="/" as="button" className={`flex font-roboto text-${color}  font-bold text-3xl flex-shrink-0 items-center `}>
-                BAZGI
+                <img className='w-[8rem]' src={Logo}/>
               </Link>
               <div className={`flex justify-end w-full sm:space-x-4  h-[60%] `}>
                 <div className='hidden  lg:flex mr-12 space-x-6  justify-center'>
