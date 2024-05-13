@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState , useEffect} from 'react';
 import { Disclosure } from '@headlessui/react'
 import { Badge, Button } from "@material-tailwind/react";
 import Cart from './Cart';
@@ -12,6 +12,8 @@ import LangMenu from './LangMenu';
 import { useAnimation } from 'framer-motion';
 import { FaBarsStaggered } from "react-icons/fa6";
 import { Link } from '@inertiajs/react';
+import { Search } from '@mui/icons-material';
+import axios from 'axios';
 // import {useSelector, useDispatch} from 'react-redux';
 
 <Link href="/">Home</Link>
@@ -42,6 +44,7 @@ function Nav() {
   }
   const [isOpen, setOpen] = useState(false)
   const [inputValue,setInputValue] = useState("")
+ // Brahim's modifications
 
 
   const [isInputOpen , setInputOpen] = useState(false)
@@ -49,6 +52,13 @@ function Nav() {
   const sideOpen = useSelector((state)=>state.sideBar.value)
 
   const dispatch = useDispatch()
+  useEffect(()=>{
+    if(inputValue)
+        axios.get(`/api/search/${inputValue}`).then((res)=>{
+            console.log("this is axios", inputValue)
+            console.log(res.data)
+        })
+  },[inputValue])
   return (
 
 

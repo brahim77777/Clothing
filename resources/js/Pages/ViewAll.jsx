@@ -34,7 +34,7 @@ export default function ViewAll({products}){
                 <div className='m-auto mt-[3rem] gap-6 grid  grid-cols-5  max-xl:grid-cols-4 max-lg:grid-cols-3 max-md:grid-cols-2 max-sm:grid-cols-1' style={{ placeItems: 'center' }}>
                 {console.log('products-->')}
 
-                {console.log(products)}
+                {console.log(products.data)}
                 {products.data.map((e,index)=>(
                     <Card
 

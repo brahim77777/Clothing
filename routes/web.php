@@ -3,6 +3,7 @@
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\SearchController;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
@@ -160,7 +161,7 @@ Route::get('/products/category/{category:title}', [CategoryController::class, 's
 Route::get("/trending", [ProductController::class, 'index'])->name('products');
 
 
-// Route::get('/category/{category:title}', [CategoryController::class, 'show'])->name('category.products');
+// Search is in routes/api.php
 
 
 Route::middleware('auth')->group(function () {

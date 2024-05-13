@@ -17,7 +17,7 @@ export function BreadcrumbsWithIcon() {
       <Link href="/" className="opacity-60">
         <span>Home</span>
       </Link>
-      <Link href="/ViewAll">View All</Link>
+      <Link href="/products">View All</Link>
     </Breadcrumbs>
   );
 }
