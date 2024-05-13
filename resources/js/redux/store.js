@@ -9,6 +9,7 @@ import sideBarReducer from './sideBarSlice'
 import authReducer from './authSlice'
 import refreshReducer from './refreshSlice'
 import openProductsReducer from './openProductsSlice'
+import searchReducer from './searchSlice'
 
 export const store = configureStore({
   reducer: {
@@ -21,7 +22,8 @@ export const store = configureStore({
     sideBar:sideBarReducer,
     auth:authReducer,
     refresh:refreshReducer,
-    openProductsState:openProductsReducer
+    openProductsState:openProductsReducer,
+    products:searchReducer
 
-  },
+  }
 })

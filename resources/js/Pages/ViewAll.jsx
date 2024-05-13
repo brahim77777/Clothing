@@ -5,10 +5,27 @@ import AdvancedFilter from "../Components/sidebar_filters"
 import TextInput from "@/Components/TextInput";
 import Tooltip from "@/Components/Tooltip";
 import Card from "../Components/Card"
-
+import { useSelector } from "react-redux";
+import { useEffect } from "react";
+import { useState } from "react";
 
 export default function ViewAll({products}){
-    console.log("products.colors",products.data[0] )
+    const data = useSelector(state=>state.products.value)
+
+    const[productsData,setProductData] = useState(products.data)
+    useEffect(() => {
+        console.log("Redux products: ", data?.products);
+        console.log("Not Redux products: ", products.data);
+
+        if (data !== null) {
+            console.log("Setting product data from Redux");
+            setProductData(data?.products || []);
+        } else {
+            console.log("Setting product data from initial props");
+            setProductData(products.data || []);
+        }
+    }, [data, products.data]);
+
     return(
         <div className="p-2">
             <div className="flex flex-col items-center ">
@@ -32,12 +49,8 @@ export default function ViewAll({products}){
                     </div>
                 </div>
                 <div className='m-auto mt-[3rem] gap-6 grid  grid-cols-5  max-xl:grid-cols-4 max-lg:grid-cols-3 max-md:grid-cols-2 max-sm:grid-cols-1' style={{ placeItems: 'center' }}>
-                {console.log('products-->')}
-
-                {console.log(products.data)}
-                {products.data.map((e,index)=>(
+                {productsData?.map((e,index)=>(
                     <Card
-
                         slug={e.slug}
                         title={e.title}
                         price={e.price}

@@ -14,6 +14,7 @@ import { FaBarsStaggered } from "react-icons/fa6";
 import { Link } from '@inertiajs/react';
 import { Search } from '@mui/icons-material';
 import axios from 'axios';
+import { search } from '@/redux/searchSlice';
 // import {useSelector, useDispatch} from 'react-redux';
 import Logo from "../../../public/Logo.svg"
 <Link href="/">Home</Link>
@@ -53,8 +54,10 @@ function Nav() {
 
   const dispatch = useDispatch()
   useEffect(()=>{
-    if(inputValue)
+    (inputValue==="")&&dispatch(search(null))
+
         axios.get(`/api/search/${inputValue}`).then((res)=>{
+            dispatch(search(res.data))
             console.log("this is axios", inputValue)
             console.log(res.data)
         })
@@ -89,11 +92,22 @@ function Nav() {
                 </div> */}
                 {/* inline-flex items-center px-1 pt-1 text-sm font-medium text-gray-500 hover:border-gray-300 hover:text-gray-700 max-md:hidden  */}
                 <div className='flex justify-end items-center ml-8  '>
-                  <input onChange={(e)=>setInputValue(e.target.value) }
+                  <input onChange={(e)=>{
+                    (e.target.value ==="")&&dispatch(search(null))
+                    setInputValue(e.target.value)
+
+                  } }
                   disabled={!isInputOpen} placeholder={`${(isInputOpen )?`search...`:``}`} type='text' className={` border border-zinc-300 ${(isInputOpen || inputValue !== "")?`w-[30vw]`:`w-[2.4rem] absolute bg-[#AC8C6F]k`} outline-none focus:ring-1 ring-[#AE8D70] px-3 py-[.66rem] rounded-full transition-width duration-300 ease-in-out bg-transparent h-[2.4rem] ${toggleDarkMode&&`bg-black `}`}/>
-                  <button onClick={()=>(inputValue === "")&&setInputOpen(!isInputOpen)} className={`  ${(isInputOpen)?``:` bg-[#AC8C6F]k text-whitek `} duration-200 outline-none  absolute   mr-[.29rem] border-zinc-300  p-1  font-light text- rounded-full`}>
+                  <Link href='/products' onClick={(e)=>{
+                    (inputValue === "")&&setInputOpen(!isInputOpen);
+                        if (currentPath === '/products') {
+                            e.preventDefault(); // Prevent the default behavior
+                            // Add any other logic you need here
+                            // This will only be executed if the URL is "/products"
+                        }
+                    } } className={`  ${(!isInputOpen)&&` bg-[#AC8C6F]k text-whitek `} duration-200 outline-none  absolute   mr-[.29rem] border-zinc-300  p-1  font-light text- rounded-full`}>
                     <MagnifyingGlassIcon className=" size-5 " />
-                  </button>
+                  </Link>
                 </div>
 
               </div>
