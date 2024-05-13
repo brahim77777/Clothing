@@ -1,4 +1,5 @@
 import { change } from "@/redux/changeThemeSlice"
+import { Link } from "@inertiajs/react"
 import { useSelector } from "react-redux"
 export default function Hero() {
     const toggleDarkMode = useSelector((state) => state.changeTheme.value)
@@ -84,12 +85,12 @@ export default function Hero() {
                   </div>
                 </div>
 
-                <a
-                  href="#"
+                <Link
+                  href="/products" as="button"
                   className="inline-block rounded-md border border-transparent bg-gray-700 px-8 py-3 text-center font-medium text-white hover:bg-gray-800"
                 >
                   Shop Collection
-                </a>
+                </Link>
               </div>
             </div>
           </div>

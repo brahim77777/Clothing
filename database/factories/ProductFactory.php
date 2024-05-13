@@ -22,7 +22,7 @@ class ProductFactory extends Factory
             'description' => fake()->sentence(),
             'main_image' => fake()->imageUrl(),
             'secondary_images' => fake()->imageUrl() . fake()->imageUrl() . fake()->imageUrl(),
-            'colors' => fake()->hexColor() . fake()->hexColor() . fake()->hexColor(),
+            'colors' => fake()->hexColor() . "," . fake()->hexColor() . "," . fake()->hexColor(),
             'sizes' => implode(',', fake()->randomElements(['S', 'M', 'L', 'XL'], fake()->randomElement([1, 2, 3, 4]))),
             'price' => fake()->numberBetween(100, 1000),
             'rating' => fake()->numberBetween(1, 5),

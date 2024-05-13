@@ -1,5 +1,7 @@
 <?php
 
+use App\Http\Controllers\CategoryController;
+use App\Http\Controllers\ProductController;
 use App\Http\Controllers\ProfileController;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
@@ -152,21 +154,25 @@ Route::get('/dashboard', function () {
     return Inertia::render('Dashboard');
 })->middleware('auth')->name('dashboard');
 
+Route::get("/products", [ProductController::class, 'index'])->name('products');
+Route::get('/products/{slug}', [ProductController::class, 'show'])->name('products.show');
+Route::get('/products/category/{category:title}', [CategoryController::class, 'show'])->name('category.products');
+Route::get("/trending", [ProductController::class, 'index'])->name('products');
+
+
+// Route::get('/category/{category:title}', [CategoryController::class, 'show'])->name('category.products');
+
 
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 });
-Route::get('/products/{slug}', function ($slug) {
-    $product = \App\Models\Product::where('slug', $slug)->with('reviews')->with('category')->first();
-    return Inertia::render("ProductDetails", ["product" => $product]);
-});
 
 
-Route::get('/ProductDetails', function () {
-    return Inertia::render("ProductDetails");
-})->middleware('auth')->name('ProductDetails');
+// Route::get('/ProductDetails', function () {
+//     return Inertia::render("ProductDetails");
+// })->middleware('auth')->name('ProductDetails');
 
 
 Route::get('/ViewAll', function () {

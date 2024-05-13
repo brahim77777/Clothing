@@ -4,11 +4,11 @@ import { Navbar } from "@material-tailwind/react";
 import AdvancedFilter from "../Components/sidebar_filters"
 import TextInput from "@/Components/TextInput";
 import Tooltip from "@/Components/Tooltip";
-import Data from "../utils/data.json"
 import Card from "../Components/Card"
 
 
-export default function ViewAll(){
+export default function ViewAll({products}){
+    console.log("products.colors",products.data[0] )
     return(
         <div className="p-2">
             <div className="flex flex-col items-center ">
@@ -32,8 +32,13 @@ export default function ViewAll(){
                     </div>
                 </div>
                 <div className='m-auto mt-[3rem] gap-6 grid  grid-cols-5  max-xl:grid-cols-4 max-lg:grid-cols-3 max-md:grid-cols-2 max-sm:grid-cols-1' style={{ placeItems: 'center' }}>
-                {Data.products.map((e,index)=>(
+                {console.log('products-->')}
+
+                {console.log(products)}
+                {products.data.map((e,index)=>(
                     <Card
+
+                        slug={e.slug}
                         title={e.title}
                         price={e.price}
                         main_image={e.main_image}

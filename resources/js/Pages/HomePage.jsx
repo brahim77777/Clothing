@@ -48,13 +48,13 @@ function App({categories, products}) {
             <div className='sm:gap-2 gap-2 grid grid-cols-9 max-lg:grid-cols-6 max-md:grid-cols-5 max-sm:grid-cols-3'>
 
                 {categories.map((category) => (
-                    <Link className="flex items-center gap-1 font-semibold min-w-fit" key={category.id} href={category.title}>{category.title} <ArrowRightIcon className=" size-5 "/></Link>
+                    <Link className="flex items-center gap-1 font-semibold min-w-fit" key={category.id} href={"/products/category/"+category.title}>{category.title} <ArrowRightIcon className=" size-5 "/></Link>
                 ))
                 }
             </div>
             <button onClick={toggleExpand}><MoreHoriz className='border rounded-full'/></button>
             <div className='w-fit'>
-                <Link className="flex items-center gap-1 font-semibold text-nowrap " href="/ViewAll">VIEW ALL <ArrowRightIcon className=" size-5 "/></Link>
+                <Link className="flex items-center gap-1 font-semibold text-nowrap " href="/products">VIEW ALL <ArrowRightIcon className=" size-5 "/></Link>
             </div>
             </div>
 

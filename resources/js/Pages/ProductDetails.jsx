@@ -35,12 +35,13 @@ function RatioOfReview(productReviews) {
 }
 
 export default function ProductDetails({product}){
+    console.log("this is PRoductDeatils---> Product", product)
     const ratios = RatioOfReview(product.reviews);
 
     RatioOfReview(product.reviews)
   const dispatch = useDispatch()
 
-  const[qnt,setQnt] = useState(0)
+  const[qnt,setQnt] = useState(1)
 
     return(
         <div className="font-[sans-serif]  ">
@@ -65,7 +66,7 @@ export default function ProductDetails({product}){
               <p class="  text-xl font-bold">{product.price} MAD</p>
             </div>
             <div className="flex items-center space-x-1 mb-4">
-            <Rating defaultValue={4} readOnly/>
+            <Rating defaultValue={product.rating} readOnly/>
             <span className=" text-sm">({product.reviews.length} reviews)</span>
             </div>
 {/*---------COUNTER ---------------------------------------------------------------------- */}
