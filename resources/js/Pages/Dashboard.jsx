@@ -187,61 +187,7 @@ export default function Dashboard({ auth, products }) {
                                 }} className="flex bg-white bg-opacity-75 items-center py-1 rounded-md pl-2 pr-[4px] justify-between border border-gray-500">Add<MdAdd/></button>
                         </div>
                         <div class="overflow-x-auto w-full mx-auto   ">
-                        <div className='cards overflow-x-auto grid grid-cols-3 min-w-[13rem] max-lg:flex  gap-6 mt-[2rem]  '>
-
-                            <div className='card h-[10rem] min-w-[15rem] bg-white p-6 relative '>
-                            <EyeIcon className='size-[3rem] p-3 rounded-full mb-2 bg-indigo-50 text-indigo-700'/>
-                            <div>
-                                <div className=' font-bold text-xl'>3.458k</div>
-                                <label className=' font-medium text-gray-600 text-sm'>Total view</label>
-                            </div>
-                            <div className=' text-green-500 right-0 bottom-0 absolute m-6 flex items-center gap-1'>0.43%<ArrowUp/></div>
-                        </div>
-
-
-                        <div className='card h-[10rem] min-w-[15rem] bg-white p-6 relative '>
-                            <ShoppingCart className='size-[3rem] p-3 rounded-full mb-2 bg-indigo-50 text-indigo-700'/>
-                            <div>
-                                <div className=' font-bold text-xl'>$45.23k</div>
-                                <label className=' font-medium text-gray-600 text-sm'>Total profit</label>
-                            </div>
-                            <div className=' text-green-500 right-0 bottom-0 absolute m-6 flex items-center gap-1'>4.35%<ArrowUp/></div>
-                        </div>
-
-
-
-                        <div className='card h-[10rem] min-w-[15rem] bg-white p-6 relative  '>
-                            <div className='p-2 bg-indigo-50 size-12 rounded-full flex  items-center justify-center '>
-                                <HiOutlineShoppingBag className='size-[1.6rem]  text-indigo-700'/>
-                            </div>
-                            <div>
-                                <div className=' font-bold text-xl'>160</div>
-                                <label className=' font-medium text-gray-600 text-sm'>Total view</label>
-                            </div>
-                            <div className=' text-green-500 right-0 bottom-0 absolute m-6 flex items-center gap-1'>2.59%<ArrowUp/></div>
-                        </div>
-                        <div className='card h-[10rem] min-w-[15rem] bg-white p-6 relative  '>
-                            <div className='p-2 bg-indigo-50 size-12 rounded-full flex  items-center justify-center '>
-                                <HiOutlineShoppingBag className='size-[1.6rem]  text-indigo-700'/>
-                            </div>
-                            <div>
-                                <div className=' font-bold text-xl'>160</div>
-                                <label className=' font-medium text-gray-600 text-sm'>Total view</label>
-                            </div>
-                            <div className=' text-green-500 right-0 bottom-0 absolute m-6 flex items-center gap-1'>2.59%<ArrowUp/></div>
-                        </div>
-
-
-                            <div className='card h-[10rem] min-w-[15rem] bg-white p-6 relative '>
-                                <UsersIcon className='size-[3rem] p-3 rounded-full mb-2 bg-indigo-50 text-indigo-700'/>
-                                <div>
-                                    <div className=' font-bold text-xl'>3.456</div>
-                                    <label className=' font-medium text-gray-600 text-sm'>Total users</label>
-                                </div>
-                                <div className='text-blue-500 right-0 bottom-0 absolute m-6 flex items-center gap-1'>0.95%<ArrowDown/></div>
-                            </div>
-
-                        </div>
+                      
                             <div class="inline-block min-w-full py-2  rounded-md mt-4 ">
                             <div class="overflow-hidden  ">
                                 <table
