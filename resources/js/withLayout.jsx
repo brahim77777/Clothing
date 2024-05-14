@@ -13,7 +13,9 @@ const withLayout = (WrappedComponent) => {
         <div>
           <WrappedComponent {...props} />
         </div>
-        <Footer />
+        {url !== '/dashboard' && <div className="mb-[4rem]"> <Footer /></div>}
+
+
       </>
     );
   };

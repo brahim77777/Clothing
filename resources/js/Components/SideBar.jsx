@@ -93,7 +93,6 @@ export default function SideBar({setAddProduct}) {
             dispatch(openStat(true))
             dispatch(openProducts(false))
             setAddProduct(false)
-
             }}>
           <ListItemPrefix>
             <Analytics  className="h-5 w-5" />

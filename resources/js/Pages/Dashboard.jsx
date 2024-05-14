@@ -1,19 +1,4 @@
-/*
-  This example requires Tailwind CSS v2.0+
 
-  This example requires some changes to your config:
-
-  ```
-  // tailwind.config.js
-  module.exports = {
-    // ...
-    plugins: [
-      // ...
-      require('@tailwindcss/forms'),
-    ],
-  }
-  ```
-*/
 import withLayout from '../withLayout';
 
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout';
@@ -23,8 +8,8 @@ import { ArrowDown, ArrowUp, ShoppingCart } from 'phosphor-react';
 // import LineChart from "@/Components/LineChart"
 import { useSelector,useDispatch } from 'react-redux';
 import AddProduct from '@/Components/AddProduct';
-import { Shop2 } from '@mui/icons-material';
-import { TbBrandProducthunt } from 'react-icons/tb';
+import { CategoryOutlined, Shop2 } from '@mui/icons-material';
+import { TbBrandProducthunt, TbCategory2 } from 'react-icons/tb';
 import { HiOutlineShoppingBag } from "react-icons/hi2";
 
 import { useEffect } from 'react';
@@ -55,10 +40,10 @@ import { openStat } from '@/redux/openStatSlice';
 
 import { RiDeleteBin6Line } from "react-icons/ri";
 import { TbEdit } from 'react-icons/tb';
-import { FcAddRow } from 'react-icons/fc';
+import { FcAddRow, FcSalesPerformance } from 'react-icons/fc';
 import axios from 'axios';
 
-
+import Logo from "../../../public/Logo.svg"
 
 
 import { Fragment, useState } from 'react'
@@ -75,20 +60,9 @@ import {
   XMarkIcon,
 } from '@heroicons/react/24/outline'
 import { MagnifyingGlassIcon } from '@heroicons/react/20/solid'
+import { GiPriceTag } from 'react-icons/gi';
 
-const navigation = [
-  { name: 'Home', href: '/', icon: HomeIcon, current: true },
-  { name: 'Team', href: '/', icon: UsersIcon, current: false },
-  { name: 'Projects', href: '/', icon: FolderIcon, current: false },
-  { name: 'Calendar', href: '/', icon: CalendarIcon, current: false },
-  { name: 'Documents', href: '/', icon: InboxIcon, current: false },
-  { name: 'Reports', href: '/', icon: ChartBarIcon, current: false },
-]
-const userNavigation = [
-  { name: 'Your Profile', href: '/' },
-  { name: 'Settings', href: '/' },
-  { name: 'Sign out', href: '/' },
-]
+
 
 function classNames(...classes) {
   return classes.filter(Boolean).join(' ')
@@ -152,6 +126,26 @@ const Dashboard = ({ auth, products }) => {
 
   const [sidebarOpen, setSidebarOpen] = useState(false)
 
+  const navigation = [
+    { name: 'Dashboard', icon: HomeIcon, current: true, func: ()=>{
+      dispatch(openProducts(true))
+      dispatch(openStat(false))
+      setAddProduct(false)
+      }},
+    { name: 'Categories', icon: TbCategory2, current: false },
+    { name: 'Users', icon: UsersIcon, current: false },
+    { name: 'Sales', icon: GiPriceTag, current: false },
+    { name: 'Statistiques', icon: ChartBarIcon, current: false, func :()=>{
+      dispatch(openStat(true));
+      dispatch(openProducts(false));
+      setAddProduct(false)
+      }}
+  ]
+  const userNavigation = [
+    { name: 'Your Profile', href: '/' },
+    { name: 'Settings', href: '/' },
+    { name: 'Sign out', href: '/' },
+  ]
   return (
     <>
       {/*
@@ -211,7 +205,7 @@ const Dashboard = ({ auth, products }) => {
                   <div className="flex flex-shrink-0 items-center px-4">
                     <img
                       className="h-8 w-auto"
-                      src="https://tailwindui.com/img/logos/mark.svg?color=indigo&shade=500"
+                      src={Logo}
                       alt="Your Company"
                     />
                   </div>
@@ -253,19 +247,15 @@ const Dashboard = ({ auth, products }) => {
         <div className="hidden md:fixed md:inset-y-0 md:flex md:w-64 md:flex-col">
           {/* Sidebar component, swap this element with another sidebar if you like */}
           <div className="flex min-h-0 flex-1 flex-col bg-gray-800">
-            <div className="flex h-16 flex-shrink-0 items-center bg-gray-900 px-4">
-              <img
-                className="h-8 w-auto"
-                src="https://tailwindui.com/img/logos/mark.svg?color=indigo&shade=500"
-                alt="Your Company"
-              />
-            </div>
+            <Link href='/' className="flex text-white font-serif font-thin text-2xl h-16 flex-shrink-0 items-center bg-gray-900 px-4">
+             <h1>BAZGUI</h1>
+            </Link>
             <div className="flex flex-1 flex-col overflow-y-auto">
               <nav className="flex-1 space-y-1 px-2 py-4">
                 {navigation.map((item) => (
-                  <Link
+                  <button
                     key={item.name}
-                    href={item.href}
+                    onClick={item.func}
                     className={classNames(
                       item.current ? 'bg-gray-900 text-white' : 'text-gray-300 hover:bg-gray-700 hover:text-white',
                       'group flex items-center px-2 py-2 text-sm font-medium rounded-md'
@@ -279,7 +269,7 @@ const Dashboard = ({ auth, products }) => {
                       aria-hidden="true"
                     />
                     {item.name}
-                  </Link>
+                  </button>
                 ))}
               </nav>
             </div>
@@ -370,9 +360,9 @@ const Dashboard = ({ auth, products }) => {
 
           <main className="flex-1 ">
             <div className="py-6 bg-white">
-              <div className="mx-auto max-w-7xl px-4 sm:px-6 md:px-8 bg-white">
+              {/* <div className="mx-auto max-w-7xl px-4 sm:px-6 md:px-8 bg-white">
                 <h1 className="text-2xl font-semibold text-gray-900">Dashboard</h1>
-              </div>
+              </div> */}
               <div className="mx-auto max-w-7xl px-4 sm:px-6 md:px-8 bg-white ">
               <AuthenticatedLayout
             user={auth.user}
@@ -380,13 +370,15 @@ const Dashboard = ({ auth, products }) => {
             header={<h2 className="font-semibold text-xl text-gray-800 leading-tight">Dashboard</h2>}
             >
             <Head  title="Dashboard" />
-            <div className='flex bg-white'>
-
-            {(openStat)&&
-                    <main className={`${(sideOpen && !isMediumScreen) ? 'lg:w-[calc(100vw-18.5rem)] w-[calc(100vw-18.5rem)]' : 'w-full'} duration-300 ease-in-out min-h-screen ${toggleDarkMode ? 'bg-neutral-700' : 'bg-white'} h-full p-4 ml-auto `}>
-                    <div className=''>
+            <div className='flex flex-col bg-white'>
+                    <div className=' '>
                         <WelcomeBanner />
                     </div>
+            {(openStat)&&
+                    <main className={`${(sideOpen && !isMediumScreen) ? 'lg:w-[calc(100vw-18.5rem)] w-[calc(100vw-18.5rem)]' : 'w-full'} duration-300 ease-in-out min-h-screen ${toggleDarkMode ? 'bg-neutral-700' : 'bg-white'} h-full p-4 ml-auto `}>
+                    {/* <div className=''>
+                        <WelcomeBanner />
+                    </div> */}
                     <div className='cards grid grid-cols-12 min-w-[13rem]  gap-6 mt-[2rem]  '>
 
                         <DashboardCard01 />
@@ -401,67 +393,23 @@ const Dashboard = ({ auth, products }) => {
                         <DashboardCard11 />
                         <DashboardCard12 />
                         <DashboardCard13 />
-                        {/* {setAddProduct(!isInAddProduct)} */}
-                        {/* <div className='card h-[10rem] bg-white p-6 relative '>
-                            <EyeIcon className='size-[3rem] p-3 rounded-full mb-2 bg-indigo-50 text-indigo-700'/>
-                            <div>
-                                <div className=' font-bold text-xl'>3.458k</div>
-                                <label className=' font-medium text-gray-600 text-sm'>Total view</label>
-                            </div>
-                            <div className=' text-green-500 right-0 bottom-0 absolute m-6 flex items-center gap-1'>0.43%<ArrowUp/></div>
-                        </div>
-
-
-                        <div className='card h-[10rem] bg-white p-6 relative '>
-                            <ShoppingCart className='size-[3rem] p-3 rounded-full mb-2 bg-indigo-50 text-indigo-700'/>
-                            <div>
-                                <div className=' font-bold text-xl'>$45.23k</div>
-                                <label className=' font-medium text-gray-600 text-sm'>Total profit</label>
-                            </div>
-                            <div className=' text-green-500 right-0 bottom-0 absolute m-6 flex items-center gap-1'>4.35%<ArrowUp/></div>
-                        </div>
-
-
-                        <div className='card h-[10rem] bg-white p-6 relative  '>
-                            <div className='p-2 bg-indigo-50 size-12 rounded-full flex  items-center justify-center '>
-                                <HiOutlineShoppingBag className='size-[1.6rem]  text-indigo-700'/>
-                            </div>
-                            <div>
-                                <div className=' font-bold text-xl'>160</div>
-                                <label className=' font-medium text-gray-600 text-sm'>Total view</label>
-                            </div>
-                            <div className=' text-green-500 right-0 bottom-0 absolute m-6 flex items-center gap-1'>2.59%<ArrowUp/></div>
-                        </div>
-
-
-                        <div className='card h-[10rem] bg-white p-6 relative '>
-                            <UsersIcon className='size-[3rem] p-3 rounded-full mb-2 bg-indigo-50 text-indigo-700'/>
-                            <div>
-                                <div className=' font-bold text-xl'>3.456</div>
-                                <label className=' font-medium text-gray-600 text-sm'>Total users</label>
-                            </div>
-                            <div className='text-blue-500 right-0 bottom-0 absolute m-6 flex items-center gap-1'>0.95%<ArrowDown/></div>
-                        </div>*/}
                     </div>
                 </main>
         }
 
 {((openProductsState))&&<div className={`${(sideOpen && !isMediumScreen) ? 'lg:w-[calc(100vw-18.5rem)] w-[calc(100vw-18.5rem)]' : 'w-full'} duration-300  ease-in-out min-h-screen ${toggleDarkMode ? 'bg-neutral-700' : 'bg-white text-gray-900'} h-full  p-4  ml-auto `}>
-                                    {/* // temp */}
-                                    {/* <div className='mt-64'></div> */}
-                            {/* //temp */}
+
 
                         <div className=' w-full flex justify-end'>
 
                             <button onClick={()=>{
-                                // dispatch(openStat(false))
                                 setAddProduct(true)
                                 dispatch(openProducts(false))
                                 }} className="flex bg-white bg-opacity-75 items-center py-1 rounded-md pl-2 pr-[4px] justify-between border border-gray-500">Add<MdAdd/></button>
                         </div>
                         <div class="overflow-x-auto w-full mx-auto   ">
 
-                            <div class="inline-block min-w-full py-2  rounded-md mt-4 ">
+                            <div class="inline-block min-w-full py-2  rounded-md  ">
                             <div class="overflow-hidden  ">
                                 <table
                                 class="min-w-full bg-white rounded-md  text-left text-sm font-light text-surface  ">
