@@ -13,9 +13,13 @@ import Dropdown from './DropDownT';
 import Modal from './Modal';
 import Drag from './Drag';
 import ModalCat from "./ModalCat"
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
+import { openProducts } from '@/redux/openProductsSlice';
+import { useSelect } from '@react-three/drei';
 
-export default function AddProduct(){
+export default function AddProduct({isInAddProduct,setAddProduct}){
+    const dispatch = useDispatch()
+    const openProduct = useSelect(state=>state.openProductsState.value)
     const[selectedSizes,setSelectedSizes] = useState([])
     const [files, setFiles] = useState([]);
     const onDrop = useCallback((acceptedFiles) => {
@@ -121,12 +125,15 @@ export default function AddProduct(){
       };
     }, []);
     return(
-        <div className={`${(sideOpen && !isMediumScreen) ? 'lg:w-[calc(100vw-18.5rem)] w-[calc(100vw-18.5rem)]' : 'w-full'} duration-300 ease-in-out min-h-screen ${toggleDarkMode ? 'bg-neutral-700' : 'bg-neutral-100'} h-full p-4 ml-auto`}>
+        <div className={`${(sideOpen && !isMediumScreen) ? 'lg:w-[calc(100vw-18.5rem)] w-[calc(100vw-18.5rem)]' : 'w-full'} duration-300 ease-in-out min-h-screen ${toggleDarkMode ? 'bg-neutral-700' : 'bg-neutral-100'} h-full p-4 ml-auto ${!isInAddProduct&&`hidden`}`}>
 
         <div className='w-full mb-2 flex justify-between '>
             <h1 className="text-[1.4rem] font-semibold mb-4">Add a New Product</h1>
             <div className='flex gap-2'>
-                <button className=' py-2 pl-1 pr-2 border border-[#1C2434] h-fit rounded-md flex text-[#1C2434] items-center gap-1'><Cancel className='size-5 '/>Cancel</button>
+                <button onClick={()=>{
+                    dispatch(openProducts())
+                    setAddProduct(!isInAddProduct)
+                }} className=' py-2 pl-1 pr-2 border border-[#1C2434] h-fit rounded-md flex text-[#1C2434] items-center gap-1'><Cancel className='size-5 '/>Cancel</button>
                 <button className=' py-2 pl-1 pr-2 bg-[#1C2434] h-fit rounded-md flex text-white items-center gap-1'><MdPublish className='size-5 '/>Publish</button>
             </div>
         </div>

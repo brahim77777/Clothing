@@ -65,6 +65,7 @@ export default function SideBar() {
         <ListItem
             onClick={()=>{
             dispatch(openProducts())
+            dispatch(openStat())
             }}>
           <ListItemPrefix>
             <AiFillProfile className="h-5 w-5" />
@@ -89,6 +90,7 @@ export default function SideBar() {
         </ListItem>
         <ListItem onClick={()=>{
             dispatch(openStat())
+            dispatch(openProducts())
             }}>
           <ListItemPrefix>
             <Analytics  className="h-5 w-5" />

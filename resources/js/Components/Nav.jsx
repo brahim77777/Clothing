@@ -81,7 +81,7 @@ console.log("Current Path: ",currentPath)
                 <FaBarsStaggered/>
             </button >
               <Link href="/" as="button" className={`flex font-roboto text-${color}  font-bold text-3xl flex-shrink-0 items-center `}>
-                <img className='w-[8rem]' src={Logo}/>
+                <img  className='w-[8rem] object-cover h-12' src={Logo}/>
               </Link>
               <div className={`flex justify-end w-full sm:space-x-4  h-[60%] `}>
                 <div className='hidden  lg:flex mr-12 space-x-6  justify-center'>

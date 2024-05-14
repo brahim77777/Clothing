@@ -15,6 +15,7 @@ use Carbon\Carbon;
 use Illuminate\Support\Facades\Redirect;
 // use App\Http\Controllers\UploadController;
 
+use App\Models\Product;
 
 // Route::post('/upload', [UploadController::class, 'upload']);
 
@@ -151,8 +152,19 @@ Route::get('/', function () {
     ]);
 })->name('homepage');
 
+// Route::get('/dashboard', function () {
+//     return Inertia::render('Dashboard');
+// })->middleware('auth')->name('dashboard');
+
+
 Route::get('/dashboard', function () {
-    return Inertia::render('Dashboard');
+    // Fetch all products
+    $products = Product::all();
+
+    // Pass the products data as a prop to the Inertia view
+    return Inertia::render('Dashboard', [
+        'products' => $products,
+    ]);
 })->middleware('auth')->name('dashboard');
 
 Route::get("/products", [ProductController::class, 'index'])->name('products');
