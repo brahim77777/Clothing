@@ -154,7 +154,7 @@ console.log("Current Path: ",currentPath)
             <Link as="button"
               key={index}
               href={e.url}
-              className={`${(currentPath === e.url) ? `bg-[#be8e5f2f] hover:bg-[#ae7b482f]`:`hover:bg-gray-50`}  block border-l-4 border-[#AC8C6F]  py-2 pl-3 pr-4 text-base font-medium text-${color} `}
+              className={`${(currentPath === e.url) ? `bg-[#be8e5f2f] hover:bg-[#ae7b482f]`:`hover:bg-gray-50`} flex border-l-4 border-[#AC8C6F] w-full justify-start  py-2 pl-3 pr-4 text-base font-medium text-${color} `}
             >
               {e.name}
             </Link>))}
