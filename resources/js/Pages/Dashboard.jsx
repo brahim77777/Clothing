@@ -403,10 +403,7 @@ const Dashboard = ({ auth, products }) => {
                         <div className=' w-full flex justify-end'>
 
                             <button onClick={()=>{
-<<<<<<< HEAD
-                                // dispatch(openStat(false))
-=======
->>>>>>> 18fa35d990fe381edec14e08a4beffb2b72dbba8
+
                                 setAddProduct(true)
                                 dispatch(openProducts(false))
                                 }} className="flex bg-white bg-opacity-75 items-center py-1 rounded-md pl-2 pr-[4px] justify-between border border-gray-500">Add<MdAdd/></button>
