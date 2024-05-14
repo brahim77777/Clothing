@@ -40,19 +40,44 @@ import { openStat } from '@/redux/openStatSlice';
 import { RiDeleteBin6Line } from "react-icons/ri";
 import { TbEdit } from 'react-icons/tb';
 import { FcAddRow } from 'react-icons/fc';
+import axios from 'axios';
 
 
 
 
-export default function Dashboard({ auth,products }) {
+export default function Dashboard({ auth, products }) {
     console.log("From dashboard: ",products)
+    console.log(products.data)
+    const [productsList,setProductsList] = useState(products.data)
     const openStat = useSelector((state) => state.openStatState.value)
     const openProductsState = useSelector((state) => state.openProductsState.value)
     console.log(openStat)
     const toggleDarkMode = useSelector((state)=>state.changeTheme.value)
     const dispatch = useDispatch()
     const sideOpen = useSelector((state)=>state.sideBar.value)
+    function deleteProduct(slug){
 
+
+        alert(slug)
+
+
+        axios.delete('/products/'+slug).then((res)=>{
+            alert(res.data)
+            console.log("deleted check!",res.data)
+
+            // Assuming 'myArray' is the state variable storing the array and 'setMyArray' is the setter function
+
+            // Remove an element from the array based on some condition
+
+        // Assuming 'myArray' is the state variable storing the array and 'setMyArray' is the setter function
+
+        // Remove an element from the array based on some condition
+
+            setProductsList(res.data.products)
+
+
+        })
+    }
     const [isMediumScreen, setIsMediumScreen] = useState(false);
     const[isInAddProduct,setAddProduct] = useState(false)
     useEffect(() => {
@@ -74,10 +99,6 @@ export default function Dashboard({ auth,products }) {
     }, []);
 
     // const products = useSelector(state=>state.products.value)
-    const formatDate = (dateString) => {
-        const date = new Date(dateString);
-        return date.toISOString().split('T')[0];
-      };
 
     return (
         <div>
@@ -153,12 +174,17 @@ export default function Dashboard({ auth,products }) {
                 </main>
         }
         {((openProductsState))&&<div className={`${(sideOpen && !isMediumScreen) ? 'lg:w-[calc(100vw-18.5rem)] w-[calc(100vw-18.5rem)]' : 'w-full'} duration-300 ease-in-out min-h-screen ${toggleDarkMode ? 'bg-neutral-700' : 'bg-gray-100 text-gray-900'} h-full  p-4  ml-auto `}>
+                                    {/* // temp */}
+                                    <div className='mt-64'></div>
+                            {/* //temp */}
+
                         <div className=' w-full flex justify-end'>
+
                             <button onClick={()=>{
                                 setAddProduct(!isInAddProduct)
                                 // dispatch(openStat())
                                 dispatch(openProducts())
-                                }} className="flex bg-white bg-opacity-75 items-center py-1 rounded-md pl-2 pr-[4px] justify-between border border-gray-500">Add<MdAdd/></button>
+                                }} className="flex bg-white bg-opacity-75 items-center py-1 rounded-md pl-2 pr-[4px] justify-between border border-gray-500 hover:bg-indigo-500 hover:text-white">Add<MdAdd/></button>
                         </div>
                         <div class="overflow-x-auto w-full mx-auto   ">
                             <div class="inline-block min-w-full py-2  rounded-md ">
@@ -179,19 +205,19 @@ export default function Dashboard({ auth,products }) {
                                     </tr>
                                 </thead>
                                 <tbody>
-                                        {products.map((e,index)=>(
+                                        {productsList.map((e,index)=>(
                                             <tr
                                             class="border-b relative border-neutral-200  transition duration-300 ease-in-out hover:bg-neutral-100  ">
                                             <td class="whitespace-nowrap px-6 py-4 font-medium  max-w-[100px] duration-300 m-auto flex items-center jus absolute  hover:max-w-full bg-white h-full line-clamp-1">{e.slug}</td>
                                             <td class=" whitespace-nowrap px-6 py-4">{e.title}</td>
                                             <td class="whitespace-nowrap px-6 py-4">{e.quantity}</td>
-                                            <td class="whitespace-nowrap px-6 py-4">{formatDate(e.updated_at)}</td>
-                                            <td class="whitespace-nowrap px-6 py-4">{formatDate(e.created_at)}</td>
+                                            <td class="whitespace-nowrap px-6 py-4">{(e.updated_at)}</td>
+                                            <td class="whitespace-nowrap px-6 py-4">{(e.created_at)}</td>
                                             <td class="whitespace-nowrap px-6 py-4">{e.price}</td>
                                             <td class="whitespace-nowrap px-6 py-4"><Link href={'/products/'+e.slug} className='px-2 bg-gray-50 hover:bg-neutral-100 py-1 border-gray-500  rounded border'>Click here</Link></td>
                                             <td class="whitespace-nowrap px-6 py-4 flex items-center gap-2">
-                                                <button className='flex justify-between items-center gap-1 p-1 rounded bg-green-50 border border-green-500 text-green-500'><TbEdit className=''/>Edit</button>
-                                                <button className='flex justify-between items-center gap-1 p-1 rounded bg-red-50 border border-red-500 text-red-500'>Delete<RiDeleteBin6Line /></button>
+                                                <button className='flex justify-between items-center gap-1 p-1 rounded bg-green-50 border border-green-500 text-green-500 hover:bg-green-600 hover:text-black'><TbEdit className=''/>Edit</button>
+                                                <button onClick={()=>deleteProduct(e.slug)} className='flex justify-between items-center gap-1 p-1 rounded bg-red-50 border border-red-500 text-red-500 hover:bg-red-600 hover:text-black'>Delete<RiDeleteBin6Line /></button>
                                             </td>
                                             </tr>
                                         ))

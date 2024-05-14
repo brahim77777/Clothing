@@ -7,7 +7,24 @@ import { Category } from '@mui/icons-material'
 
 export default function ModalCat() {
   const [open, setOpen] = useState(false)
+  const [sending, setSending] = useState(false)
+  const [CategoryTitle, setCategoryTitle] = useState("")
 
+  function sleep(ms) {
+    return new Promise(resolve => setTimeout(resolve, ms));
+  }
+  function createCategory(){
+    setSending(true)
+    // sleep(5000)
+    // alert('done')
+    setOpen(false)
+    if(CategoryTitle)
+    axios.post('/categories/store', {title:CategoryTitle}).then((res)=>{
+        console.log("response from category Store :", res.data)
+        alert(res.data)
+    })
+
+  }
   const cancelButtonRef = useRef(null)
 
   return (
@@ -53,7 +70,7 @@ export default function ModalCat() {
                         Add new Category
                       </Dialog.Title>
                       <div className="mt-2">
-                      <input name='name' id="pn" className="p-2 border border-neutral-300 rounded w-full" type="text" placeholder="type category name"/>
+                      <input name='name' id="pn" className="p-2 border border-neutral-300 rounded w-full" onChange={(e)=>setCategoryTitle(e.target.value)} type="text" placeholder="type category name"/>
                       </div>
                     </div>
                   </div>
@@ -61,8 +78,8 @@ export default function ModalCat() {
                 <div className="bg-gray-50 px-4 py-3 sm:flex sm:flex-row-reverse sm:px-6">
                   <button
                     type="button"
-                    className="inline-flex w-full justify-center rounded-md bg-indigo-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-indigo-700 sm:ml-3 sm:w-auto"
-                    onClick={() => setOpen(false)}
+                    className={"inline-flex w-full justify-center rounded-md bg-indigo-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-indigo-700 sm:ml-3 sm:w-auto "+(sending??" opacity-50")}
+                    onClick={() => createCategory()}
                   >
                     Add
                   </button>

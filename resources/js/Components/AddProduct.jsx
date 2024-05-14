@@ -21,6 +21,7 @@ export default function AddProduct({isInAddProduct,setAddProduct}){
     const dispatch = useDispatch()
     const openProduct = useSelect(state=>state.openProductsState.value)
     const[selectedSizes,setSelectedSizes] = useState([])
+    const[categories, setCategories] = useState([])
     const [files, setFiles] = useState([]);
     const onDrop = useCallback((acceptedFiles) => {
         setFiles((prevFiles) => [
@@ -108,6 +109,9 @@ export default function AddProduct({isInAddProduct,setAddProduct}){
     const [isMediumScreen, setIsMediumScreen] = useState(false);
 
     useEffect(() => {
+        axios.get('/categories').then((res)=>{
+            setCategories(res.data)
+        })
       const checkScreenWidth = () => {
         setIsMediumScreen(window.innerWidth <= 768); // Assuming medium screen width is 768px or less
       };
@@ -145,11 +149,14 @@ export default function AddProduct({isInAddProduct,setAddProduct}){
                 <div className="grid grid-cols-3 max-md:grid-cols-2 gap-4 mb-4  flex-wrap ">
                         <div className="flex flex-col gap-2 ">
                             <label htmlFor="pn">Product Name</label>
-                            <input name='name' id="pn" className="p-2 border border-neutral-300 rounded" type="text" placeholder="type cloth name"/>
+                            <input required name='name' id="pn" className="p-2 border border-neutral-300 rounded" type="text" placeholder="type cloth name"/>
                         </div>
                         <div className="flex flex-col gap-2 ">
-                            <label>Category (ies)</label>
+                            <label>Categories</label>
                             <Dropdown Items={["Men","Women","Kids","Summer","weather"]}/>
+                            {/* <Dropdown Items={categories}/> */}
+
+
                         </div>
                         <div className="flex flex-col justify-end gap-2 w-fit text-nowrap mb-[2.5px]">
                             {/* <button className="p-2 border border-neutral-300 rounded gap-2 flex items-center justify-between">Create Category<TbCategoryPlus/></button> */}

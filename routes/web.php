@@ -4,6 +4,7 @@ use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\SearchController;
+use App\Http\Resources\ProductResource;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
@@ -159,11 +160,11 @@ Route::get('/', function () {
 
 Route::get('/dashboard', function () {
     // Fetch all products
-    $products = Product::all();
+    $products = Product::with(['category'])->paginate(10);
 
     // Pass the products data as a prop to the Inertia view
     return Inertia::render('Dashboard', [
-        'products' => $products,
+        'products' => ProductResource::collection($products),
     ]);
 })->middleware('auth')->name('dashboard');
 
@@ -171,10 +172,13 @@ Route::get("/products", [ProductController::class, 'index'])->name('products');
 Route::get('/products/{slug}', [ProductController::class, 'show'])->name('products.show');
 Route::get('/products/category/{category:title}', [CategoryController::class, 'show'])->name('category.products');
 Route::get("/trending", [ProductController::class, 'index'])->name('products');
-
+Route::delete('/products/{product:slug}', [ProductController::class, 'destroy'])->name('products.delete');
 
 // Search is in routes/api.php
-
+Route::get('/categories', [CategoryController::class, 'index'])->name('categories.index');
+Route::post('/categories/store', [CategoryController::class, 'store'])->name('categories.store');
+// Route::get('/categories/{category:title}', [CategoryController::class, 'show'])->name('categories.delete');
+Route::delete('/categories/{category:title}', [CategoryController::class, 'destroy'])->name('categories.delete');
 
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');

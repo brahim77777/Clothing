@@ -58,7 +58,7 @@ console.log("Current Path: ",currentPath)
   const dispatch = useDispatch()
   useEffect(()=>{
     (inputValue==="")&&dispatch(search(null))
-
+    if(inputValue)
         axios.get(`/api/search/${inputValue}`).then((res)=>{
             dispatch(search(res.data))
             console.log("this is axios", inputValue)
