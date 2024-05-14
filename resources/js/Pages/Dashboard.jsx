@@ -1,15 +1,15 @@
 import SideBar from '@/Components/SideBar';
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout';
-// import { EyeIcon } from '@heroicons/react/24/outline';
+import { EyeIcon } from '@heroicons/react/24/outline';
 import { Head } from '@inertiajs/react';
 import { ArrowDown, ArrowUp, ShoppingCart } from 'phosphor-react';
 // import LineChart from "@/Components/LineChart"
 import { useSelector,useDispatch } from 'react-redux';
 import AddProduct from '@/Components/AddProduct';
-// import { Shop2 } from '@mui/icons-material';
-// import { TbBrandProducthunt } from 'react-icons/tb';
-// import { HiOutlineShoppingBag } from "react-icons/hi2";
-// import { UsersIcon } from '@heroicons/react/24/outline';
+import { Shop2 } from '@mui/icons-material';
+import { TbBrandProducthunt } from 'react-icons/tb';
+import { HiOutlineShoppingBag } from "react-icons/hi2";
+import { UsersIcon } from '@heroicons/react/24/outline';
 
 import { useEffect,useState } from 'react';
 import {Link} from '@inertiajs/react';
@@ -173,36 +173,76 @@ export default function Dashboard({ auth, products }) {
                     </div>
                 </main>
         }
-        {((openProductsState))&&<div className={`${(sideOpen && !isMediumScreen) ? 'lg:w-[calc(100vw-18.5rem)] w-[calc(100vw-18.5rem)]' : 'w-full'} duration-300 ease-in-out min-h-screen ${toggleDarkMode ? 'bg-neutral-700' : 'bg-gray-100 text-gray-900'} h-full  p-4  ml-auto `}>
+        {((openProductsState))&&<div className={`${(sideOpen && !isMediumScreen) ? 'lg:w-[calc(100vw-18.5rem)] w-[calc(100vw-18.5rem)]' : 'w-full'} duration-300  ease-in-out min-h-screen ${toggleDarkMode ? 'bg-neutral-700' : 'bg-gray-100 text-gray-900'} h-full  p-4  ml-auto `}>
                                     {/* // temp */}
-                                    <div className='mt-64'></div>
+                                    {/* <div className='mt-64'></div> */}
                             {/* //temp */}
 
                         <div className=' w-full flex justify-end'>
 
                             <button onClick={()=>{
-<<<<<<< Updated upstream
-                                setAddProduct(!isInAddProduct)
-                                // dispatch(openStat())
-                                dispatch(openProducts())
-                                }} className="flex bg-white bg-opacity-75 items-center py-1 rounded-md pl-2 pr-[4px] justify-between border border-gray-500 hover:bg-indigo-500 hover:text-white">Add<MdAdd/></button>
-=======
                                 // dispatch(openStat(false))
                                 setAddProduct(true)
                                 dispatch(openProducts(false))
                                 }} className="flex bg-white bg-opacity-75 items-center py-1 rounded-md pl-2 pr-[4px] justify-between border border-gray-500">Add<MdAdd/></button>
->>>>>>> Stashed changes
                         </div>
                         <div class="overflow-x-auto w-full mx-auto   ">
-                        {/* <div className='card h-[10rem] bg-white p-6 relative '>
+                        <div className='cards overflow-x-auto grid grid-cols-3 min-w-[13rem] max-lg:flex  gap-6 mt-[2rem]  '>
+
+                            <div className='card h-[10rem] min-w-[15rem] bg-white p-6 relative '>
+                            <EyeIcon className='size-[3rem] p-3 rounded-full mb-2 bg-indigo-50 text-indigo-700'/>
+                            <div>
+                                <div className=' font-bold text-xl'>3.458k</div>
+                                <label className=' font-medium text-gray-600 text-sm'>Total view</label>
+                            </div>
+                            <div className=' text-green-500 right-0 bottom-0 absolute m-6 flex items-center gap-1'>0.43%<ArrowUp/></div>
+                        </div>
+
+
+                        <div className='card h-[10rem] min-w-[15rem] bg-white p-6 relative '>
                             <ShoppingCart className='size-[3rem] p-3 rounded-full mb-2 bg-indigo-50 text-indigo-700'/>
                             <div>
                                 <div className=' font-bold text-xl'>$45.23k</div>
                                 <label className=' font-medium text-gray-600 text-sm'>Total profit</label>
                             </div>
                             <div className=' text-green-500 right-0 bottom-0 absolute m-6 flex items-center gap-1'>4.35%<ArrowUp/></div>
-                        </div> */}
-                            <div class="inline-block min-w-full py-2  rounded-md ">
+                        </div>
+
+
+
+                        <div className='card h-[10rem] min-w-[15rem] bg-white p-6 relative  '>
+                            <div className='p-2 bg-indigo-50 size-12 rounded-full flex  items-center justify-center '>
+                                <HiOutlineShoppingBag className='size-[1.6rem]  text-indigo-700'/>
+                            </div>
+                            <div>
+                                <div className=' font-bold text-xl'>160</div>
+                                <label className=' font-medium text-gray-600 text-sm'>Total view</label>
+                            </div>
+                            <div className=' text-green-500 right-0 bottom-0 absolute m-6 flex items-center gap-1'>2.59%<ArrowUp/></div>
+                        </div>
+                        <div className='card h-[10rem] min-w-[15rem] bg-white p-6 relative  '>
+                            <div className='p-2 bg-indigo-50 size-12 rounded-full flex  items-center justify-center '>
+                                <HiOutlineShoppingBag className='size-[1.6rem]  text-indigo-700'/>
+                            </div>
+                            <div>
+                                <div className=' font-bold text-xl'>160</div>
+                                <label className=' font-medium text-gray-600 text-sm'>Total view</label>
+                            </div>
+                            <div className=' text-green-500 right-0 bottom-0 absolute m-6 flex items-center gap-1'>2.59%<ArrowUp/></div>
+                        </div>
+
+
+                            <div className='card h-[10rem] min-w-[15rem] bg-white p-6 relative '>
+                                <UsersIcon className='size-[3rem] p-3 rounded-full mb-2 bg-indigo-50 text-indigo-700'/>
+                                <div>
+                                    <div className=' font-bold text-xl'>3.456</div>
+                                    <label className=' font-medium text-gray-600 text-sm'>Total users</label>
+                                </div>
+                                <div className='text-blue-500 right-0 bottom-0 absolute m-6 flex items-center gap-1'>0.95%<ArrowDown/></div>
+                            </div>
+
+                        </div>
+                            <div class="inline-block min-w-full py-2  rounded-md mt-4 ">
                             <div class="overflow-hidden  ">
                                 <table
                                 class="min-w-full bg-white rounded-md  text-left text-sm font-light text-surface  ">
