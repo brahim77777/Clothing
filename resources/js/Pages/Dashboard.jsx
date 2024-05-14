@@ -72,9 +72,9 @@ const Dashboard = ({ auth, products }) => {
     console.log("From dashboard: ",products)
     console.log(products.data)
     const [productsList,setProductsList] = useState(products.data)
-    const openStat = useSelector((state) => state.openStatState.value)
+    const openStatState = useSelector((state) => state.openStatState.value)
     const openProductsState = useSelector((state) => state.openProductsState.value)
-    console.log(openStat)
+    console.log(openStatState)
     const toggleDarkMode = useSelector((state)=>state.changeTheme.value)
     const dispatch = useDispatch()
     const sideOpen = useSelector((state)=>state.sideBar.value)
@@ -127,7 +127,7 @@ const Dashboard = ({ auth, products }) => {
   const [sidebarOpen, setSidebarOpen] = useState(false)
 
   const navigation = [
-    { name: 'Dashboard', icon: HomeIcon, current: true, func: ()=>{
+    { name: 'Dashboard', icon: HomeIcon, current: openProductsState, func: ()=>{
       dispatch(openProducts(true))
       dispatch(openStat(false))
       setAddProduct(false)
@@ -135,7 +135,7 @@ const Dashboard = ({ auth, products }) => {
     { name: 'Categories', icon: TbCategory2, current: false },
     { name: 'Users', icon: UsersIcon, current: false },
     { name: 'Sales', icon: GiPriceTag, current: false },
-    { name: 'Statistiques', icon: ChartBarIcon, current: false, func :()=>{
+    { name: 'Statistiques', icon: ChartBarIcon, current: openStatState, func :()=>{
       dispatch(openStat(true));
       dispatch(openProducts(false));
       setAddProduct(false)
@@ -202,24 +202,20 @@ const Dashboard = ({ auth, products }) => {
                       </button>
                     </div>
                   </Transition.Child>
-                  <div className="flex flex-shrink-0 items-center px-4">
-                    <img
-                      className="h-8 w-auto"
-                      src={Logo}
-                      alt="Your Company"
-                    />
-                  </div>
-                  <div className="mt-5 h-0 flex-1 overflow-y-auto">
+                  <Link href='/' className="flex w-full  bg-gray-900 px-4 top-0 absolute text-white font-serif font-thin text-2xl h-16 flex-shrink-0 items-center ">
+                    <h1>BAZGUI</h1>
+                    </Link>
+                  <div className="mt-[5rem] h-0 flex-1 overflow-y-auto">
                     <nav className="space-y-1 px-2">
                       {navigation.map((item) => (
-                        <Link
+                        <div
                           key={item.name}
-                          href={item.href}
+                          onClick={item.func}
                           className={classNames(
                             item.current
                               ? 'bg-gray-900 text-white'
                               : 'text-gray-300 hover:bg-gray-700 hover:text-white',
-                            'group flex items-center px-2 py-2 text-base font-medium rounded-md'
+                            'group flex cursor-pointer items-center px-2 py-2 text-base font-medium rounded-md'
                           )}
                         >
                           <item.icon
@@ -230,7 +226,7 @@ const Dashboard = ({ auth, products }) => {
                             aria-hidden="true"
                           />
                           {item.name}
-                        </Link>
+                        </div>
                       ))}
                     </nav>
                   </div>
@@ -251,14 +247,14 @@ const Dashboard = ({ auth, products }) => {
              <h1>BAZGUI</h1>
             </Link>
             <div className="flex flex-1 flex-col overflow-y-auto">
-              <nav className="flex-1 space-y-1 px-2 py-4">
+              <nav className="flex-1 space-y-1 px-2 py-4 ">
                 {navigation.map((item) => (
-                  <button
+                  <div
                     key={item.name}
                     onClick={item.func}
                     className={classNames(
                       item.current ? 'bg-gray-900 text-white' : 'text-gray-300 hover:bg-gray-700 hover:text-white',
-                      'group flex items-center px-2 py-2 text-sm font-medium rounded-md'
+                      'group flex items-center cursor-pointer px-2 py-2 text-base font-medium rounded-md'
                     )}
                   >
                     <item.icon
@@ -269,7 +265,7 @@ const Dashboard = ({ auth, products }) => {
                       aria-hidden="true"
                     />
                     {item.name}
-                  </button>
+                  </div>
                 ))}
               </nav>
             </div>
@@ -374,7 +370,7 @@ const Dashboard = ({ auth, products }) => {
                     <div className=' '>
                         <WelcomeBanner />
                     </div>
-            {(openStat)&&
+            {(openStatState)&&
                     <main className={`${(sideOpen && !isMediumScreen) ? 'lg:w-[calc(100vw-18.5rem)] w-[calc(100vw-18.5rem)]' : 'w-full'} duration-300 ease-in-out min-h-screen ${toggleDarkMode ? 'bg-neutral-700' : 'bg-white'} h-full p-4 ml-auto `}>
                     {/* <div className=''>
                         <WelcomeBanner />
@@ -417,7 +413,7 @@ const Dashboard = ({ auth, products }) => {
                                 <thead
                                     class={`border-b   border-neutral-200 font-medium text-nowrap `}>
                                     <tr>
-                                    <th scope="col" class="px-6 py-4 pr-10">Slug</th>
+                                    <th scope="col" class="px-6 py-4 pr-10"></th>
                                     <th scope="col" class="px-6 py-4">Title</th>
                                     <th scope="col" class="px-6 py-4">Quantity</th>
                                     <th scope="col" class="px-6 py-4">Last Update</th>
@@ -431,7 +427,8 @@ const Dashboard = ({ auth, products }) => {
                                         {productsList.map((e,index)=>(
                                             <tr
                                             class="border-b relative border-neutral-200  transition duration-300 ease-in-out hover:bg-neutral-100  ">
-                                            <td class="whitespace-nowrap px-6 py-4 font-medium  max-w-[100px] duration-300 m-auto flex items-center jus absolute  hover:max-w-full bg-white h-full line-clamp-1">{e.slug}</td>
+                                            {/* <td class="whitespace-nowrap px-6 py-4 font-medium  max-w-[100px] duration-300 m-auto flex items-center jus absolute  hover:max-w-full bg-white h-full line-clamp-1">{e.slug}</td> */}
+                                            <td class="whitespace-nowrap px-6 py-4 ">{index+1}</td>
                                             <td class=" whitespace-nowrap px-6 py-4">{e.title}</td>
                                             <td class="whitespace-nowrap px-6 py-4">{e.quantity}</td>
                                             <td class="whitespace-nowrap px-6 py-4">{(e.updated_at)}</td>
