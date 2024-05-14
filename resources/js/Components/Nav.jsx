@@ -69,11 +69,11 @@ console.log("Current Path: ",currentPath)
   return (
 
 
-    <Disclosure as="nav" >
+    <Disclosure className={"nav"} as="nav" >
       {({ open }) => (
         <>
-        <Cart  isOpen={isOpen} setOpen={setOpen} />
-        <div className={`${toggleDarkMode ? `bg-[#121212]`:`bg-white`} fixed w-full top-0  border-b border-b-black z-50 backdrop-filter bg-opacity-75  backdrop-blur-lg `}>
+        <Cart   isOpen={isOpen} setOpen={setOpen} />
+        <div className={`${toggleDarkMode ? `bg-[#121212]`:`bg-white`} fixed w-full top-0  border-b border-b-black nav backdrop-filter bg-opacity-75  backdrop-blur-lg `}>
         <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 z-10  ">
           <div className="flex h-16 justify-between  ">
             <div className="flex justify-between items-center h-full w-full px-6 ">
