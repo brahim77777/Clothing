@@ -155,14 +155,10 @@ Route::get('/', function () {
 
 
 Route::get('/dashboard', function () {
-<<<<<<< Updated upstream
     // Fetch all products
     $products = Product::with(['category'])->paginate(10);
 
     // Pass the products data as a prop to the Inertia view
-=======
-    $products = Product::all();
->>>>>>> Stashed changes
     return Inertia::render('Dashboard', [
         'products' => ProductResource::collection($products),
     ]);
