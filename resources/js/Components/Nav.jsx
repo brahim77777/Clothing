@@ -69,17 +69,17 @@ console.log("Current Path: ",currentPath)
   return (
 
 
-    <Disclosure as="nav" >
+    <Disclosure className={"nav"} as="nav" >
       {({ open }) => (
         <>
-        <Cart  isOpen={isOpen} setOpen={setOpen} />
-        <div className={`${toggleDarkMode ? `bg-[#121212]`:`bg-white`} fixed w-full top-0  border-b border-b-black z-50 backdrop-filter bg-opacity-75  backdrop-blur-lg `}>
+        <Cart   isOpen={isOpen} setOpen={setOpen} />
+        <div className={`${toggleDarkMode ? `bg-[#121212]`:`bg-white`} fixed w-full top-0  border-b border-b-black nav backdrop-filter bg-opacity-75  backdrop-blur-lg `}>
         <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 z-10  ">
           <div className="flex h-16 justify-between  ">
             <div className="flex justify-between items-center h-full w-full px-6 ">
-            <button onClick={()=>{dispatch(setOpenSide(!sideOpen))}} className={`${sideOpen?` opacity-0 hidden`:` opacity-100 `} duration-500 z-50 fixed flex left-0 mx-2 p-2 hover:bg-gray-200 mt-[3.4px]  rounded cursor-pointer`}>
+            {/* <button onClick={()=>{dispatch(setOpenSide(!sideOpen))}} className={`${sideOpen?` opacity-0 hidden`:` opacity-100 `} duration-500 z-50 fixed flex left-0 mx-2 p-2 hover:bg-gray-200 mt-[3.4px]  rounded cursor-pointer`}>
                 <FaBarsStaggered/>
-            </button >
+            </button > */}
               <Link href="/" as="button" className={`flex font-roboto text-${color}  font-bold text-3xl flex-shrink-0 items-center `}>
                 <img  className='w-[8rem] object-cover h-12' src={Logo}/>
               </Link>
@@ -148,7 +148,7 @@ console.log("Current Path: ",currentPath)
           </div>
         </div>
         </div>
-        <div className={`${(open)?`top-[3.59rem]`:`top-[-15rem]`} transition-all z-40 duration-500 ease-in-out w-full lg:hidden fixed  bg-white border-b border-black`}>
+        <div className={`${(open)?`top-[3.59rem]`:`top-[-15rem]`} transition-all z-50 duration-500 ease-in-out w-full lg:hidden fixed  bg-white border-b border-black`}>
           <div className="space-y-1 pt-2 pb-3 ">
             {menu?.map((e,index)=>(
             <Link as="button"

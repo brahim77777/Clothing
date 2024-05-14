@@ -9,9 +9,8 @@ export default function Authenticated({ user, header, children }) {
     const [showingNavigationDropdown, setShowingNavigationDropdown] = useState(false);
 
     return (
-        <div className="min-h-screen bg-gray-100">
-            <nav className="bg-white border-b border-gray-100">
-
+        <div className="min-h-screen bg-white">
+            <nav className="bg-white">
                 <div className={(showingNavigationDropdown ? 'block' : 'hidden') + ' sm:hidden'}>
                     <div className="pt-2 pb-3 space-y-1">
                         <ResponsiveNavLink href={route('dashboard')} active={route().current('dashboard')}>
@@ -24,7 +23,7 @@ export default function Authenticated({ user, header, children }) {
                             <div className="font-medium text-base text-gray-800">{user.name}</div>
                             <div className="font-medium text-sm text-gray-500">{user.email}</div>
                         </div>
-
+                        
                         <div className="mt-3 space-y-1">
                             <ResponsiveNavLink href={route('profile.edit')}>Profile</ResponsiveNavLink>
                             <ResponsiveNavLink method="post" href={route('logout')} as="button">

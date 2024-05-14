@@ -202,7 +202,9 @@ Route::get('/Favorite', function () {
 })->middleware('auth')->name('Favorite');
 
 
-
+Route::get('tailwindui', function () {
+    return Inertia::render('with_inline_actions_and_expandable_sidebar_filters');
+});
 
 
 require __DIR__ . '/auth.php';

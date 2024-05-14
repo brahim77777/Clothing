@@ -5,6 +5,10 @@
 .sticky-filter-bar {
     position: -webkit-sticky;
   }
+
+  .nav{
+    z-index: 80;
+  }
 body {
     overflow-x: hidden;
   }
