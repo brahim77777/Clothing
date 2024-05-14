@@ -143,7 +143,7 @@ const Drag = () => {
                 }
             }}
             acceptedFileTypes={['image/*']}
-            maxFileSize="1MB"
+            maxFileSize="5MB"
             labelIdle='Drag & Drop your picture or <span class="filepond--label-action">Browse</span>'
             imageResizeTargetWidth={200}
             imageResizeTargetHeight={144}
@@ -155,7 +155,7 @@ const Drag = () => {
                 {progress.percentage}%
             </progress>
         )}
-        <button className='p-2 bg-[#1C2434] text-white rounded hover:bg-[#121925]' onClick={submit}>Submit</button>
+        {/* <button className='p-2 bg-[#1C2434] text-white rounded hover:bg-[#121925]' onClick={submit}>Submit</button> */}
         <div className='flex gap-6 flex-wrap mt-4' id='con'></div>
     </form>
 </div>

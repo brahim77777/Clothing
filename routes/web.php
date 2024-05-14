@@ -118,7 +118,7 @@ Route::post('/dashboard', function (Request $request) {
     // Validate the request data
     $request->validate([
         'avatars' => 'required|array', // Ensure 'avatars' is an array
-        'avatars.*' => 'required|file|image|max:1024', // Validate each file in the array
+        'avatars.*' => 'required|file|image|max:5120', // Validate each file in the array
     ]);
 
     foreach ($request->file('avatars') as $index => $avatar) {
