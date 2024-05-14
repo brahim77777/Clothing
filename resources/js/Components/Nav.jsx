@@ -77,9 +77,9 @@ console.log("Current Path: ",currentPath)
         <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 z-10  ">
           <div className="flex h-16 justify-between  ">
             <div className="flex justify-between items-center h-full w-full px-6 ">
-            <button onClick={()=>{dispatch(setOpenSide(!sideOpen))}} className={`${sideOpen?` opacity-0 hidden`:` opacity-100 `} duration-500 z-50 fixed flex left-0 mx-2 p-2 hover:bg-gray-200 mt-[3.4px]  rounded cursor-pointer`}>
+            {/* <button onClick={()=>{dispatch(setOpenSide(!sideOpen))}} className={`${sideOpen?` opacity-0 hidden`:` opacity-100 `} duration-500 z-50 fixed flex left-0 mx-2 p-2 hover:bg-gray-200 mt-[3.4px]  rounded cursor-pointer`}>
                 <FaBarsStaggered/>
-            </button >
+            </button > */}
               <Link href="/" as="button" className={`flex font-roboto text-${color}  font-bold text-3xl flex-shrink-0 items-center `}>
                 <img  className='w-[8rem] object-cover h-12' src={Logo}/>
               </Link>
