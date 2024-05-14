@@ -8,13 +8,17 @@ export const openProductsSlice = createSlice({
   name: 'openProductsState',
   initialState,
   reducers: {
-    openProducts: (state) => {
-      state.value = !state.value ;
+    openProducts: (state, action) => {
+        if (typeof action.payload === 'undefined') {
+          state.value = !state.value;
+        } else {
+          state.value = action.payload;
+        }
+      },
     },
-  },
-})
+  });
 
-// Action creators are generated for each case reducer function
+  
 export const { openProducts } = openProductsSlice.actions
 
 export default openProductsSlice.reducer

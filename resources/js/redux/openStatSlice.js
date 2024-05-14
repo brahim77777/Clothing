@@ -1,20 +1,23 @@
-import { createSlice } from '@reduxjs/toolkit'
+import { createSlice } from '@reduxjs/toolkit';
 
 const initialState = {
   value: false,
-}
+};
 
 export const openStatSlice = createSlice({
   name: 'openStatState',
   initialState,
   reducers: {
-    openStat: (state) => {
-      state.value = !state.value ;
+    openStat: (state, action) => {
+      if (typeof action.payload === 'undefined') {
+        state.value = !state.value;
+      } else {
+        state.value = action.payload;
+      }
     },
   },
-})
+});
 
-// Action creators are generated for each case reducer function
-export const { openStat } = openStatSlice.actions
+export const { openStat } = openStatSlice.actions;
 
-export default openStatSlice.reducer
+export default openStatSlice.reducer;

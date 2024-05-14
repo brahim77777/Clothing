@@ -32,7 +32,7 @@ import { setOpenSide } from "@/redux/sideBarSlice";
 import { Analytics, CategoryOutlined, ProductionQuantityLimitsSharp } from "@mui/icons-material";
 import { GiPriceTag } from "react-icons/gi";
 import { openProducts } from "@/redux/openProductsSlice";
-export default function SideBar() {
+export default function SideBar({setAddProduct}) {
   const [open, setOpen] = React.useState(0);
 //   const openStatState = useSelector((state) => state.openStatState.value)
   const dispatch = useDispatch()
@@ -65,7 +65,8 @@ export default function SideBar() {
         <ListItem
             onClick={()=>{
             dispatch(openProducts())
-            dispatch(openStat())
+            dispatch(openStat(false))
+            setAddProduct(false)
             }}>
           <ListItemPrefix>
             <AiFillProfile className="h-5 w-5" />
@@ -90,7 +91,9 @@ export default function SideBar() {
         </ListItem>
         <ListItem onClick={()=>{
             dispatch(openStat())
-            dispatch(openProducts())
+            dispatch(openProducts(false))
+            setAddProduct(false)
+
             }}>
           <ListItemPrefix>
             <Analytics  className="h-5 w-5" />
