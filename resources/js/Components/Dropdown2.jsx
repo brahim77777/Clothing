@@ -104,7 +104,7 @@ const [profileMenuItems, setProfileMenuItems] = useState([]);
         </button>
       </MenuHandler>
 
-      <MenuList className={`p-2 w-[12rem] gap-2 z-50 space-y-2 ${(toggleDarkMode) ? ` bg-zinc-900`:`bg-white`}`}>
+      <MenuList className={`p-2   gap-2 DropDown  ${(toggleDarkMode) ? ` bg-zinc-700 text-white`:`bg-white`}`}>
         {profileMenuItems.map(({ label, icon ,href, method,func }, key) => {
           const isLastItem = key === profileMenuItems.length - 1;
           return (
@@ -114,12 +114,12 @@ const [profileMenuItems, setProfileMenuItems] = useState([]);
               onClick={closeMenu}
               className={`flex items-center gap-2 rounded ${
                 isLastItem
-                  ? "hover:bg-red-500/10 focus:bg-red-500/10 active:bg-red-500/10"
-                  : ""
+                  ? "hover:bg-red-500/10 focus:bg-red-500/10 active:bg-red-500/10 "
+                  : " hover:bg-gray-100 "
               }`}
             >
               {React.createElement(icon, {
-                className: `size-5  ${isLastItem ? "text-red-500" : ""}`,
+                className: `size-5  ${isLastItem ? "text-red-500 " : ""}`,
                 strokeWidth: 2,
               })}
               <Typography

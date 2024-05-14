@@ -9,6 +9,9 @@
   .nav{
     z-index: 80;
   }
+  .DropDown{
+    z-index: 81;
+  }
 body {
     overflow-x: hidden;
   }
