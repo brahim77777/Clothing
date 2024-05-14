@@ -64,7 +64,7 @@ export default function SideBar({setAddProduct}) {
 
         <ListItem
             onClick={()=>{
-            dispatch(openProducts())
+            dispatch(openProducts(true))
             dispatch(openStat(false))
             setAddProduct(false)
             }}>
@@ -90,7 +90,7 @@ export default function SideBar({setAddProduct}) {
           Sales
         </ListItem>
         <ListItem onClick={()=>{
-            dispatch(openStat())
+            dispatch(openStat(true))
             dispatch(openProducts(false))
             setAddProduct(false)
 
