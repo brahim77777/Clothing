@@ -55,7 +55,7 @@ Route::get('/', function () {
 
 Route::get('/dashboard', function () {
     // Fetch all products
-    $products = Product::with(['category'])->paginate(10);
+    $products = Product::with(['category'])->SimplePaginate(10);
 
     // Pass the products data as a prop to the Inertia view
     return Inertia::render('Dashboard', [

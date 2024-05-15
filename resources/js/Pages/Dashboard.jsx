@@ -61,6 +61,7 @@ import {
 } from '@heroicons/react/24/outline'
 import { MagnifyingGlassIcon } from '@heroicons/react/20/solid'
 import { GiPriceTag } from 'react-icons/gi';
+import { Pagination } from '@mui/material';
 
 
 
@@ -452,6 +453,10 @@ const Dashboard = ({ auth, products }) => {
                                         }
                                 </tbody>
                                 </table>
+                                {/* { Object.entries(products.links).map((e)=>{return <h1>{e[0]}</h1>})} */}
+                                <Pagination links={Object.entries(products.links)}/>
+
+
                             </div>
                             </div>
                         </div>
