@@ -59,7 +59,6 @@ export default function AddProduct({isInAddProduct,setAddProduct,dataToUpdate}){
       }, []);
 
 
-    const { getRootProps, getInputProps } = useDropzone({ onDrop });
 
 
     const [state, setState] = useState({
@@ -168,8 +167,9 @@ export default function AddProduct({isInAddProduct,setAddProduct,dataToUpdate}){
 
     useEffect(() => {
         axios.get('/categories').then((res)=>{
-            setCategories(res.data)
-            console.log(res.data)
+            setCategories(res.data.categories || ["error"])
+            console.log("categ: ",res.data)
+
         })
       const checkScreenWidth = () => {
         setIsMediumScreen(window.innerWidth <= 768); // Assuming medium screen width is 768px or less
@@ -246,7 +246,8 @@ export default function AddProduct({isInAddProduct,setAddProduct,dataToUpdate}){
                         </div>
                         <div className="flex flex-col gap-2 ">
                             <label>Categories</label>
-                            <Dropdown Items={["Men","Women","Kids","Summer","weather"]}/>
+                            {console.log("categ:",categories)}
+                            <Dropdown Items={categories}/>
                             {/* <Dropdown Items={categories}/> */}
 
 
