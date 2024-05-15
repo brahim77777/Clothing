@@ -219,6 +219,16 @@ export default function AddProduct({isInAddProduct,setAddProduct,dataToUpdate}){
     };
 
     console.log("DTU",dataToUpdate)
+
+    const handleFileRemove = (file) => {
+        const index = srcList.findIndex(item => item.id === file.id);
+
+        if (index !== -1) {
+            srcList.splice(index, 1);
+            document.getElementById('con').children[index].remove();
+        }
+        console.log(srcList);
+    };
     return(
         <div className={`${(sideOpen && !isMediumScreen) ? 'lg:w-[calc(100vw-18.5rem)] w-[calc(100vw-18.5rem)]' : 'w-full'} duration-300 ease-in-out min-h-screen ${toggleDarkMode ? 'bg-neutral-700' : 'bg-neutral-100'} h-full p-4 ml-auto ${!isInAddProduct&&`hidden`}`}>
 
@@ -297,7 +307,7 @@ export default function AddProduct({isInAddProduct,setAddProduct,dataToUpdate}){
                     {colors.length!==0&&<div className='text-green-400 size-5'>{colors.length}</div>}
                     </div>
 
-                    <div className='flex gap-2 duration-300 w-full flex-wrap' >
+                    <div className='flex gap-2 duration-300 w-full z-10 flex-wrap' >
                         {color}
                        <div className='relative' >
                        <div className={`size-6 border cursor-pointer border-neutral-400 flex items-center  justify-center rounded bg-white`} onClick={handleClick}>
@@ -353,65 +363,66 @@ export default function AddProduct({isInAddProduct,setAddProduct,dataToUpdate}){
                     </div>
                 </div>
 
-                <fieldset className="flex flex-col gap-2 borderl px-2 rounded-md  border-[#1C2434]k ">
+                <fieldset className="flex flex-col gap-2 borderl px-2 rounded-md  border-[#1C2434]k  ">
                     <legend className='mb-2 borderl border-[#1C2434]k rounded-full px-2k pb-0.5' >Product Images </legend>
 {/*//////////////// Drag and Drop Part /////////////////////////////////////////////////*/}
                     <div>
-                            <FilePond
-                                files={data.avatars}
-                                allowMultiple={true}
-                                allowReorder
-                                allowImageEdit={true}
-                                onpreparefile={(file, output) => {
-                                    const img = document.createElement("img");
-                                    img.src = URL.createObjectURL(output);
-                                    img.className = "rounded-md ring shadow size-[8rem] object-cover hover:object-contain";
-                                    document.getElementById('con').appendChild(img);
+                    <FilePond
+                    files={data.avatars}
+                    allowMultiple={true}
+                    allowReorder
+                    allowImageEdit={true}
+                    onpreparefile={(file, output) => {
+                        const img = document.createElement("img");
+                        img.src = URL.createObjectURL(output);
+                        img.className = "rounded-md ring shadow size-[8rem] object-cover hover:object-contain";
+                        document.getElementById('con').appendChild(img);
 
-                                    const index = srcList.findIndex(item => item.id === file.id);
+                        const index = srcList.findIndex(item => item.id === file.id);
 
-                                    if (index !== -1) {
-                                        srcList.splice(index, 1);
-                                        document.getElementById('con').children[index].remove();
-                                    }
+                        if (index !== -1) {
+                            srcList.splice(index, 1);
+                            document.getElementById('con').children[index].remove();
+                        }
 
-                                    srcList.push({ src: img.src, id: file.id, time: Date.now() });
-                                    console.log(srcList);
-                                }}
-                                onupdatefiles={handleUpdateFiles}
-                                onprocessfile={handleFileProcess}
-                                server={{
-                                    url: '/dashboard',
-                                    process: {
-                                        method: 'POST',
-                                        withCredentials: true,
-                                        headers: {
-                                            'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
-                                        },
-                                        onload: (response) => {
-                                            if (Array.isArray(response)) {
-                                                setData('avatars', response);
-                                            } else {
-                                                console.error('Unexpected response format:', response);
-                                            }
-                                        }
-                                    }
-                                }}
-                                acceptedFileTypes={['image/*']}
-                                maxFileSize="5MB"
-                                labelIdle='Drag & Drop your picture or <span class="filepond--label-action">Browse</span>'
-                                imageResizeTargetWidth={200}
-                                imageResizeTargetHeight={144}
-                                imageResizeUpscale={false}
-                                imageResizeMode={"contain"}
-                            />
-                            {progress && (
-                                <progress className='rounded' value={progress.percentage} max="100">
-                                    {progress.percentage}%
-                                </progress>
-                            )}
-                            <div className='flex gap-6 flex-wrap mt-4' id='con'></div>
-                    </div>
+                        srcList.push({ src: img.src, id: file.id, time: Date.now() });
+                        console.log(srcList);
+                    }}
+                    onupdatefiles={handleUpdateFiles}
+                    onprocessfile={handleFileProcess}
+                    onremovefile={handleFileRemove}
+                    server={{
+                        url: '/dashboard',
+                        process: {
+                            method: 'POST',
+                            withCredentials: true,
+                            headers: {
+                                'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
+                            },
+                            onload: (response) => {
+                                if (Array.isArray(response)) {
+                                    setData('avatars', response);
+                                } else {
+                                    console.error('Unexpected response format:', response);
+                                }
+                            }
+                        }
+                    }}
+                    acceptedFileTypes={['image/*']}
+                    maxFileSize="5MB"
+                    beforeRemoveFile={handleFileRemove}
+                    labelIdle='Drag & Drop your picture or <span class="filepond--label-action">Browse</span>'
+                    imageResizeTargetWidth={200}
+                    imageResizeTargetHeight={144}
+                    imageResizeUpscale={false}
+                    imageResizeMode={"contain"}
+                />
+                {progress && (
+                    <progress className='rounded' value={progress.percentage} max="100">
+                        {progress.percentage}%
+                    </progress>
+                )}
+                <div className='flex gap-6 flex-wrap mt-4' id='con'></div>                    </div>
 {/*//////////////// Drag and Drop Part /////////////////////////////////////////////////*/}
 
                 </fieldset>
