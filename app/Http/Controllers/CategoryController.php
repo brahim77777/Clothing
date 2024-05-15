@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Resources\CategoryResource;
 use App\Http\Resources\ProductResource;
 use App\Models\Category;
 use App\Models\Product;
@@ -14,7 +15,8 @@ class CategoryController extends Controller
     //
     public function index()
     {
-        return Response::json(['categories' => Category::all()]);
+
+        return Response::json(['categories' => CategoryResource::collection(Category::simplePaginate(10))]);
     }
     public function show(Category $category)
     {
