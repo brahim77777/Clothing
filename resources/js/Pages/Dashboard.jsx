@@ -146,6 +146,8 @@ const Dashboard = ({ auth, products }) => {
     { name: 'Settings', href: '/' },
     { name: 'Sign out', href: '/' },
   ]
+
+  const [dataToUpdate,setdataToUpdate] = useState({})
   return (
     <>
       {/*
@@ -436,8 +438,13 @@ const Dashboard = ({ auth, products }) => {
                                             <td class="whitespace-nowrap px-6 py-4">{e.price}</td>
                                             <td class="whitespace-nowrap px-6 py-4"><Link href={'/products/'+e.slug} className='px-2 bg-gray-50 hover:bg-neutral-100 py-1 border-gray-500  rounded border'>Click here</Link></td>
                                             <td class="whitespace-nowrap px-6 py-4 flex items-center gap-2">
-                                                <button className='flex justify-between items-center gap-1 p-1 rounded bg-green-50 border border-green-500 text-green-500 hover:bg-green-600 hover:text-black'><TbEdit className=''/>Edit</button>
-                                                <button onClick={()=>deleteProduct(e.slug)} className='flex justify-between items-center gap-1 p-1 rounded bg-red-50 border border-red-500 text-red-500 hover:bg-red-600 hover:text-black'>Delete<RiDeleteBin6Line /></button>
+                                                <button onClick={()=>{
+                                                    setdataToUpdate(e)
+                                                    setAddProduct(true);
+                                                    dispatch(openStat(false));
+                                                    dispatch(openProducts(false));
+                                                    }} className='flex justify-between items-center gap-1 p-1 rounded bg-green-50 border border-green-500 text-green-500 hover:bg-green-200 hover:text-green-600'><TbEdit className=''/>Edit</button>
+                                                <button onClick={()=>deleteProduct(e.slug)} className='flex justify-between items-center gap-1 p-1 rounded bg-red-50 border border-red-500 text-red-500 hover:bg-red-200 hover:text-red-600'>Delete<RiDeleteBin6Line/></button>
                                             </td>
                                             </tr>
                                         ))
@@ -451,7 +458,7 @@ const Dashboard = ({ auth, products }) => {
                     </div>}
 
                     {
-                        ((isInAddProduct)&&<AddProduct setAddProduct={setAddProduct} isInAddProduct={isInAddProduct}/>)
+                        ((isInAddProduct)&&<AddProduct dataToUpdate={dataToUpdate} setAddProduct={setAddProduct} isInAddProduct={isInAddProduct}/>)
                     }
         </div>
         </AuthenticatedLayout>
