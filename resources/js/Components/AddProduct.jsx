@@ -45,7 +45,7 @@ export default function AddProduct({isInAddProduct,setAddProduct,dataToUpdate}){
     console.log("Letter: ",dataToUpdate?.sizes)
     const dispatch = useDispatch()
     const openProduct = useSelect(state=>state.openProductsState.value)
-    const[selectedSizes,setSelectedSizes] = useState(dataToUpdate?.sizes)
+    const[selectedSizes,setSelectedSizes] = useState(dataToUpdate?.sizes || [])
     const[categories, setCategories] = useState([])
     const [files, setFiles] = useState([]);
     const onDrop = useCallback((acceptedFiles) => {
@@ -153,8 +153,8 @@ export default function AddProduct({isInAddProduct,setAddProduct,dataToUpdate}){
             e.preventDefault()
             const size = e.currentTarget.value;
             setSelectedSizes((prevSizes) => {
-                if (prevSizes.includes(size)) {
-                    return prevSizes.filter((s) => s !== size);
+                if (prevSizes?.includes(size)) {
+                    return prevSizes?.filter((s) => s !== size);
                 } else {
                     return [...prevSizes, size];
                 }
