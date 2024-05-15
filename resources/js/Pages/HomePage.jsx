@@ -9,7 +9,7 @@ import { useDispatch,useSelector } from 'react-redux';
 import Footer from '../Components/Footer';
 import { ArrowUpIcon } from '@heroicons/react/24/outline';
 import Table from "../Components/Table"
-import Drag from "../Components/Drag"
+// import Drag from "../Components/Drag"
 import Carousel1 from '@/Components/Carousel2';
 import { More, MoreHoriz } from '@mui/icons-material';
 import { Disclosure } from '@headlessui/react'
