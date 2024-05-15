@@ -4,8 +4,12 @@ import { ExclamationTriangleIcon } from '@heroicons/react/24/outline'
 import { MdCreate } from 'react-icons/md'
 import { TbCategory2, TbCategoryPlus } from 'react-icons/tb'
 import { Category } from '@mui/icons-material'
+import { useDispatch } from 'react-redux'
+import { setRefreshCategories } from '@/redux/refreshCategoriesSlice'
+
 
 export default function ModalCat() {
+
   const [open, setOpen] = useState(false)
   const [sending, setSending] = useState(false)
   const [CategoryTitle, setCategoryTitle] = useState("")
@@ -13,6 +17,7 @@ export default function ModalCat() {
   function sleep(ms) {
     return new Promise(resolve => setTimeout(resolve, ms));
   }
+  const dispatch = useDispatch()
   function createCategory(){
     setSending(true)
     // sleep(5000)
@@ -21,7 +26,7 @@ export default function ModalCat() {
     if(CategoryTitle)
     axios.post('/categories/store', {title:CategoryTitle}).then((res)=>{
         console.log("response from category Store :", res.data)
-        alert(res.data)
+        dispatch(setRefreshCategories())
     })
 
   }

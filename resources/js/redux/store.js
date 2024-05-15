@@ -10,6 +10,7 @@ import authReducer from './authSlice'
 import refreshReducer from './refreshSlice'
 import openProductsReducer from './openProductsSlice'
 import searchReducer from './searchSlice'
+import refreshCategoriesReduer from './refreshCategoriesSlice'
 
 export const store = configureStore({
   reducer: {
@@ -23,7 +24,8 @@ export const store = configureStore({
     auth:authReducer,
     refresh:refreshReducer,
     openProductsState:openProductsReducer,
-    products:searchReducer
+    products:searchReducer,
+    refreshCategoriesState:refreshCategoriesReduer
 
   }
 })

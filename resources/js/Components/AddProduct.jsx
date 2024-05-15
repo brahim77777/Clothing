@@ -14,7 +14,6 @@ import Modal from './Modal';
 import ModalCat from "./ModalCat"
 import { useDispatch, useSelector } from 'react-redux';
 import { openProducts } from '@/redux/openProductsSlice';
-import { useSelect } from '@react-three/drei';
 
 //file pond imports
 
@@ -44,7 +43,6 @@ registerPlugin(
 export default function AddProduct({isInAddProduct,setAddProduct,dataToUpdate}){
     console.log("Letter: ",dataToUpdate?.sizes)
     const dispatch = useDispatch()
-    const openProduct = useSelect(state=>state.openProductsState.value)
     const[selectedSizes,setSelectedSizes] = useState(dataToUpdate?.sizes || [])
     const[categories, setCategories] = useState([])
     const [files, setFiles] = useState([]);
@@ -165,6 +163,8 @@ export default function AddProduct({isInAddProduct,setAddProduct,dataToUpdate}){
     const sideOpen = useSelector((state)=>state.sideBar.value)
     const [isMediumScreen, setIsMediumScreen] = useState(false);
 
+    const refreshCategoriesState = useSelector(state=>state.refreshCategoriesState.value)
+    console.log("RefreshCateg: ",refreshCategoriesState)
     useEffect(() => {
         axios.get('/categories').then((res)=>{
             setCategories(res.data.categories)
@@ -186,7 +186,7 @@ export default function AddProduct({isInAddProduct,setAddProduct,dataToUpdate}){
       return () => {
         window.removeEventListener('resize', handleResize);
       };
-    }, []);
+    }, [refreshCategoriesState]);
 
     //-----------------------Post Process-----------------------------------
 
