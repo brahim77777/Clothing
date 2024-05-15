@@ -281,13 +281,13 @@ export default function AddProduct({isInAddProduct,setAddProduct,dataToUpdate}){
                 <div className="flex flex-col gap-2 w-full mb-4">
                     <label htmlFor="sl">select size(s)</label>
                     <div className='flex gap-2'>
-                        <button onClick={(e) => { handleSizeSelection(e) }} value="XS" className={`${selectedSizes.includes("XS") ? `border-gray-800 text-black border-2`:`text-zinc-400 bg-gray-100 `}   p-1 border rounded min-w-8 text-center border-neutral-400`}>XS</button>
-                        <button onClick={(e) => { handleSizeSelection(e) }} value="S" className={`${selectedSizes.includes("S") ? `border-gray-800 text-black border-2`:`text-zinc-400 bg-gray-100 `}   p-1 border rounded min-w-8 text-center border-neutral-400`}>S</button>
-                        <button onClick={(e) => { handleSizeSelection(e) }} value="M" className={`${selectedSizes.includes("M") ? `border-gray-800 text-black border-2`:`text-zinc-400 bg-gray-100 `}   p-1 border rounded min-w-8 text-center border-neutral-400`}>M</button>
-                        <button onClick={(e) => { handleSizeSelection(e) }} value="L" className={`${selectedSizes.includes("L") ? `border-gray-800 text-black border-2`:`text-zinc-400 bg-gray-100 `}   p-1 border rounded min-w-8 text-center border-neutral-400`}>L</button>
-                        <button onClick={(e) => { handleSizeSelection(e) }} value="XL" className={`${selectedSizes.includes("XL") ? `border-gray-800 text-black border-2`:`text-zinc-400 bg-gray-100 `}   p-1 border rounded min-w-8 text-center border-neutral-400`}>XL</button>
-                        <button onClick={(e) => { handleSizeSelection(e) }} value="XXL" className={`${selectedSizes.includes("XXL") ? `border-gray-800 text-black border-2`:`text-zinc-400 bg-gray-100 `}   p-1 border rounded min-w-8 text-center border-neutral-400`}>XXL</button>
-                        <button onClick={(e) => { handleSizeSelection(e) }} value="XXXL" className={`${selectedSizes.includes("XXXL") ? `border-gray-800 text-black border-2`:`text-zinc-400 bg-gray-100 `}   p-1 border rounded min-w-8 text-center border-neutral-400`}>XXXL</button>
+                        <button onClick={(e) => { handleSizeSelection(e) }} value="XS" className={`${selectedSizes?.includes("XS") ? `border-gray-800 text-black border-2`:`text-zinc-400 bg-gray-100 `}   p-1 border rounded min-w-8 text-center border-neutral-400`}>XS</button>
+                        <button onClick={(e) => { handleSizeSelection(e) }} value="S" className={`${selectedSizes?.includes("S") ? `border-gray-800 text-black border-2`:`text-zinc-400 bg-gray-100 `}   p-1 border rounded min-w-8 text-center border-neutral-400`}>S</button>
+                        <button onClick={(e) => { handleSizeSelection(e) }} value="M" className={`${selectedSizes?.includes("M") ? `border-gray-800 text-black border-2`:`text-zinc-400 bg-gray-100 `}   p-1 border rounded min-w-8 text-center border-neutral-400`}>M</button>
+                        <button onClick={(e) => { handleSizeSelection(e) }} value="L" className={`${selectedSizes?.includes("L") ? `border-gray-800 text-black border-2`:`text-zinc-400 bg-gray-100 `}   p-1 border rounded min-w-8 text-center border-neutral-400`}>L</button>
+                        <button onClick={(e) => { handleSizeSelection(e) }} value="XL" className={`${selectedSizes?.includes("XL") ? `border-gray-800 text-black border-2`:`text-zinc-400 bg-gray-100 `}   p-1 border rounded min-w-8 text-center border-neutral-400`}>XL</button>
+                        <button onClick={(e) => { handleSizeSelection(e) }} value="XXL" className={`${selectedSizes?.includes("XXL") ? `border-gray-800 text-black border-2`:`text-zinc-400 bg-gray-100 `}   p-1 border rounded min-w-8 text-center border-neutral-400`}>XXL</button>
+                        <button onClick={(e) => { handleSizeSelection(e) }} value="XXXL" className={`${selectedSizes?.includes("XXXL") ? `border-gray-800 text-black border-2`:`text-zinc-400 bg-gray-100 `}   p-1 border rounded min-w-8 text-center border-neutral-400`}>XXXL</button>
                     </div>
 
                 </div>
