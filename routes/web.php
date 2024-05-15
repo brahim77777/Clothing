@@ -4,7 +4,9 @@ use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\SearchController;
+use App\Http\Controllers\UserController;
 use App\Http\Resources\ProductResource;
+use App\Models\Category;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
@@ -55,13 +57,18 @@ Route::get('/', function () {
 
 Route::get('/dashboard', function () {
     // Fetch all products
-    $products = Product::with(['category'])->SimplePaginate(10);
+    $products = Product::with(['category'])->simplePaginate(10);
 
     // Pass the products data as a prop to the Inertia view
     return Inertia::render('Dashboard', [
         'products' => ProductResource::collection($products),
     ]);
 })->middleware('auth')->name('dashboard');
+
+
+//Users
+Route::get('/users', [UserController::class, 'index'])->name('users.index');
+
 
 Route::get("/products", [ProductController::class, 'index'])->name('products');
 Route::get('/products/{slug}', [ProductController::class, 'show'])->name('products.show');
@@ -70,7 +77,9 @@ Route::get("/trending", [ProductController::class, 'index'])->name('products');
 Route::delete('/products/{product:slug}', [ProductController::class, 'destroy'])->name('products.delete');
 
 // Search is in routes/api.php
-Route::get('/categories', [CategoryController::class, 'index'])->name('categories.index');
+Route::get('/categories', function () {
+    return Response::json(['categories' => Category::simplePaginate(10)]);
+})->name('categories.index');
 Route::post('/categories/store', [CategoryController::class, 'store'])->name('categories.store');
 // Route::get('/categories/{category:title}', [CategoryController::class, 'show'])->name('categories.delete');
 Route::delete('/categories/{category:title}', [CategoryController::class, 'destroy'])->name('categories.delete');
