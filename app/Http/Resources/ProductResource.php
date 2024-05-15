@@ -23,7 +23,7 @@ class ProductResource extends JsonResource
             'slug' => $this->slug,
             'created_at' => $this->created_at->diffForHumans(),
             'updated_at' => $this->updated_at->diffForHumans(),
-
+            'description' => $this->description,
             'quantity' => $this->quantity,
             'colors' => $this->colors,
             'sizes' => $this->sizes,
