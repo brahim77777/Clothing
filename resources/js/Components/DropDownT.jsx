@@ -1,13 +1,14 @@
 import { Menu, Transition } from '@headlessui/react';
 import React, { useState, Fragment } from 'react';
+import { useEffect } from 'react';
 import { MdKeyboardArrowDown } from "react-icons/md";
 
 
 
 export default function DropDown({Items}) {
-    console.log("IT: ",Items)
-    const [selectedItem, setSelectedItem] = useState([Items[0]?.title]);
 
+    console.log("IT: ",Items)
+    const [selectedItem, setSelectedItem] = useState([]);
     function classNames(...classes) {
         return classes.filter(Boolean).join(' ');
     }
@@ -42,7 +43,8 @@ export default function DropDown({Items}) {
                     <Menu.Item key={index}>
                       {({ active }) => (
                                <button
-                               onClick={() => {
+                               onClick={(e) => {
+                                e.preventDefault()
                                 selectedItem.includes(item.title)
                                     ? setSelectedItem(selectedItem.filter(selectedItem => selectedItem !== item.title))
                                     : setSelectedItem([...selectedItem, item.title]);

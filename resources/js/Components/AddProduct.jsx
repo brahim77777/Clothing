@@ -45,7 +45,7 @@ export default function AddProduct({isInAddProduct,setAddProduct,dataToUpdate}){
     console.log("Letter: ",dataToUpdate?.sizes)
     const dispatch = useDispatch()
     const openProduct = useSelect(state=>state.openProductsState.value)
-    const[selectedSizes,setSelectedSizes] = useState([dataToUpdate?.sizes])
+    const[selectedSizes,setSelectedSizes] = useState(dataToUpdate?.sizes)
     const[categories, setCategories] = useState([])
     const [files, setFiles] = useState([]);
     const onDrop = useCallback((acceptedFiles) => {
@@ -167,10 +167,10 @@ export default function AddProduct({isInAddProduct,setAddProduct,dataToUpdate}){
 
     useEffect(() => {
         axios.get('/categories').then((res)=>{
-            setCategories(res.data.categories || ["error"])
-            console.log("categ: ",res.data)
+            setCategories(res.data.categories)
+            console.log("categ [0]: ",res.data.categories[0])
 
-        })
+        },[])
       const checkScreenWidth = () => {
         setIsMediumScreen(window.innerWidth <= 768); // Assuming medium screen width is 768px or less
       };
@@ -242,12 +242,12 @@ export default function AddProduct({isInAddProduct,setAddProduct,dataToUpdate}){
                 <div className="grid grid-cols-3 max-md:grid-cols-2 gap-4 mb-4  flex-wrap ">
                         <div className="flex flex-col gap-2 ">
                             <label htmlFor="pn">Product Name</label>
-                            <input required name='name' id="pn" value={dataToUpdate ? dataToUpdate.title:``} className="p-2 border  border-neutral-300 rounded" type="text" placeholder="type cloth name"/>
+                            <input required name='name' id="pn" defaultValue={dataToUpdate ? dataToUpdate.title:``} className="p-2 border  border-neutral-300 rounded" type="text" placeholder="type cloth name"/>
                         </div>
                         <div className="flex flex-col gap-2 ">
                             <label>Categories</label>
-                            {console.log("categ:",categories)}
-                            <Dropdown Items={categories}/>
+                            {console.log("categ [0]:",categories[0]?.title)}
+                            <Dropdown Items={categories} />
                             {/* <Dropdown Items={categories}/> */}
 
 
@@ -260,17 +260,17 @@ export default function AddProduct({isInAddProduct,setAddProduct,dataToUpdate}){
 
                 <div className="flex flex-col gap-2">
                         <label>Descreption</label>
-                        <textarea className="p-2 border  border-neutral-300 rounded"  name="description" id="" cols={30} rows={5}/>
+                        <textarea className="p-2 border  border-neutral-300 rounded" defaultValue={dataToUpdate ? dataToUpdate.description:``}  name="description" id="" cols={30} rows={5}/>
                 </div>
 
                 <div className="grid grid-cols-3 gap-2 mt-4 mb-4">
                     <div className="flex flex-col gap-2 ">
                         <label htmlFor="sl">Sale Price</label>
-                        <CurrencyInput id='sl' value={dataToUpdate ? dataToUpdate.price:``} placeholder='220DH' className="p-2 border border-neutral-300 rounded" suffix="DH"  />
+                        <CurrencyInput id='sl' defaultValue={dataToUpdate ? dataToUpdate.price:``} placeholder='220DH' className="p-2 border border-neutral-300 rounded" suffix="DH"  />
                     </div>
                     <div className="flex flex-col gap-2">
                         <label htmlFor="qn">Quantity </label>
-                        <input id='qn' type='number' value={dataToUpdate ? dataToUpdate.quantity:``} placeholder='20' className="p-2 border border-neutral-300 rounded"   />
+                        <input id='qn' type='number' defaultValue={dataToUpdate ? dataToUpdate.quantity:``} placeholder='20' className="p-2 border border-neutral-300 rounded"   />
                     </div>
                     <div className="flex flex-col gap-2">
                         <label htmlFor="dc">Discount</label>
