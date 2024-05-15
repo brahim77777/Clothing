@@ -31,9 +31,9 @@ Route::post('/dashboard', function (Request $request) {
 
     foreach ($request->file('avatars') as $index => $avatar) {
 
-            $filename = uniqid() . '_' . $index . '.' . $avatar->getClientOriginalExtension();
-            $path = $avatar->storeAs('public', $filename);
-            $filePaths[] = $path;
+        $filename = uniqid() . '_' . $index . '.' . $avatar->getClientOriginalExtension();
+        $path = $avatar->storeAs('public', $filename);
+        $filePaths[] = $path;
 
     }
 
@@ -48,7 +48,7 @@ Route::get('/', function () {
         'laravelVersion' => Application::VERSION,
         'phpVersion' => PHP_VERSION,
         'categories' => \App\Models\Category::all(),
-        'products' => \App\Models\Product::all(),
+        'products' => Product::all(),
     ]);
 })->name('homepage');
 
