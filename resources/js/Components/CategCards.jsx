@@ -1,6 +1,7 @@
 import { Delete } from '@mui/icons-material';
 import React from 'react'
 import { useState } from 'react';
+import { Link } from '@inertiajs/react';
 
 const CategCards = ({Categs}) => {
 
@@ -19,7 +20,10 @@ const CategCards = ({Categs}) => {
     <div className=' grid grid-cols-3 gap-4'>
        {
         Categs.map(e=>(
-            <div className='relative' onMouseEnter={() => onEnter(e.id)}
+            <Link
+            className='relative'
+            href={"/products/category/"+e.title}
+            onMouseEnter={() => onEnter(e.id)}
             onMouseLeave={() => onLeave(e.id)}>
                 <div
 
@@ -29,7 +33,7 @@ const CategCards = ({Categs}) => {
                     <span className=' font-serif  text-xl uppercase'>{e.title}</span>
                     <span className={` ${focus.state == true & focus.target == e.id &&` scale-125 rotate-12  ease-in-out `} ${focus.state == true & focus.target != e.id&&` blur-sm `} duration-300 font-bold opacity-10 rotate-6 top-0 right-0 -translate-y-16 absolute text-[11rem]`}>{e.id}</span>
                 </div>
-            </div>
+            </Link>
         ))
     }
     </div>
