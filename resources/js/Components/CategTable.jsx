@@ -4,6 +4,7 @@ import React, { useEffect, useState } from 'react';
 import { RiDeleteBin6Line } from 'react-icons/ri';
 import { TbEdit } from 'react-icons/tb';
 import ReactPaginate from 'react-paginate';
+import { TbBrandProducthunt, TbCategory2 } from 'react-icons/tb';
 
 const CategTable = () => {
     const [categories, setCategories] = useState([]);
@@ -33,6 +34,7 @@ const CategTable = () => {
         <div>
             <div className='my-2 overflow-hidden bg-gray-50 font-semibold relative flex font-Nunito justify-between p-4 border rounded-lg text-[1.5rem]'>
                 Categories List
+                <TbCategory2 className='absolute right-10 size-[8rem] opacity-15 -rotate-6 -translate-y-10' />
             </div>
             <div className="overflow-x-auto w-full mx-auto">
                 <div className="inline-block min-w-full py-2 rounded-md">
