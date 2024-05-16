@@ -83,6 +83,8 @@ Route::get('/dashboard', function () {
 //Users
 Route::get('/users', [UserController::class, 'index'])->name('users.index');
 
+Route::get('/categories', [CategoryController::class, 'index'])->name('categories.index');
+
 
 Route::get("/products", [ProductController::class, 'index'])->name('products');
 Route::get('/products/{slug}', [ProductController::class, 'show'])->name('products.show');
@@ -91,9 +93,7 @@ Route::get("/trending", [ProductController::class, 'index'])->name('products');
 Route::delete('/products/{product:slug}', [ProductController::class, 'destroy'])->name('products.delete');
 
 // Search is in routes/api.php
-Route::get('/categories', function () {
-    return Response::json(['categories' => Category::simplePaginate(10)]);
-})->name('categories.index');
+
 Route::post('/categories/store', [CategoryController::class, 'store'])->name('categories.store');
 // Route::get('/categories/{category:title}', [CategoryController::class, 'show'])->name('categories.delete');
 Route::delete('/categories/{category:title}', [CategoryController::class, 'destroy'])->name('categories.delete');

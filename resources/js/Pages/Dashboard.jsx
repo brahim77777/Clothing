@@ -64,6 +64,8 @@ import { GiPriceTag } from 'react-icons/gi';
 import { Pagination } from '@mui/material';
 import ReactPaginate from 'react-paginate';
 import { setPage } from '@/redux/pageSlice';
+import CategTable from '@/Components/CategTable';
+import UserTable from '@/Components/UserTable';
 
 
 
@@ -72,7 +74,7 @@ function classNames(...classes) {
 }
 
 const Dashboard = ({ auth ,pageCount ,products}) => {
-    // const { products } = usePage().props; // Access paginated data from Laravel
+    // const { products } = usePage().props;
 
     // const [page, setPage] = useState(0);
 
@@ -151,6 +153,8 @@ const Dashboard = ({ auth ,pageCount ,products}) => {
 
     // //////////////////////////////////
 
+    const [isInCategTable,setisInCategTable] = useState(false)
+    const [isInUsersTable,setisInUsersTable] = useState(false)
 
   const [sidebarOpen, setSidebarOpen] = useState(false)
 
@@ -159,14 +163,31 @@ const Dashboard = ({ auth ,pageCount ,products}) => {
       dispatch(openProducts(true))
       dispatch(openStat(false))
       setAddProduct(false)
+      setisInCategTable(false)
+      setisInUsersTable(false)
       }},
-    { name: 'Categories', icon: TbCategory2, current: false },
-    { name: 'Users', icon: UsersIcon, current: false },
+    { name: 'Categories', icon: TbCategory2, current: isInCategTable , func:()=>{
+      setisInCategTable(true)
+      dispatch(openStat(false));
+      dispatch(openProducts(false));
+      setAddProduct(false)
+      setisInUsersTable(false)
+    } },
+    { name: 'Users', icon: UsersIcon, current: isInUsersTable ,func:()=>{
+      setisInUsersTable(true)
+      setisInCategTable(false)
+      dispatch(openStat(false));
+      dispatch(openProducts(false));
+      setAddProduct(false)
+    } },
     { name: 'Sales', icon: GiPriceTag, current: false },
     { name: 'Statistiques', icon: ChartBarIcon, current: openStatState, func :()=>{
       dispatch(openStat(true));
       dispatch(openProducts(false));
       setAddProduct(false)
+      setisInCategTable(false)
+      setisInUsersTable(false)
+
       }}
   ]
   const userNavigation = [
@@ -501,6 +522,13 @@ const Dashboard = ({ auth ,pageCount ,products}) => {
 
                     {
                         ((isInAddProduct)&&<AddProduct dataToUpdate={dataToUpdate} setAddProduct={setAddProduct} isInAddProduct={isInAddProduct}/>)
+                    }
+
+                    {
+                      (isInCategTable)&&<CategTable/>
+                    }
+                    {
+                      (isInUsersTable)&&<UserTable/>
                     }
         </div>
         </AuthenticatedLayout>

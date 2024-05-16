@@ -14,10 +14,19 @@ class CategoryController extends Controller
 {
     //
     public function index()
-    {
+{
+    $categories = Category::paginate(10);
+    return Response::json([
+        'categories' => $categories->items(),
+        'total' => $categories->total(),
+        'per_page' => $categories->perPage(),
+        'current_page' => $categories->currentPage(),
+        'last_page' => $categories->lastPage(),
+        'next_page_url' => $categories->nextPageUrl(),
+        'prev_page_url' => $categories->previousPageUrl()
+    ]);
+}
 
-        return Response::json(['categories' => CategoryResource::collection(Category::simplePaginate(10))]);
-    }
     public function show(Category $category)
     {
         $products = $category->products()->with("category")->get();
