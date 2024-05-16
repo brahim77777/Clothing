@@ -11,6 +11,7 @@ import refreshReducer from './refreshSlice'
 import openProductsReducer from './openProductsSlice'
 import searchReducer from './searchSlice'
 import refreshCategoriesReduer from './refreshCategoriesSlice'
+import pageReducer from './pageSlice'
 
 export const store = configureStore({
   reducer: {
@@ -25,7 +26,8 @@ export const store = configureStore({
     refresh:refreshReducer,
     openProductsState:openProductsReducer,
     products:searchReducer,
-    refreshCategoriesState:refreshCategoriesReduer
+    refreshCategoriesState:refreshCategoriesReduer,
+    page:pageReducer,
 
   }
 })

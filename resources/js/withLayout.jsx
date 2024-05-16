@@ -9,11 +9,12 @@ const withLayout = (WrappedComponent) => {
 
     return (
       <>
-        {url !== '/dashboard' && <div className="mb-[4rem]"><Nav /></div>}
+
+        {(url.split("/dashboard")[0].length == url.length ) && <div className="mb-[4rem]"><Nav /></div>}
         <div>
           <WrappedComponent {...props} />
         </div>
-        {url !== '/dashboard' && <div className="mb-[4rem]"> <Footer /></div>}
+        {(url.split("/dashboard")[0].length == url.length ) && <div className="mb-[4rem]"> <Footer /></div>}
 
 
       </>

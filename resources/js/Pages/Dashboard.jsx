@@ -37,7 +37,7 @@ import { openProducts } from '@/redux/openProductsSlice';
 import { MdAdd, MdDelete } from 'react-icons/md';
 // import Banner from '../partials/Banner';
 import { openStat } from '@/redux/openStatSlice';
-
+import {usePage,router} from '@inertiajs/react';
 import { RiDeleteBin6Line } from "react-icons/ri";
 import { TbEdit } from 'react-icons/tb';
 import { FcAddRow, FcSalesPerformance } from 'react-icons/fc';
@@ -62,6 +62,8 @@ import {
 import { MagnifyingGlassIcon } from '@heroicons/react/20/solid'
 import { GiPriceTag } from 'react-icons/gi';
 import { Pagination } from '@mui/material';
+import ReactPaginate from 'react-paginate';
+import { setPage } from '@/redux/pageSlice';
 
 
 
@@ -69,7 +71,32 @@ function classNames(...classes) {
   return classes.filter(Boolean).join(' ')
 }
 
-const Dashboard = ({ auth, products }) => {
+const Dashboard = ({ auth ,pageCount ,products}) => {
+    // const { products } = usePage().props; // Access paginated data from Laravel
+
+    // const [page, setPage] = useState(0);
+
+    const page = useSelector(state=>state.page.value)
+
+    const [mainUrl, setmainUrl] = useState('');
+    const url = window.location.pathname;
+
+    useEffect(()=>{
+        setmainUrl(url)
+    },[])
+
+    const handlePageChange = (selectedPage) => {
+
+        let nextPageUrl = ``
+        nextPageUrl = `${mainUrl}?page=${selectedPage.selected + 1}`;
+        dispatch(setPage(selectedPage.selected));
+        router.visit(nextPageUrl);
+        selectedPage.preventDefault();
+
+    }
+
+
+
     console.log("From dashboard: ",products)
     console.log(products.data)
     const [productsList,setProductsList] = useState(products.data)
@@ -445,7 +472,7 @@ const Dashboard = ({ auth, products }) => {
                                                     dispatch(openStat(false));
                                                     dispatch(openProducts(false));
                                                     }} className='flex justify-between items-center gap-1 p-1 rounded bg-green-50 border border-green-500 text-green-500 hover:bg-green-200 hover:text-green-600'><TbEdit className=''/>Edit</button>
-                                                <button onClick={()=>deleteProduct(e.slug)} className='flex justify-between items-center gap-1 p-1 rounded bg-red-50 border border-red-500 text-red-500 hover:bg-red-200 hover:text-red-600'>Delete<RiDeleteBin6Line/></button>
+                                                <button onClick={()=>deleteProduct(e.slug)} className='flex  justify-between items-center gap-1 p-1 rounded bg-red-50 border border-red-500 text-red-500 hover:bg-red-200 hover:text-red-600'>Delete<RiDeleteBin6Line/></button>
                                             </td>
                                             </tr>
                                         ))
@@ -454,8 +481,18 @@ const Dashboard = ({ auth, products }) => {
                                 </tbody>
                                 </table>
                                 {/* { Object.entries(products.links).map((e)=>{return <h1>{e[0]}</h1>})} */}
-                                <Pagination links={Object.entries(products.links)}/>
-
+                                {/* <Pagination links={Object.entries(products.links)}/> */}
+                                <ReactPaginate
+                                    pageCount={pageCount}
+                                    onPageChange={handlePageChange}
+                                    forcePage={page}
+                                    containerClassName="flex items-center justify-start space-x-2 mt-4"
+                                    pageClassName="bg-white border border-gray-300 text-gray-700 hover:bg-gray-100 rounded-md px-4 py-2"
+                                    activeClassName="bg-blue-500 text-white hover:text-black hover:bg-blue-200"
+                                    previousClassName="bg-white border border-gray-300 text-gray-700 hover:bg-gray-100 rounded-md px-4 py-2"
+                                    nextClassName="bg-white border border-gray-300 text-gray-700 hover:bg-gray-100 rounded-md px-4 py-2"
+                                    breakClassName="bg-white border border-gray-300 text-gray-700 rounded-md px-4 py-2"
+                                />
 
                             </div>
                             </div>

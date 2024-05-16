@@ -55,13 +55,27 @@ Route::get('/', function () {
 })->name('homepage');
 
 
+// Route::get('/dashboard', function () {
+//     // Fetch all products
+//     $products = Product::with(['category'])->simplePaginate(10);
+
+//     // Pass the products data as a prop to the Inertia view
+//     return Inertia::render('Dashboard', [
+//         'products' => ProductResource::collection($products),
+//     ]);
+// })->middleware('auth')->name('dashboard');
+
 Route::get('/dashboard', function () {
     // Fetch all products
-    $products = Product::with(['category'])->simplePaginate(10);
+    $products = Product::with(['category'])->paginate(10);
 
-    // Pass the products data as a prop to the Inertia view
+    // Calculate the page count
+    $pageCount = ceil($products->total() / $products->perPage());
+
+    // Pass the products data and page count as props to the Inertia view
     return Inertia::render('Dashboard', [
         'products' => ProductResource::collection($products),
+        'pageCount' => $pageCount,
     ]);
 })->middleware('auth')->name('dashboard');
 
