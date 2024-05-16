@@ -16,12 +16,12 @@ const CategCards = ({Categs}) => {
         setFocus({state : false, target : -1});
     };
   return (
-    <div className='mx-4'>
+    <div className='mx-6'>
     <div className=' grid grid-cols-3 gap-4'>
        {
         Categs.map(e=>(
             <Link
-            className='relative'
+            className='relative drop-shadow'
             href={"/products/category/"+e.title}
             onMouseEnter={() => onEnter(e.id)}
             onMouseLeave={() => onLeave(e.id)}>
