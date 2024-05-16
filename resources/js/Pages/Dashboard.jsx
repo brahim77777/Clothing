@@ -64,7 +64,6 @@ import { GiPriceTag } from 'react-icons/gi';
 import { Pagination } from '@mui/material';
 import ReactPaginate from 'react-paginate';
 import { setPage } from '@/redux/pageSlice';
-import CategCards from '@/Components/CategCards';
 import CategTable from '@/Components/CategTable';
 import UserTable from '@/Components/UserTable';
 

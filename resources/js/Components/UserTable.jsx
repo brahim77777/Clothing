@@ -6,6 +6,7 @@ import React, { useEffect, useState } from 'react';
 import { RiDeleteBin6Line } from 'react-icons/ri';
 import { TbEdit } from 'react-icons/tb';
 import ReactPaginate from 'react-paginate';
+import { HiUsers } from "react-icons/hi2";
 
 const UserTable = () => {
     const [users, setUsers] = useState([]);
@@ -36,7 +37,7 @@ const UserTable = () => {
         <div>
             <div className='my-2 overflow-hidden bg-gray-50 font-semibold relative flex font-Nunito justify-between p-4 border rounded-lg text-[1.5rem]'>
                 Users List
-                <Users className='absolute right-10 size-[8rem] opacity-15 -rotate-6 -translate-y-10' />
+                <HiUsers className='absolute right-0 size-[9rem] opacity-10 -rotate-12 -translate-y-10' />
             </div>
             <div className="overflow-x-auto w-full mx-auto">
                 <div className="inline-block min-w-full py-2 rounded-md">

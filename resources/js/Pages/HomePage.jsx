@@ -15,6 +15,7 @@ import { More, MoreHoriz } from '@mui/icons-material';
 import { Disclosure } from '@headlessui/react'
 import { CiCircleMore } from "react-icons/ci";
 import { setRefresh } from '@/redux/refreshSlice';
+import CategCards from '@/Components/CategCards';
 
 function App({categories, products}) {
 
@@ -41,28 +42,22 @@ function App({categories, products}) {
   function HomePage(){
     return(
       <div className=''>
-        <Hero/>
-
-        <Disclosure as="nav" className={`sticky-filter-bar sm:text-lg text-sm bg-black sticky top-[60px] flex items-baseline transition-all duration-300   backdrop-filter bg-opacity-85 ${isExpanded ?`h-full`:`max-sm:h-[2.6rem] h-12`}   overflow-hidden  backdrop-blur-lg  z-30  text-white flex  justify-between underline gap-4 px-6 py-2  w-full border-b-[3px] border-y-white  `}>
-          <div className=' flex flex-nowrap gap-6 under justify-between w-full'>
-            <div className='sm:gap-1 gap-2 grid grid-cols-9 max-lg:grid-cols-6 max-md:grid-cols-5 max-sm:grid-cols-3 max-w-[80%] '>
-
-                {categories.map((category) => (
-                    <Link className="flex items-center gap-1 font-semibold min-w-fit" key={category.id} href={"/products/category/"+category.title}>{category.title} <ArrowRightIcon className=" size-5 "/></Link>
-                ))
-                }
-            </div>
-            <button className='self-baseline' onClick={toggleExpand}><MoreHoriz className='border rounded-full'/></button>
-            <div className='w-fit'>
-                <Link className="flex items-center gap-1 font-semibold text-nowrap " href="/products">VIEW ALL <ArrowRightIcon className=" size-5 "/></Link>
-            </div>
-            </div>
-
-        </Disclosure>
-        <div>
-        {/* <div className='m-auto mx-[3rem] mt-[3rem] gap-6 grid xl:grid-cols-4 2xl:grid-cols-5 max-xl:grid-cols-3 max-md:grid-cols-2 max-sm:grid-cols-1' style={{ placeItems: 'center' }}> */}
-                  <Carousel1 isHome={true} Data={products}/>
+        <div className='bg-orange-50 pb-2'>
+            <Hero/>
         </div>
+        <div className='mt-6 mb-8 mx-6'>
+            <h3 className='text-4xl font-semibold'>The best and newest</h3>
+        </div>
+        <div>
+
+            <Carousel1 isHome={true} Data={products}/>
+        </div>
+
+        <div>
+            <h3 className='text-4xl font-semibold mt-6 mb-8 mx-6'>All categories</h3>
+            <CategCards Categs={categories}/>
+        </div>
+
       </div>
     )
   }

@@ -42,7 +42,7 @@ const CategTable = () => {
                         <table className="min-w-full bg-white rounded-md text-left text-sm font-light text-surface">
                             <thead className="border-b border-neutral-200 font-medium text-nowrap">
                                 <tr>
-                                    <th scope="col" className="px-6 py-4 pr-10"></th>
+                                    <th scope="col" className="px-6 py-4 pr-10">ID</th>
                                     <th scope="col" className="px-6 py-4">Title</th>
                                     <th scope="col" className="px-6 py-4">Created At</th>
                                     <th scope="col" className="px-6 py-4">Last Update</th>
@@ -52,7 +52,7 @@ const CategTable = () => {
                             <tbody>
                                 {categories.map((e, index) => (
                                     <tr key={index} className="border-b relative border-neutral-200 transition duration-300 ease-in-out hover:bg-neutral-100">
-                                        <td className="whitespace-nowrap px-6 py-4">{index + 1}</td>
+                                        <td className="whitespace-nowrap px-6 py-4">{e.id}</td>
                                         <td className="whitespace-nowrap px-6 py-4">{e.title}</td>
                                         <td className="whitespace-nowrap px-6 py-4">{e.created_at}</td>
                                         <td className="whitespace-nowrap px-6 py-4">{e.updated_at}</td>
