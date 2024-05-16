@@ -487,8 +487,8 @@ const Dashboard = ({ auth ,pageCount ,products}) => {
                                     onPageChange={handlePageChange}
                                     forcePage={page}
                                     containerClassName="flex items-center justify-start space-x-2 mt-4"
-                                    pageClassName="bg-white border border-gray-300 text-gray-700 hover:bg-gray-100 rounded-md px-4 py-2"
-                                    activeClassName="bg-blue-500 text-white hover:text-black hover:bg-blue-200"
+                                    pageClassName=" border border-gray-300 text-gray-700 hover:bg-gray-100 rounded-md px-4 py-2"
+                                    activeClassName=" bg-blue-500 text-white  hover:text-black hover:bg-blue-200"
                                     previousClassName="bg-white border border-gray-300 text-gray-700 hover:bg-gray-100 rounded-md px-4 py-2"
                                     nextClassName="bg-white border border-gray-300 text-gray-700 hover:bg-gray-100 rounded-md px-4 py-2"
                                     breakClassName="bg-white border border-gray-300 text-gray-700 rounded-md px-4 py-2"
