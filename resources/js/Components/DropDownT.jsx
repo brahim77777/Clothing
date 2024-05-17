@@ -6,8 +6,10 @@ import { MdKeyboardArrowDown } from "react-icons/md";
 
 
 export default function DropDown({Items}) {
+    useEffect(()=>{
 
-    console.log("IT: ",Items)
+        console.log("IT: ",Items)
+    },[Items])
     const [selectedItem, setSelectedItem] = useState([]);
     function classNames(...classes) {
         return classes.filter(Boolean).join(' ');
@@ -18,6 +20,7 @@ export default function DropDown({Items}) {
         <div className=' '>
         <Menu.Button className={"flex items-center justify-between px-2 border   rounded w-full  border-zinc-300 p-1  space-x-8 h-10  "} >
         <div className="[word-spacing:5px] line-clamp-1 text-left">
+            
             {selectedItem.map(e => (
                 <span key={e} className="bg-neutral-200 p-1 text-neutral-600 rounded-lg mx-1">{e}</span>
             ))}
@@ -39,7 +42,7 @@ export default function DropDown({Items}) {
         >
           <Menu.Items className="absolute  z-10 mt-2 w-48 origin-top-right rounded-md bg-white py-1 shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none">
             {console.log("selectedItem: ", Items)}{console.log(Items)}
-                  {Items.data?.map((item,index)=>(
+                  {Items?.map((item,index)=>(
                     <Menu.Item key={index}>
                       {({ active }) => (
                                <button

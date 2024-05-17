@@ -41,7 +41,6 @@ registerPlugin(
     FilePondPluginFileValidateType
 );
 export default function AddProduct({isInAddProduct,setAddProduct,dataToUpdate}){
-    console.log("Letter: ",dataToUpdate?.sizes)
     const dispatch = useDispatch()
     const[selectedSizes,setSelectedSizes] = useState(dataToUpdate?.sizes || [])
     const[categories, setCategories] = useState([])
