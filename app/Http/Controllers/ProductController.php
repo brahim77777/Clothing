@@ -49,7 +49,7 @@ class ProductController extends Controller
 {
     public function index()
     {
-        $products = Product::orderBy("rating", "desc")->with("category")->paginate(10); // Use pagination for API
+        $products = Product::orderBy("rating", "desc")->with("category")->paginate(20); // Use pagination for API
         return response()->json([
             'products' => ProductResource::collection($products),
             'last_page' => $products->lastPage(),
