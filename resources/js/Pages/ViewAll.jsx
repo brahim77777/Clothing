@@ -17,11 +17,10 @@ export default function ViewAll() {
     }, [currentPage]);
 
     const fetchProducts = (page = 1) => {
-        axios.get(`/products?page=${page}`).then((res) => {
+        axios.get(`/api/products?page=${page}`).then((res) => {
             setProductsData(res.data.products);
             setPageCount(res.data.last_page);
             setCurrentPage(res.data.current_page);
-            console.log("helloo products data: ",res.data)
         }).catch((error) => {
             console.error("Error fetching products:", error);
         });
@@ -54,7 +53,7 @@ export default function ViewAll() {
                     </div>
                 </div>
                 <div className='m-auto mt-[3rem] gap-6 grid grid-cols-5 max-xl:grid-cols-4 max-lg:grid-cols-3 max-md:grid-cols-2 max-sm:grid-cols-1' style={{ placeItems: 'center' }}>
-                    {productsData?.map((e, index) => (
+                    {productsData.map((e, index) => (
                         <Card
                             slug={e.slug}
                             title={e.title}
@@ -68,7 +67,7 @@ export default function ViewAll() {
                 <ReactPaginate
                     pageCount={pageCount}
                     onPageChange={handlePageClick}
-                    forcePage={currentPage - 1} // ReactPaginate uses 0-indexed pages
+                    forcePage={currentPage - 1}
                     containerClassName="flex items-center justify-start space-x-2 mt-4"
                     pageClassName="border border-gray-300 text-gray-700 hover:bg-gray-100 rounded-md px-4 py-2"
                     activeClassName="bg-blue-500 text-white hover:text-black hover:bg-blue-200"

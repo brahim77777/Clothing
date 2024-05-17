@@ -86,13 +86,19 @@ Route::get('/users', [UserController::class, 'index'])->name('users.index');
 Route::get('/categories', [CategoryController::class, 'index'])->name('categories.index');
 
 
-Route::get("/products", [ProductController::class, 'index'])->name('products');
-Route::get('/products/{slug}', [ProductController::class, 'show'])->name('products.show');
-Route::get('/products/category/{category:title}', [CategoryController::class, 'show'])->name('category.products');
-Route::get("/trending", [ProductController::class, 'index'])->name('products');
-Route::delete('/products/{product:slug}', [ProductController::class, 'destroy'])->name('products.delete');
+// Route::get("/products", [ProductController::class, 'index'])->name('products');
+// Route::get('/products/{slug}', [ProductController::class, 'show'])->name('products.show');
+// Route::get('/products/category/{category:title}', [CategoryController::class, 'show'])->name('category.products');
+// Route::get("/trending", [ProductController::class, 'index'])->name('products');
+// Route::delete('/products/{product:slug}', [ProductController::class, 'destroy'])->name('products.delete');
 
-// Search is in routes/api.php
+Route::middleware(['auth'])->group(function () {
+    Route::get('/products/{slug}', [ProductController::class, 'show'])->name('products.show');
+    Route::get('/products/category/{category:title}', [CategoryController::class, 'show'])->name('category.products');
+    Route::get('/view-all', function () {
+        return Inertia::render("ViewAll");
+    })->name('ViewAll');
+});
 
 Route::post('/categories/store', [CategoryController::class, 'store'])->name('categories.store');
 // Route::get('/categories/{category:title}', [CategoryController::class, 'show'])->name('categories.delete');
@@ -112,7 +118,9 @@ Route::get('/products', function () {
 //     return Inertia::render("ProductDetails");
 // })->middleware('auth')->name('ProductDetails');
 
-
+Route::get('/ViewAll', function () {
+    return Inertia::render("ViewAll");
+})->middleware('auth')->name('ViewAll');
 
 Route::get('/Cart', function () {
     return Inertia::render("Cart");

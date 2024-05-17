@@ -10,3 +10,7 @@ Route::get('/user', function (Request $request) {
 Route::get('/search/{query}', function ($query) {
     return \App\Http\Controllers\SearchController::search($query);
 });
+
+use App\Http\Controllers\ProductController;
+
+Route::get('/products', [ProductController::class, 'index'])->name('api.products');
