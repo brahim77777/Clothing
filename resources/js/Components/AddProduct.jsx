@@ -14,7 +14,7 @@ import Modal from './Modal';
 import ModalCat from "./ModalCat"
 import { useDispatch, useSelector } from 'react-redux';
 import { openProducts } from '@/redux/openProductsSlice';
-
+import Categs from './Categs';
 //file pond imports
 
 import { useForm } from '@inertiajs/react';
@@ -167,7 +167,7 @@ export default function AddProduct({isInAddProduct,setAddProduct,dataToUpdate}){
     useEffect(() => {
         axios.get('/categories').then((res)=>{
             setCategories(res.data.categories)
-            console.log("categ [0]: ",res.data.categories[0])
+            console.log("categ data: ",res.data)
 
         },[])
       const checkScreenWidth = () => {
@@ -230,7 +230,6 @@ export default function AddProduct({isInAddProduct,setAddProduct,dataToUpdate}){
     };
     return(
         <div className={`${(sideOpen && !isMediumScreen) ? 'lg:w-[calc(100vw-18.5rem)] w-[calc(100vw-18.5rem)]' : 'w-full'} duration-300 ease-in-out min-h-screen ${toggleDarkMode ? 'bg-neutral-700' : 'bg-neutral-100'} h-full p-4 ml-auto ${!isInAddProduct&&`hidden`}`}>
-
                 <form onSubmit={handleFormSubmit}>
         <div className='w-full mb-2 flex justify-between '>
             <h1 className="text-[1.4rem] font-semibold mb-4">Add a New Product</h1>

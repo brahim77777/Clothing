@@ -19,6 +19,7 @@ import CategCards from '@/Components/CategCards';
 import { FaAnglesRight } from "react-icons/fa6";
 
 function App({categories, products}) {
+    console.log("home categs:",categories)
 
   const toggleDarkMode = useSelector((state) => state.changeTheme.value)
   const refresh = useSelector(state=>state.refresh.value)
