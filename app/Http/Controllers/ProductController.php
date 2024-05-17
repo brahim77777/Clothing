@@ -12,12 +12,10 @@ class ProductController extends Controller
 {
     public function index()
     {
-        $products = Product::orderBy("rating", "desc")
-                           ->with("category")
-                           ->simplePaginate(10);
+        $products = Product::orderBy("rating", "desc")->with("category")->paginate(10);
 
-        return Inertia::render("ViewAll", [
-            "products" => $products->items(),
+        return Response::json([
+            "products" =>  $products->items(),
             "total" => $products->total(),
             "per_page" => $products->perPage(),
             "current_page" => $products->currentPage(),
@@ -25,6 +23,8 @@ class ProductController extends Controller
             "next_page_url" => $products->nextPageUrl(),
             "prev_page_url" => $products->previousPageUrl()
         ]);
+
+
     }
 
 

@@ -104,15 +104,15 @@ Route::middleware('auth')->group(function () {
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 });
 
+Route::get('/products', function () {
+    return Inertia::render("ViewAll");
+})->middleware('auth')->name('ViewAll');
 
 // Route::get('/ProductDetails', function () {
 //     return Inertia::render("ProductDetails");
 // })->middleware('auth')->name('ProductDetails');
 
 
-Route::get('/ViewAll', function () {
-    return Inertia::render("ViewAll");
-})->middleware('auth')->name('ViewAll');
 
 Route::get('/Cart', function () {
     return Inertia::render("Cart");
