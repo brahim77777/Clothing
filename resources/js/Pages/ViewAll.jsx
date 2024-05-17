@@ -6,15 +6,19 @@ import NavLink from "@/Components/NavLink";
 import AdvancedFilter from "../Components/sidebar_filters";
 import Tooltip from "@/Components/Tooltip";
 import Card from "../Components/Card";
+import { useSelector } from "react-redux";
 
 export default function ViewAll() {
+    const products = useSelector(state=>state.products.value)
+    console.log("here is products ::", products)
     const [productsData, setProductsData] = useState([]);
     const [pageCount, setPageCount] = useState(0);
     const [currentPage, setCurrentPage] = useState(1);
 
     useEffect(() => {
-        fetchProducts(currentPage);
-    }, [currentPage]);
+        (products )?setProductsData(products.products):fetchProducts(currentPage);
+
+    }, [currentPage,products]);
 
     const fetchProducts = (page = 1) => {
         axios.get(`/api/products?page=${page}`).then((res) => {
@@ -53,7 +57,7 @@ export default function ViewAll() {
                     </div>
                 </div>
                 <div className='m-auto mt-[3rem] gap-6 grid grid-cols-5 max-xl:grid-cols-4 max-lg:grid-cols-3 max-md:grid-cols-2 max-sm:grid-cols-1' style={{ placeItems: 'center' }}>
-                    {productsData.map((e, index) => (
+                    {productsData?.map((e, index) => (
                         <Card
                             slug={e.slug}
                             title={e.title}

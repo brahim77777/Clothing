@@ -62,7 +62,7 @@ console.log("Current Path: ",currentPath)
         axios.get(`/api/search/${inputValue}`).then((res)=>{
             dispatch(search(res.data))
             console.log("this is axios", inputValue)
-            console.log(res.data)
+            console.log("Here search: ",res.data)
         })
   },[inputValue])
 
