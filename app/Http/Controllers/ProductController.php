@@ -60,14 +60,14 @@ class ProductController extends Controller
     public function show(Request $request)
     {
         $product = Product::where('slug', $request->slug)
-                          ->where('quantity', '>', 0)
-                          ->with('reviews', 'category')
-                          ->first();
+            ->where('quantity', '>', 0)
+            ->with('reviews', 'category')
+            ->first();
         if (!$product) {
             abort(404);
         }
 
-        return Inertia::render("ProductDetails", ["product" => new ProductResource($product)]);
+        return Inertia::render("ProductDetails", ["product" => $product]);
     }
 
     public function destroy(Product $product)
