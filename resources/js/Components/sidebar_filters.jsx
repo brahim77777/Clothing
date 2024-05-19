@@ -1,25 +1,8 @@
-/*
-  This example requires Tailwind CSS v2.0+
-
-  This example requires some changes to your config:
-
-  ```
-  // tailwind.config.js
-  module.exports = {
-    // ...
-    plugins: [
-      // ...
-      require('@tailwindcss/forms'),
-    ],
-  }
-  ```
-*/
-import { Fragment, useState } from 'react'
+import { Fragment, useState, useEffect } from 'react'
 import { Dialog, Disclosure, Transition } from '@headlessui/react'
-import { XMarkIcon } from '@heroicons/react/24/outline'
-import { ChevronDownIcon, PlusIcon } from '@heroicons/react/20/solid'
-import { AdjustmentsHorizontalIcon } from "@heroicons/react/24/outline";
-// import { AdjustmentsHorizontalIcon } from "@heroicons/react/20/solid";
+import { XMarkIcon, ChevronDownIcon, AdjustmentsHorizontalIcon } from '@heroicons/react/24/outline'
+import { useDispatch } from 'react-redux'
+import { setFiltersR } from '@/redux/filtersSlice'
 
 const filters = [
   {
@@ -65,13 +48,44 @@ function classNames(...classes) {
 
 export default function Example() {
   const [mobileFiltersOpen, setMobileFiltersOpen] = useState(false)
+  const [filterList, setFilters] = useState([
+    { filterName: 'Color', value: [] },
+    { filterName: 'Sizes', value: [] },
+    { filterName: 'Category', value: [] },
+  ])
+
+  const dispatch = useDispatch()
+
+  useEffect(() => {
+    dispatch(setFiltersR(filterList))
+    console.log('here filters', filterList)
+  }, [filterList])
+
+  const handleFilterChange = (filterName, filterValue) => {
+    setFilters((prevFilters) => {
+      return prevFilters.map((filter) => {
+        if (filter.filterName === filterName) {
+          const newValue = filter.value.includes(filterValue)
+            ? filter.value.filter((val) => val !== filterValue)
+            : [...filter.value, filterValue]
+          return { ...filter, value: newValue }
+        }
+        return filter
+      })
+    })
+  }
+
+  const isFilterChecked = (filterName, filterValue) => {
+    const filter = filterList.find((f) => f.filterName === filterName)
+    return filter ? filter.value.includes(filterValue) : false
+  }
 
   return (
     <div className="">
       <div>
         {/* Mobile filter dialog */}
         <Transition.Root show={mobileFiltersOpen} as={Fragment}>
-          <Dialog as="div" className="relative z-40 " onClose={setMobileFiltersOpen}>
+          <Dialog as="div" className="relative z-40" onClose={setMobileFiltersOpen}>
             <Transition.Child
               as={Fragment}
               enter="transition-opacity ease-linear duration-300"
@@ -131,8 +145,9 @@ export default function Example() {
                                     <input
                                       id={`${section.id}-${optionIdx}-mobile`}
                                       name={`${section.id}[]`}
-                                      defaultValue={option.value}
+                                      onChange={() => handleFilterChange(section.name, option.value)}
                                       type="checkbox"
+                                      checked={isFilterChecked(section.name, option.value)}
                                       className="h-4 w-4 rounded border-gray-300 text-indigo-600 focus:ring-indigo-500"
                                     />
                                     <label
@@ -157,19 +172,18 @@ export default function Example() {
         </Transition.Root>
 
         <main>
-
           <div>
             <aside>
               <h2 className="sr-only">Filters</h2>
 
               <button
-                className="p- m- size-8 items-center border rounded-full   border-[#AE8D70]"
+                className="p- m- size-8 items-center border rounded-full border-[#AE8D70]"
                 onClick={() => setMobileFiltersOpen(true)}
               >
-                <span><AdjustmentsHorizontalIcon className=' size-5 text-black  m-auto '/></span>
+                <span><AdjustmentsHorizontalIcon className=' size-5 text-black m-auto' /></span>
               </button>
 
-              <div className="hidden ">
+              <div className="hidden">
                 <form className="space-y-10 divide-y divide-gray-200">
                   {filters.map((section, sectionIdx) => (
                     <div key={section.name} className={sectionIdx === 0 ? null : 'pt-10'}>
@@ -182,7 +196,9 @@ export default function Example() {
                                 id={`${section.id}-${optionIdx}`}
                                 name={`${section.id}[]`}
                                 defaultValue={option.value}
+                                onChange={() => handleFilterChange(section.name, option.value)}
                                 type="checkbox"
+                                checked={isFilterChecked(section.name, option.value)}
                                 className="h-4 w-4 rounded border-gray-300 text-indigo-600 focus:ring-indigo-500"
                               />
                               <label htmlFor={`${section.id}-${optionIdx}`} className="ml-3 text-sm text-gray-600">
@@ -197,8 +213,6 @@ export default function Example() {
                 </form>
               </div>
             </aside>
-
-
           </div>
         </main>
       </div>

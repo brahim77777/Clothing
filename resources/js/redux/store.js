@@ -12,6 +12,7 @@ import openProductsReducer from './openProductsSlice'
 import searchReducer from './searchSlice'
 import refreshCategoriesReduer from './refreshCategoriesSlice'
 import pageReducer from './pageSlice'
+import filtersReducer from './filtersSlice'
 
 export const store = configureStore({
   reducer: {
@@ -28,6 +29,6 @@ export const store = configureStore({
     products:searchReducer,
     refreshCategoriesState:refreshCategoriesReduer,
     page:pageReducer,
-
+    filtersList:filtersReducer,
   }
 })

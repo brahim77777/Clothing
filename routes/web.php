@@ -76,6 +76,7 @@ Route::get('/dashboard', function () {
     return Inertia::render('Dashboard', [
         'products' => ProductResource::collection($products),
         'pageCount' => $pageCount,
+        'total' => $products->total() ,
     ]);
 })->middleware('auth')->name('dashboard');
 

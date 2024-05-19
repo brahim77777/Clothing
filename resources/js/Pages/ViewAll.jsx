@@ -15,6 +15,9 @@ export default function ViewAll() {
     const [pageCount, setPageCount] = useState(0);
     const [currentPage, setCurrentPage] = useState(1);
 
+    const filtersR = useSelector(state=>state.filtersList.value)
+
+    console.log("Filter Redux:",filtersR)
     useEffect(() => {
         (products )?setProductsData(products.products):fetchProducts(currentPage);
 

@@ -73,10 +73,11 @@ function classNames(...classes) {
   return classes.filter(Boolean).join(' ')
 }
 
-const Dashboard = ({ auth ,pageCount ,products}) => {
+const Dashboard = ({ auth ,pageCount ,products, total}) => {
     // const { products } = usePage().props;
 
     // const [page, setPage] = useState(0);
+    console.log("LastPagr: ",total)
 
     const page = useSelector(state=>state.page.value)
 
@@ -108,12 +109,9 @@ const Dashboard = ({ auth ,pageCount ,products}) => {
     const toggleDarkMode = useSelector((state)=>state.changeTheme.value)
     const dispatch = useDispatch()
     const sideOpen = useSelector((state)=>state.sideBar.value)
+
     function deleteProduct(slug){
-
-
         alert(slug)
-
-
         axios.delete('/products/'+slug).then((res)=>{
             alert(res.data)
             console.log("deleted check!",res.data)
@@ -122,13 +120,11 @@ const Dashboard = ({ auth ,pageCount ,products}) => {
 
             // Remove an element from the array based on some condition
 
-        // Assuming 'myArray' is the state variable storing the array and 'setMyArray' is the setter function
+            // Assuming 'myArray' is the state variable storing the array and 'setMyArray' is the setter function
 
-        // Remove an element from the array based on some condition
+            // Remove an element from the array based on some condition
 
             setProductsList(res.data.products)
-
-
         })
     }
     const [isMediumScreen, setIsMediumScreen] = useState(false);
@@ -197,6 +193,11 @@ const Dashboard = ({ auth ,pageCount ,products}) => {
   ]
 
   const [dataToUpdate,setdataToUpdate] = useState({})
+//   useEffect(()=>{
+//     axios.get("products").then(res=>{
+//         console.log("total products:",res.data)
+//     })
+//   })
   return (
     <>
       {/*
@@ -456,15 +457,15 @@ const Dashboard = ({ auth ,pageCount ,products}) => {
                                 }} className="flex bg-white bg-opacity-75 items-center py-1 rounded-md pl-2 pr-[4px] justify-between border border-gray-500">Add<MdAdd/></button>
                         </div>
                         <div class="overflow-x-auto w-full mx-auto   ">
-
+                            <div className='p-2 rounded-md border  w-fit shadow bg-green-600 text-white font-medium text-lg flex justify-between gap-2'>Products total<span className='text-xl '>{total}</span></div>
                             <div class="inline-block min-w-full py-2  rounded-md  ">
                             <div class="overflow-hidden  ">
                                 <table
-                                class="min-w-full bg-white rounded-md  text-left text-sm font-light text-surface  ">
+                                class="min-w-full relative bg-white rounded-md  text-left text-sm font-light text-surface  ">
                                 <thead
-                                    class={`border-b   border-neutral-200 font-medium text-nowrap `}>
+                                    class={`border-b sticky   border-neutral-200 font-medium text-nowrap `}>
                                     <tr>
-                                    <th scope="col" class="px-6 py-4 pr-10"></th>
+                                    <th scope="col" class="px-6 py-4 pr-10">ID</th>
                                     <th scope="col" class="px-6 py-4">Title</th>
                                     <th scope="col" class="px-6 py-4">Quantity</th>
                                     <th scope="col" class="px-6 py-4">Last Update</th>
@@ -479,7 +480,7 @@ const Dashboard = ({ auth ,pageCount ,products}) => {
                                             <tr
                                             class="border-b relative border-neutral-200  transition duration-300 ease-in-out hover:bg-neutral-100  ">
                                             {/* <td class="whitespace-nowrap px-6 py-4 font-medium  max-w-[100px] duration-300 m-auto flex items-center jus absolute  hover:max-w-full bg-white h-full line-clamp-1">{e.slug}</td> */}
-                                            <td class="whitespace-nowrap px-6 py-4 ">{index+1}</td>
+                                            <td class="whitespace-nowrap px-6 py-4 ">{e.id}</td>
                                             <td class=" whitespace-nowrap px-6 py-4">{e.title}</td>
                                             <td class="whitespace-nowrap px-6 py-4">{e.quantity}</td>
                                             <td class="whitespace-nowrap px-6 py-4">{(e.updated_at)}</td>
