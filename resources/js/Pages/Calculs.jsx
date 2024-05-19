@@ -1,5 +1,5 @@
 import Simplex_form from "@/Components/Simplex_form";
-export default function Calculs (){
+export default function Calculs ({products}){
     return (
         <div class="min-h-screen flex flex-col justify-center py-12 sm:px-6 lg:px-8">
         {/* <div class="sm:mx-auto sm:w-full sm:max-w-md">
@@ -90,7 +90,7 @@ export default function Calculs (){
             </form>
           </div>
         </div> */}
-    <Simplex_form/>
+    <Simplex_form products={products}/>
       </div>
     );
 }

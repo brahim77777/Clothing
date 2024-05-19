@@ -142,7 +142,12 @@ Route::get('tailwindui', function () {
 // });
 
 Route::get('/calculs', function () {
-    return Inertia::render('Calculs');
+
+    $products = Product::all();
+
+    return Inertia::render('Calculs', [
+        'products' => ProductResource::collection($products)
+    ]);
 });
 
 require __DIR__ . '/auth.php';
