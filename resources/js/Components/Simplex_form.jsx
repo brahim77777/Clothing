@@ -1,7 +1,55 @@
 import { SignalIcon } from '@heroicons/react/24/solid';
 import React from 'react';
+import { useState } from 'react';
 
-function Simplex_form(props) {
+function Simplex_form() {
+
+    const [productRow,setProductRow] = useState([null])
+    const addRow = () => {
+        setProductRow([...productRow,
+
+            <div key={productRow.length}
+            className='p-2 border border-indigo-400 rounded-lg my-2'>
+            <div class="sm:col-span-2">
+          <label for="product" class="block text-sm font-medium text-gray-700"> Product </label>
+          <div class="mt-1">
+            <input type="text" name="product" id="product" class="shadow-sm focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm border-gray-300 rounded-md"/>
+          </div>
+        </div>
+
+        <div class="sm:col-span-2">
+          <label for="profit" class="block text-sm font-medium text-gray-700"> Profit per Unit </label>
+          <div class="mt-1 relative rounded-md shadow-sm">
+            <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+              <span class="text-gray-500 sm:text-sm"> $ </span>
+            </div>
+            <input type="number" name="profit" id="profit" class="focus:ring-indigo-500 focus:border-indigo-500 block w-full pl-7 pr-12 sm:text-sm border-gray-300 rounded-md" placeholder="0.00" aria-describedby="profit-currency"/>
+            <div class="absolute inset-y-0 right-0 pr-3 flex items-center pointer-events-none">
+              <span class="text-gray-500 sm:text-sm" id="profit-currency"> DH </span>
+            </div>
+          </div>
+        </div>
+
+        <div class="sm:col-span-2">
+          <label for="cost" class="block text-sm font-medium text-gray-700"> Cost per Unit </label>
+          <div class="mt-1 relative rounded-md shadow-sm">
+            <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+              <span class="text-gray-500 sm:text-sm"> $ </span>
+            </div>
+            <input type="number" name="cost" id="cost" class="focus:ring-indigo-500 focus:border-indigo-500 block w-full pl-7 pr-12 sm:text-sm border-gray-300 rounded-md" placeholder="0.00" aria-describedby="cost-currency"/>
+            <div class="absolute inset-y-0 right-0 pr-3 flex items-center pointer-events-none">
+              <span class="text-gray-500 sm:text-sm" id="cost-currency"> DH </span>
+            </div>
+          </div>
+        </div>
+        </div>
+
+
+        ])
+
+
+
+      }
   return (
     <div>
 
@@ -52,7 +100,7 @@ function Simplex_form(props) {
               </div>
 
               <div class="sm:col-span-full text-right">
-                <button type="button" class="inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500" id="add-row">
+                <button onClick={addRow} type="button" class="inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500" id="add-row">
                   Add Product
                 </button>
               </div>
@@ -92,6 +140,9 @@ function Simplex_form(props) {
             </div>
           </div>
         </form>
+        <div>
+            {productRow}
+        </div>
       </div>
     </div>
   </div>
@@ -104,12 +155,13 @@ function Simplex_form(props) {
     The interface is built using Tailwind CSS and includes interactive elements like input fields and buttons. You can customize the layout, styling, and functionality as per your requirements.
 
   </p>
-{/*
-  <script>
+
+  {/* <script>
     const addRowBtn = document.getElementById('add-row');
     const productRows = document.querySelector('.product-rows');
 
-    addRowBtn.addEventListener('click', () => {
+    addRowBtn.addEventListener('click',
+    () => {
       const row = document.createElement('div');
       row.className = 'mt-6 grid grid-cols-1 gap-y-6 gap-x-4 sm:grid-cols-6';
       row.innerHTML = `
