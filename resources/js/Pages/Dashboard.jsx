@@ -8,7 +8,7 @@ import { ArrowDown, ArrowUp, ShoppingCart } from 'phosphor-react';
 // import LineChart from "@/Components/LineChart"
 import { useSelector,useDispatch } from 'react-redux';
 import AddProduct from '@/Components/AddProduct';
-import { CategoryOutlined, Shop2 } from '@mui/icons-material';
+import { CalculateOutlined, CategoryOutlined, Shop2 } from '@mui/icons-material';
 import { TbBrandProducthunt, TbCategory2 } from 'react-icons/tb';
 import { HiOutlineShoppingBag } from "react-icons/hi2";
 
@@ -177,6 +177,7 @@ const Dashboard = ({ auth ,pageCount ,products, total}) => {
       setAddProduct(false)
     } },
     { name: 'Sales', icon: GiPriceTag, current: false },
+    { name: 'Calculations Space',href:"/calculs", icon: CalculateOutlined, current: false },
     { name: 'Statistiques', icon: ChartBarIcon, current: openStatState, func :()=>{
       dispatch(openStat(true));
       dispatch(openProducts(false));
@@ -301,23 +302,43 @@ const Dashboard = ({ auth ,pageCount ,products, total}) => {
             <div className="flex flex-1 flex-col overflow-y-auto">
               <nav className="flex-1 space-y-1 px-2 py-4 ">
                 {navigation.map((item) => (
-                  <div
-                    key={item.name}
-                    onClick={item.func}
-                    className={classNames(
-                      item.current ? 'bg-gray-900 text-white' : 'text-gray-300 hover:bg-gray-700 hover:text-white',
-                      'group flex items-center cursor-pointer px-2 py-2 text-base font-medium rounded-md'
-                    )}
-                  >
-                    <item.icon
-                      className={classNames(
-                        item.current ? 'text-gray-300' : 'text-gray-400 group-hover:text-gray-300',
-                        'mr-3 flex-shrink-0 h-6 w-6'
-                      )}
-                      aria-hidden="true"
-                    />
-                    {item.name}
-                  </div>
+                 (item.href)?
+                 <Link
+                 key={item.name}
+                 href={item.href}
+                 onClick={item.func}
+                 className={classNames(
+                   item.current ? 'bg-gray-900 text-white' : 'text-gray-300 hover:bg-gray-700 hover:text-white',
+                   'group flex items-center cursor-pointer px-2 py-2 text-base font-medium rounded-md'
+                 )}
+               >
+                 <item.icon
+                   className={classNames(
+                     item.current ? 'text-gray-300' : 'text-gray-400 group-hover:text-gray-300',
+                     'mr-3 flex-shrink-0 h-6 w-6'
+                   )}
+                   aria-hidden="true"
+                 />
+                 {item.name}
+               </Link>
+                 :
+                 <div
+                 key={item.name}
+                 onClick={item.func}
+                 className={classNames(
+                   item.current ? 'bg-gray-900 text-white' : 'text-gray-300 hover:bg-gray-700 hover:text-white',
+                   'group flex items-center cursor-pointer px-2 py-2 text-base font-medium rounded-md'
+                 )}
+               >
+                 <item.icon
+                   className={classNames(
+                     item.current ? 'text-gray-300' : 'text-gray-400 group-hover:text-gray-300',
+                     'mr-3 flex-shrink-0 h-6 w-6'
+                   )}
+                   aria-hidden="true"
+                 />
+                 {item.name}
+               </div>
                 ))}
               </nav>
             </div>

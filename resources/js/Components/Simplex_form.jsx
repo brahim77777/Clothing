@@ -1,11 +1,12 @@
+import { SignalIcon } from '@heroicons/react/24/solid';
 import React from 'react';
 
 function Simplex_form(props) {
   return (
     <div>
 
-  <div class="min-h-screen flex flex-col justify-center py-12 sm:px-6 lg:px-8">
-    <div class="sm:mx-auto sm:w-full sm:max-w-md">
+<div class="min-h-screen flex flex-col justify-center py-12 sm:px-6 lg:px-8">
+    <div class="sm:mx-auto sm:w-full sm:max-w-md ">
       <h2 class="mt-6 text-center text-3xl font-extrabold text-gray-900">Simplex Solver</h2>
       <p class="mt-2 text-center text-sm text-gray-600">Optimize profits and costs for your e-commerce clothing business.</p>
     </div>
@@ -20,7 +21,7 @@ function Simplex_form(props) {
               <div class="sm:col-span-2">
                 <label for="product" class="block text-sm font-medium text-gray-700"> Product </label>
                 <div class="mt-1">
-                  <input type="text" name="product" id="product" class="shadow-sm focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm border-gray-300 rounded-md">
+                  <input type="text" name="product" id="product" className="focus:ring-indigo-500 focus:border-indigo-500 block w py-2-full pl-7 pr-2  sm:text-sm  rounded-md outline-none border border-gray-300 py-2"/>
                 </div>
               </div>
 
@@ -30,7 +31,7 @@ function Simplex_form(props) {
                   <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
                     <span class="text-gray-500 sm:text-sm"> $ </span>
                   </div>
-                  <input type="number" name="profit" id="profit" class="focus:ring-indigo-500 focus:border-indigo-500 block w-full pl-7 pr-12 sm:text-sm border-gray-300 rounded-md" placeholder="0.00" aria-describedby="profit-currency">
+                  <input type="number" name="profit" id="profit" className="focus:ring-indigo-500 focus:border-indigo-500 block w py-2-full pl-7 pr-2  sm:text-sm  rounded-md outline-none border border-gray-300 py-2" placeholder="0.00" aria-describedby="profit-currency"/>
                   <div class="absolute inset-y-0 right-0 pr-3 flex items-center pointer-events-none">
                     <span class="text-gray-500 sm:text-sm" id="profit-currency"> DH </span>
                   </div>
@@ -43,7 +44,7 @@ function Simplex_form(props) {
                   <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
                     <span class="text-gray-500 sm:text-sm"> $ </span>
                   </div>
-                  <input type="number" name="cost" id="cost" class="focus:ring-indigo-500 focus:border-indigo-500 block w-full pl-7 pr-12 sm:text-sm border-gray-300 rounded-md" placeholder="0.00" aria-describedby="cost-currency">
+                  <input type="number" name="cost" id="cost" className="focus:ring-indigo-500 focus:border-indigo-500 block w py-2-full pl-7 pr-2  sm:text-sm  rounded-md outline-none border border-gray-300 py-2" placeholder="0.00" aria-describedby="cost-currency"/>
                   <div class="absolute inset-y-0 right-0 pr-3 flex items-center pointer-events-none">
                     <span class="text-gray-500 sm:text-sm" id="cost-currency"> DH </span>
                   </div>
@@ -71,7 +72,7 @@ function Simplex_form(props) {
                 <div class="min-w-0 flex-1">
                   <div>
                     <label for="constraint" class="sr-only">Constraint</label>
-                    <input id="constraint" name="constraint" type="text" placeholder="e.g. Labor Hours <= 500" class="shadow-sm focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm border-gray-300 rounded-md">
+                    <input id="constraint" name="constraint" type="text" placeholder="e.g. Labor Hours <= 500" className="focus:ring-indigo-500 focus:border-indigo-500 block w py-2 w-full pl-7 pr-2  sm:text-sm  rounded-md outline-none border border-gray-300 "/>
                   </div>
                 </div>
                 <div>
@@ -94,7 +95,16 @@ function Simplex_form(props) {
       </div>
     </div>
   </div>
+  <p className=' font-serif text-lg border p-4  rounded-lg bg-gray-800 text-white mt-8 sm:mx-auto sm:w-full sm:max-w-4xl'>
+    <span className='flex gap-2 items-center text-yellow-300'>Notice<SignalIcon className=' size-6'/></span>
+    This is an example implementation of a simplex solver interface for an e-commerce clothing company. The user can add products by specifying the product name, profit per unit, and cost per unit. They can also add constraints like labor hours or material availability.
 
+    Once the user has entered all the required information, they can click the "Solve" button to get the optimal solution using the simplex method. The solution will determine the quantities of each product to produce in order to maximize profits while satisfying the specified constraints.
+
+    The interface is built using Tailwind CSS and includes interactive elements like input fields and buttons. You can customize the layout, styling, and functionality as per your requirements.
+
+  </p>
+{/*
   <script>
     const addRowBtn = document.getElementById('add-row');
     const productRows = document.querySelector('.product-rows');
@@ -139,14 +149,9 @@ function Simplex_form(props) {
 
       productRows.appendChild(row);
     });
-  </script>
+  </script> */}
 
 
-This is an example implementation of a simplex solver interface for an e-commerce clothing company. The user can add products by specifying the product name, profit per unit, and cost per unit. They can also add constraints like labor hours or material availability.
-
-Once the user has entered all the required information, they can click the "Solve" button to get the optimal solution using the simplex method. The solution will determine the quantities of each product to produce in order to maximize profits while satisfying the specified constraints.
-
-The interface is built using Tailwind CSS and includes interactive elements like input fields and buttons. You can customize the layout, styling, and functionality as per your requirements.
     </div>
   );
 }

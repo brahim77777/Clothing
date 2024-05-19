@@ -108,10 +108,10 @@ export default function Cart(){
                 <p>Items in your bag are note reserved - check out now to make them yours.</p>
             </div>
             <div className="flex gap-2 max-md:flex-col">
-                <div className="grid lg:grid-cols-2 gap-2">
+                <div className="grid xl:grid-cols-2 gap-2">
                     {Array.from({ length: 8 }, (_, index) => <Card key={index} />)}
                 </div>
-                <div className="h-fit border-2 border-dashed border-gray-700 w-full max-w-[20rem] bg-gray-50 p-4">
+                <div className="h-fit border-2 border-dashed border-gray-700 w-full max-w-[20rem] max-md:max-w-full bg-gray-50 p-4">
                     <h1 className="mb-4 uppercase font-bold text-xl">Order Summery</h1>
                     <ul>
                         <li className="flex justify-between"><span>14 items</span><span className=" font-semibold">$920.00</span></li>

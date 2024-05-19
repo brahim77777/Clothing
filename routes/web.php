@@ -137,8 +137,12 @@ Route::get('tailwindui', function () {
     return Inertia::render('with_inline_actions_and_expandable_sidebar_filters');
 });
 
-Route::get('simplex', function () {
-    return Inertia::render('Simplex_form');
+// Route::get('simplex', function () {
+//     return Inertia::render('Simplex_form');
+// });
+
+Route::get('/calculs', function () {
+    return Inertia::render('Calculs');
 });
 
 require __DIR__ . '/auth.php';

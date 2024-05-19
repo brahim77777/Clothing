@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { GoHeartFill } from "react-icons/go";
+import CurrencyInput from "react-currency-input-field";
 
 function Favorite() {
     const [focus, setFocus] = useState({state : false , target : -1});
@@ -45,6 +46,7 @@ function Favorite() {
                     ))}
                 </div>
             </div>
+
         </div>
     );
 }
