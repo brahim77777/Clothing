@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\SimplexController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -16,3 +17,6 @@ use App\Http\Controllers\ProductController;
 Route::get('/products', [ProductController::class, 'index'])->name('api.products');
 Route::get('/products/newest', [ProductController::class, 'newest'])->name('api.products.newest');
 Route::get('/products/bestsellers', [ProductController::class, 'bestseller'])->name('api.products.bestseller');
+Route::post('/simplex', [SimplexController::class, 'simplex'])->name('api.simplex');
+
+
