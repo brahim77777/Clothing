@@ -31,6 +31,8 @@ const responsive = {
 
 export default function Carousel1({Data,isHome}){
 
+    console.log("src: ",Data)
+
     return(
         <Carousel className=" z-0 mx-5 mt-4 " responsive={responsive}>
             {

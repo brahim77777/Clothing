@@ -59,6 +59,16 @@ export default function ViewAll() {
             console.error("Error fetching products:", error);
         });
     };
+    const fetchNewest = () => {
+        router.cancel()
+        axios.get(`/api/products/newest`).then((res) => {
+            setProductsData(res.data.products);
+            setPageCount(res.data.last_page);
+            setCurrentPage(res.data.current_page);
+        }).catch((error) => {
+            console.error("Error fetching products:", error);
+        });
+    };
 
     const handlePageClick = (data) => {
         console.log("data->"    ,data)
@@ -77,9 +87,8 @@ export default function ViewAll() {
                     <h1 className="text-3xl italic">NEW CLOTHES</h1>
                     <div className="mt-4 flex justify-between items-center">
                         <div className="flex gap-2">
-                            <button onClick={()=>{}}  className='inline-flex items-center px-1 pt-1 border-b-2 border-b-transparent text-sm font-medium leading-5 transition duration-150 ease-in-out focus:outline-none text-gray-700 hover:border-b-gray-300 '>New Arrivals</button >
                             <button onClick={fetchBestSellers}  className='inline-flex items-center px-1 pt-1 border-b-2 border-b-transparent text-sm font-medium leading-5 transition duration-150 ease-in-out focus:outline-none text-gray-700 hover:border-b-gray-300 '>Best Sellers</button >
-                            <button onClick={()=>{}}  className='inline-flex items-center px-1 pt-1 border-b-2 border-b-transparent text-sm font-medium leading-5 transition duration-150 ease-in-out focus:outline-none text-gray-700 hover:border-b-gray-300 '>Newest</button >
+                            <button onClick={fetchNewest}  className='inline-flex items-center px-1 pt-1 border-b-2 border-b-transparent text-sm font-medium leading-5 transition duration-150 ease-in-out focus:outline-none text-gray-700 hover:border-b-gray-300 '>Newest</button >
 
                         </div>
                         <div className="flex justify-center items-center gap-2">
