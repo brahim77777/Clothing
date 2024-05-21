@@ -15,6 +15,9 @@
   .nav{
     z-index: 80;
   }
+  .cart{
+    z-index: 81;
+  }
   .DropDown{
     z-index: 81;
   }

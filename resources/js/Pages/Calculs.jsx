@@ -1,5 +1,22 @@
 import Simplex_form from "@/Components/Simplex_form";
+import axios from "axios";
+import { useState } from "react";
 export default function Calculs ({products}){
+
+    const [datap,setData] = useState(0)
+    const data = {
+        'X1': [1, 2, 3, 4, 5],
+        'X2': [2, 3, 4, 5, 6],
+        'Y': [3, 5, 7, 9, 11]
+        }
+
+    axios.post(`http://127.0.0.2:8000/api/`,{
+        data:data
+    }).then(res=>{
+        setData(res.data.r)
+        // datap = res.data
+        console.log("Python data: ",res.data)
+    })
     return (
         <div class="min-h-screen flex flex-col justify-center py-12 sm:px-6 lg:px-8">
         {/* <div class="sm:mx-auto sm:w-full sm:max-w-md">
@@ -90,7 +107,11 @@ export default function Calculs ({products}){
             </form>
           </div>
         </div> */}
+
+        <div>R square: {datap}</div>
     <Simplex_form products={products}/>
+
+
       </div>
     );
 }

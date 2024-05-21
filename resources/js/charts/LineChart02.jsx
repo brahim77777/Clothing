@@ -9,6 +9,7 @@ import 'chartjs-adapter-moment';
 
 // Import utilities
 import { tailwindConfig, formatValue } from '../utils/Utils';
+import { useSelector } from 'react-redux';
 
 Chart.register(LineController, LineElement, Filler, PointElement, LinearScale, TimeScale, Tooltip);
 
@@ -22,9 +23,8 @@ function LineChart02({
   const canvas = useRef(null);
   const legend = useRef(null);
   const { currentTheme } = useThemeProvider();
-  const darkMode = currentTheme === 'dark';
-  const { textColor, gridColor, tooltipBodyColor, tooltipBgColor, tooltipBorderColor } = chartColors;  
-
+  const { textColor, gridColor, tooltipBodyColor, tooltipBgColor, tooltipBorderColor } = chartColors;
+  const darkMode = useSelector(state=>state.toggleDarkMode.value)
   useEffect(() => {
     const ctx = canvas.current;
     // eslint-disable-next-line no-unused-vars

@@ -116,6 +116,12 @@ class ProductController extends Controller
         ]);
     }
 
+    public function getProductById(Request $request)
+    {
+        $product = Product::find($request->id);
+        
+    }
+
     public function show(Request $request)
     {
         $product = Product::where('slug', $request->slug)

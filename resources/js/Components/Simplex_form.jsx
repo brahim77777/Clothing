@@ -66,17 +66,23 @@ function Simplex_form({products}) {
     function classNames(...classes) {
         return classes.filter(Boolean).join(' ');
     }
-  return (
-    <div>
 
-<div class="min-h-screen flex flex-col justify-center py-12 sm:px-6 lg:px-8">
+    const[decisionVars , setDecisionVars] = useState({"product_id":null,
+                                                       "profit_unit":null,
+                                                       "cost_unit":null,
+                                                       "constraints":[null]})
+
+  return (
+    <div className=''>
+
+<div class="min-h-screen flex flex-col justify-center py-12 sm:px-6 lg:px-8 ">
     <div class="sm:mx-auto sm:w-full sm:max-w-md ">
       <h2 class="mt-6 text-center text-3xl font-extrabold text-gray-900">Simplex Solver</h2>
       <p class="mt-2 text-center text-sm text-gray-600">Optimize profits and costs for your e-commerce clothing business.</p>
     </div>
 
     <div class="mt-8 sm:mx-auto sm:w-full sm:max-w-4xl">
-      <div class="bg-white py-8 px-4 shadow sm:rounded-lg sm:px-10">
+      <div class="bg-white py-8 px-4 border border-indigo-500 shadow sm:rounded-lg sm:px-10">
         <form class="space-y-6">
           <div>
             <h3 class="text-lg leading-6 font-medium text-gray-900">Decision Variables</h3>

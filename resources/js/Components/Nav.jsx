@@ -20,7 +20,12 @@ import Logo from "../../../public/Logo.svg"
 <Link href="/">Home</Link>
 
 function Nav() {
-  const count = useSelector((state)=>state.addToCart.value)
+  const cart = useSelector((state)=>state.cart.value)
+  const [count,setCount] = useState(0)
+
+  useEffect(()=>{
+    cart?.map(e=>setCount(count + e.quantity))
+  },[cart])
 
   const auth = useSelector((state)=>state.auth.value)
   console.log("thisis Nav")
@@ -120,7 +125,7 @@ console.log("Current Path: ",currentPath)
                 <UserDropDown toggleDarkMode={toggleDarkMode}  />
                 {/* {toggleDarkMode?"true":"false"} */}
 
-              <Badge content={count} className={`${(count === 0)? `hidden`:`flex`} bg-red-500 items-center justify-center min-w-4 max-h-4 ml-7 -translate-y-1`}>
+              <Badge content={count } className={`${(count  === 0 )? `hidden`:`flex`} bg-red-500 items-center justify-center min-w-4 max-h-4 ml-7 -translate-y-1`}>
               <Button
                 onClick={()=>setOpen(!isOpen)}
                 className=" bg-[#0095FB]f border border-zinc-300  p-2 font-light text- rounded-full ">

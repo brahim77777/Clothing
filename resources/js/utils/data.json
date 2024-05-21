@@ -800,5 +800,139 @@
           }
         ]
       }
+    ],
+    "Demands": [
+        {
+            "user_id": 1,
+            "cart": [
+                {"product_id": 1, "quantity": 4},
+                {"product_id": 2, "quantity": 2}
+            ],
+            "status": "pending",
+            "payStatus": "paid"
+        },
+        {
+            "user_id": 2,
+            "cart": [
+                {"product_id": 3, "quantity": 1},
+                {"product_id": 4, "quantity": 5}
+            ],
+            "status": "completed",
+            "payStatus": "unpaid"
+        },
+        {
+            "user_id": 3,
+            "cart": [
+                {"product_id": 1, "quantity": 2},
+                {"product_id": 5, "quantity": 3}
+            ],
+            "status": "shipped",
+            "payStatus": "paid"
+        },
+        {
+            "user_id": 4,
+            "cart": [
+                {"product_id": 6, "quantity": 1},
+                {"product_id": 7, "quantity": 1}
+            ],
+            "status": "processing",
+            "payStatus": "paid"
+        },
+        {
+            "user_id": 5,
+            "cart": [
+                {"product_id": 8, "quantity": 2},
+                {"product_id": 9, "quantity": 4}
+            ],
+            "status": "pending",
+            "payStatus": "unpaid"
+        },
+        {
+            "user_id": 1,
+            "cart": [
+                {"product_id": 10, "quantity": 2},
+                {"product_id": 11, "quantity": 3}
+            ],
+            "status": "completed",
+            "payStatus": "paid"
+        },
+        {
+            "user_id": 2,
+            "cart": [
+                {"product_id": 12, "quantity": 1},
+                {"product_id": 13, "quantity": 1}
+            ],
+            "status": "shipped",
+            "payStatus": "paid"
+        },
+        {
+            "user_id": 3,
+            "cart": [
+                {"product_id": 14, "quantity": 3},
+                {"product_id": 15, "quantity": 2}
+            ],
+            "status": "processing",
+            "payStatus": "unpaid"
+        },
+        {
+            "user_id": 4,
+            "cart": [
+                {"product_id": 16, "quantity": 2},
+                {"product_id": 17, "quantity": 5}
+            ],
+            "status": "completed",
+            "payStatus": "paid"
+        },
+        {
+            "user_id": 5,
+            "cart": [
+                {"product_id": 18, "quantity": 4},
+                {"product_id": 19, "quantity": 1}
+            ],
+            "status": "pending",
+            "payStatus": "paid"
+        }
+    ],
+    "Favorites": [
+        {"user_id": 1, "product_id": 1},
+        {"user_id": 1, "product_id": 3},
+        {"user_id": 2, "product_id": 4},
+        {"user_id": 3, "product_id": 5},
+        {"user_id": 3, "product_id": 2},
+        {"user_id": 4, "product_id": 6},
+        {"user_id": 4, "product_id": 7},
+        {"user_id": 5, "product_id": 8},
+        {"user_id": 5, "product_id": 9},
+        {"user_id": 1, "product_id": 10},
+        {"user_id": 2, "product_id": 11},
+        {"user_id": 2, "product_id": 12},
+        {"user_id": 3, "product_id": 13},
+        {"user_id": 4, "product_id": 14},
+        {"user_id": 5, "product_id": 15}
+    ],
+    "Reviews": [
+        {"user_id": 1, "product_id": 1, "rating": 5, "comment": "Excellent product!"},
+        {"user_id": 1, "product_id": 2, "rating": 4, "comment": "Very good, but a bit expensive."},
+        {"user_id": 2, "product_id": 3, "rating": 3, "comment": "Average quality."},
+        {"user_id": 2, "product_id": 4, "rating": 5, "comment": "Highly recommend!"},
+        {"user_id": 3, "product_id": 5, "rating": 4, "comment": "Good value for money."},
+        {"user_id": 4, "product_id": 6, "rating": 2, "comment": "Not as expected."},
+        {"user_id": 4, "product_id": 7, "rating": 3, "comment": "Okay, but could be better."},
+        {"user_id": 5, "product_id": 8, "rating": 5, "comment": "Fantastic!"},
+        {"user_id": 5, "product_id": 9, "rating": 4, "comment": "Good purchase."},
+        {"user_id": 1, "product_id": 10, "rating": 5, "comment": "Amazing quality!"},
+        {"user_id": 2, "product_id": 11, "rating": 3, "comment": "Decent for the price."},
+        {"user_id": 2, "product_id": 1, "rating": 1, "comment": "Not satisfied."},
+        {"user_id": 3, "product_id": 13, "rating": 4, "comment": "Pretty good overall."},
+        {"user_id": 3, "product_id": 14, "rating": 5, "comment": "Exceeds expectations."},
+        {"user_id": 4, "product_id": 15, "rating": 3, "comment": "Average experience."},
+        {"user_id": 5, "product_id": 16, "rating": 4, "comment": "Good, but can improve."},
+        {"user_id": 5, "product_id": 17, "rating": 5, "comment": "Perfect choice!"},
+        {"user_id": 1, "product_id": 18, "rating": 2, "comment": "Would not recommend."},
+        {"user_id": 2, "product_id": 19, "rating": 3, "comment": "It's okay."},
+        { "user_id": 1, "product_id": 1, "rating": 5,"comment": "Excellent product!" },
+        { "user_id": 2, "product_id": 2, "rating": 4 ,"comment": "It's okay."},
+        { "user_id": 1, "product_id": 3, "rating": 3 ,"comment": "It's okay."},
+        { "user_id": 3, "product_id": 1, "rating": 2 ,"comment": "It's bad." }
     ]
   }

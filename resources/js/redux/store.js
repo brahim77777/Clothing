@@ -17,7 +17,7 @@ import filtersReducer from './filtersSlice'
 export const store = configureStore({
   reducer: {
     productCounter: productCounterReducer,
-    addToCart:addToCartReducer,
+    cart:addToCartReducer,
     changeTheme:changeThemeReducer,
     productImage:changeImageReducer,
     changeLang:changeLangReducer,

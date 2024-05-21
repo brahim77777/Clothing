@@ -10,6 +10,8 @@ import { Listbox, Transition } from '@headlessui/react'
 import { CheckIcon, ChevronUpDownIcon } from '@heroicons/react/20/solid'
 import { ArrowRight } from "phosphor-react";
 import { FcGoogle } from "react-icons/fc";
+import { useSelector,useDispatch } from "react-redux";
+import { Link } from "@inertiajs/react";
 
 const quantity = [];
 const maxQuantity = 13;
@@ -76,14 +78,15 @@ function ComboBox() {
   )
 }
 
-function Card(){
+function Card({cart}){
+
     return(
         <div>
         <div className="flex max-sm:flex-col gap-2 border border-black ">
             <img className=" sm:size-48" src="https://assetmanagerpim-res.cloudinary.com/images/bb07ea62b4054df1ac07afd000e419fd_9366/IM4497_000_plp_model.jpg?sh=364&strip=false&sw=364"/>
             <div className="w-full p-2">
                 <div className="flex justify-between mr-2 "><div className=" line-clamp-1">ADICOLOR CLASSICS TREFOIL HOODIE</div><span>$65.00</span></div>
-                <div>BETTER SCARLET</div>
+                <div>{cart.title}</div>
                 <div>Size: L</div>
                 <div className="flex gap-2 items-center">Selected color: <div className="ring-1 size-5 bg-[#EB1832] rounded"></div></div>
                 <ComboBox/>
@@ -100,6 +103,9 @@ function Card(){
 
 
 export default function Cart(){
+    const cart = useSelector(state=>state.cart.value)
+
+
     return(
         <div className=" m-4">
             <div className="py-4 m-2 ">
@@ -109,7 +115,11 @@ export default function Cart(){
             </div>
             <div className="flex gap-2 max-md:flex-col">
                 <div className="grid xl:grid-cols-2 gap-2">
-                    {Array.from({ length: 8 }, (_, index) => <Card key={index} />)}
+                    {
+                    cart.map((e, index) =>(
+                        <Card cart = {e} key={index} />
+                     ))
+                    }
                 </div>
                 <div className="h-fit border-2 border-dashed border-gray-700 w-full max-w-[20rem] max-md:max-w-full bg-gray-50 p-4">
                     <h1 className="mb-4 uppercase font-bold text-xl">Order Summery</h1>

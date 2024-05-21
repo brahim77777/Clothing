@@ -1,12 +1,12 @@
 import { useState  } from "react"
 import { Rating } from "@mui/material";
 import { add } from "../redux/addToCartSlice";
-import { useDispatch } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 import Carousel from "@/Components/Carousel";
 import { TbMinus } from 'react-icons/tb'
 import { TbPlus } from 'react-icons/tb'
 import Modal from "../Components/ModalRiv"
-
+import { Link } from "@inertiajs/react";
 
 function RatioOfReview(productReviews) {
     let ratios = { one: 0, two: 0, three: 0, four: 0, five: 0 }; // Initialize ratios here
@@ -34,7 +34,13 @@ function RatioOfReview(productReviews) {
     return ratios; // Return ratios object
 }
 
+
 export default function ProductDetails({product}){
+
+    const cart = useSelector(state=>state.cart.value)
+
+    console.log("cart data: ",cart)
+
     console.log("this is PRoductDeatils---> Product", product)
     const ratios = RatioOfReview(product.reviews);
 
@@ -45,7 +51,10 @@ export default function ProductDetails({product}){
 
     return(
         <div className="font-[sans-serif]  ">
+
       <div class="p-6 lg:max-w-7xl max-w-2xl max-lg:mx-auto">
+      <Link href="/Cart" className="my-2 px-2 py-1 border rounded-lg bg-amber-500">Cart</Link>
+
         <div class="grid items-start grid-cols-1 lg:grid-cols-5 gap-12">
           <div class="lg:col-span-3 w-full lg:sticky top-0 text-center">
             <div class=" relative h-[85vh] m-auto  ">
@@ -92,10 +101,27 @@ export default function ProductDetails({product}){
             {/* <Counter/> */}
             {/*MAIN ACTION BUTTONS*/}
             <div class="flex flex-wrap gap-4 mt-2 ">
-              <button type="button" class="min-w-[200px] px-4 py-3 bg-[#b38962] text-white hover:bg-[#a77343]  text-sm font-bold rounded">Buy now</button>
+              <button onClick={
+                ()=>console.log("cart after:",cart)
+
+              } type="button" class="min-w-[200px] px-4 py-3 bg-[#b38962] text-white hover:bg-[#a77343]  text-sm font-bold rounded">Buy now</button>
               <button onClick={()=>{
-                dispatch(add(qnt))
-              }} type="button" class="min-w-[200px] px-4 py-2.5 border border-neutral-300 bg-transparent text-yellow-30 text-sm font-bold rounded">Add to cart</button>
+                dispatch(add(
+                    {
+                        'title' : product.title,
+                        'category_id':product.category,
+                        'main_image':'',
+                        'colors':product.colors,
+                        'sizes':product.sizes,
+                        'price':product.price,
+                        'rating':product.rating,
+                        'slug':product.slug,
+                        'quantity':qnt,
+                      }
+
+                ))
+            }
+            } type="button" class="min-w-[200px] px-4 py-2.5 border border-neutral-300 bg-transparent text-yellow-30 text-sm font-bold rounded">Add to cart</button>
               {/* <button type="button" class="min-w-[200px] px-4 py-3 border border-neutral-300  bg-transparent  text-sm font-bold rounded">Submit your riview</button> */}
               <Modal/>
             </div>
