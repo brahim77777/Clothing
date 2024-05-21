@@ -126,11 +126,14 @@ class ProductController extends Controller
     {
         $product = Product::where('slug', $request->slug)
             ->where('quantity', '>', 0)
-            ->with('reviews', 'category')
+            ->with(['reviews', 'category'])
             ->first();
+        // dd($product->reviews);
         if (!$product) {
             abort(404);
         }
+
+        // dd($product);
 
         return Inertia::render("ProductDetails", ["product" => $product]);
     }
