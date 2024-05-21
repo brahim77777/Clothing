@@ -91,10 +91,11 @@ use Inertia\Inertia;
 
 class ProductController extends Controller
 {
-    public function index(Request $request)
+
+    private function filtering(Request $request, $query)
     {
         // Initialize the query
-        $query = Product::orderBy("rating", "desc")->with("category");
+        // $query = Product::orderBy("quantity", "desc")->with("category");
 
         // Apply color filters if they exist
         if ($request->has('colors') && is_array($request->colors)) {
@@ -105,15 +106,20 @@ class ProductController extends Controller
         if ($request->has('sizes') && is_array($request->sizes)) {
             $query->whereIn('size', $request->sizes);
         }
-
-        // Paginate the results
         $products = $query->paginate(20);
-
+        // return Inertia::json(['products' => ProductResource::collection($products)]);
         return response()->json([
             'products' => ProductResource::collection($products),
             'last_page' => $products->lastPage(),
             'current_page' => $products->currentPage(),
         ]);
+    }
+    public function index(Request $request)
+    {
+        // Initialize the query
+        $query = Product::orderBy("rating", "desc")->with("category");
+
+        return $this->filtering($request, $query);
     }
 
     public function show(Request $request)
@@ -139,16 +145,20 @@ class ProductController extends Controller
         ]);
     }
 
-    public function newest()
+    public function newest(Request $request)
     {
-        $products = Product::orderBy('updated_at', 'desc')->get();
-        return Response::json(['products' => ProductResource::collection($products)]);
-    }
+        $query = Product::orderBy('updated_at', 'desc')->with('category');
+        return $this->filtering($request, $query);
 
-    public function bestseller()
-    {
-        $products = Product::orderBy('quantity')->get();
-        return Response::json(['products' => ProductResource::collection($products)]);
+        // return Response::json(['products' => ProductResource::collection($products)]);
 
     }
+
+    public function bestseller(Request $request)
+    {
+        $query = Product::orderBy('quantity')->with('category');
+        return $this->filtering($request, $query);
+
+    }
+
 }
