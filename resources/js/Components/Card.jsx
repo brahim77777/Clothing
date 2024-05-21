@@ -7,6 +7,7 @@ import { GoHeartFill } from "react-icons/go";
 
 export default function Card({slug,title,price,main_image,isHome}){
     const ref= useRef(null);
+
     const isInView = useInView(ref, {once: true})
     const mainConrols = useAnimation()
     useEffect(()=>{
@@ -40,7 +41,8 @@ export default function Card({slug,title,price,main_image,isHome}){
 
 
         <img
-            src={main_image}
+
+            src={`/storage/${main_image}`}
             alt="product"
             className=" object-cover  w-full h-[15rem] transition rounded-t-lgg "
             />
