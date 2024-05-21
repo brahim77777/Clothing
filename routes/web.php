@@ -139,7 +139,7 @@ Route::get('/products', function () {
 //     return Inertia::render("ProductDetails");
 // })->middleware('auth')->name('ProductDetails');
 
-Route::get('/ViewAll', function () {
+Route::get('/view_all', function () {
     return Inertia::render("ViewAll");
 })->name('ViewAll');
 
@@ -147,18 +147,23 @@ Route::get('/dashboard/categories', function () {
     return Inertia::render("Categories");
 })->middleware('auth')->name('categories');
 
+Route::get('/dashboard/add_product', function () {
+    return Inertia::render("Favorite");
+})->middleware('auth')->name('Favorite');
+
 Route::get('/dashboard/users', function () {
     return Inertia::render("Users");
 })->middleware('auth')->name('users');
 
-Route::get('/Cart', function () {
+Route::get('/cart', function () {
     return Inertia::render("Cart");
 })->name('Cart');
 
 
-Route::get('/Favorite', function () {
+Route::get('/favorite', function () {
     return Inertia::render("Favorite");
 })->middleware('auth')->name('Favorite');
+
 
 
 

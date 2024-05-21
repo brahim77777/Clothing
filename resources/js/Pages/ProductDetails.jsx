@@ -53,7 +53,7 @@ export default function ProductDetails({product}){
         <div className="font-[sans-serif]  ">
 
       <div class="p-6 lg:max-w-7xl max-w-2xl max-lg:mx-auto">
-      <Link href="/Cart" className="my-2 px-2 py-1 border rounded-lg bg-amber-500">Cart</Link>
+      <Link href="/cart" className="my-2 px-2 py-1 border rounded-lg bg-amber-500">Cart</Link>
 
         <div class="grid items-start grid-cols-1 lg:grid-cols-5 gap-12">
           <div class="lg:col-span-3 w-full lg:sticky top-0 text-center">
@@ -111,7 +111,7 @@ export default function ProductDetails({product}){
                     {
                         'title' : product.title,
                         'category_id':product.category,
-                        'main_image':'',
+                        'main_image':product.main_image,
                         'colors':product.colors,
                         'sizes':product.sizes,
                         'price':product.price,

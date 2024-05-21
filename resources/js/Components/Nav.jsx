@@ -117,7 +117,7 @@ console.log("Current Path: ",currentPath)
 
               </div>
             <div className="hidden lg:ml-6 lg:flex lg:items-center space-x-3  h-fit  ">
-              <Link href='/Favorite' as='button' className=" bg-[#0095FB]f border border-zinc-300  p-2 font-light text- rounded-full">
+              <Link href='/favorite' as='button' className=" bg-[#0095FB]f border border-zinc-300  p-2 font-light text- rounded-full">
                 <HeartIcon className=" size-5" />
               </Link>
                 {/* <UserIcon className=" size-5" /> */}

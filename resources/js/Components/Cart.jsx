@@ -4,19 +4,6 @@ import { XMarkIcon } from '@heroicons/react/24/outline'
 import { useSelector } from 'react-redux'
 import { useEffect } from 'react'
 
-const products = [
-  {
-    id: 1,
-    name: 'Throwback Hip Bag',
-    href: '#',
-    color: 'Salmon',
-    price: '$90.00',
-    quantity: 1,
-    imageSrc: 'https://tailwindui.com/img/ecommerce-images/shopping-cart-page-04-product-01.jpg',
-    imageAlt: 'Salmon orange fabric pouch with match zipper, gray zipper pull, and adjustable hip belt.',
-  }
-  // More products...
-]
 
 export default function Cart({isOpen,setOpen}) {
     const [products,setProducts] = useState([])
