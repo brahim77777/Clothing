@@ -72,24 +72,6 @@ export default  function  Products({pageCount ,products, total,auth})  {
     }
 
 
-    const [isMediumScreen, setIsMediumScreen] = useState(false);
-    useEffect(() => {
-      const checkScreenWidth = () => {
-        setIsMediumScreen(window.innerWidth <= 768); // Assuming medium screen width is 768px or less
-      };
-
-      checkScreenWidth(); // Check on component mount
-
-      const handleResize = () => {
-        checkScreenWidth();
-      };
-
-      window.addEventListener('resize', handleResize);
-
-      return () => {
-        window.removeEventListener('resize', handleResize);
-      };
-    }, []);
 
     const dataToUpdate = useSelector(state=>state.dataToUpdate.value)
 
@@ -101,20 +83,18 @@ export default  function  Products({pageCount ,products, total,auth})  {
   return (
 <Dashboard>
 
-<div className={`${(sideOpen && !isMediumScreen) ? 'lg:w-[calc(100vw-18.5rem)] w-[calc(100vw-18.5rem)]' : 'w-full'} duration-300  ease-in-out min-h-screen ${toggleDarkMode ? 'bg-neutral-700' : 'bg-white text-gray-900'} h-full  p-4  ml-auto `}>
+<div className={`w-full duration-300  ease-in-out min-h-screen ${toggleDarkMode ? 'bg-neutral-700' : 'bg-white text-gray-900'} h-full  mt-2 ml-auto `}>
 
 
-                        <div className=' w-full flex justify-end'>
+                        <div className=' w-full flex justify-between '>
+                            <div className='p-2 rounded-md border  w-fit shadow bg-green-600 text-white font-medium text-lg flex justify-between gap-2'>Products total<span className='text-xl '>{total}</span></div>
 
-                        <button
-                            onClick={()=>{
-                            dispatch(setDataToUpdate({}))
-                            router.visit("/dashboard/add_product")
-                        }}  className="flex bg-white bg-opacity-75 items-center py-1 rounded-md pl-2 pr-[4px] justify-between border border-gray-500">Add<MdAdd/>
-                        </button>
+                        <Link
+                            href='/dashboard/add_product'
+                            className="flex bg-white bg-opacity-75 items-center py-1   w-[4rem] rounded-md pl-2 pr-[4px] justify-between border border-gray-500">Add<MdAdd/>
+                        </Link>
                         </div>
                         <div class="overflow-x-auto w-full mx-auto   ">
-                            <div className='p-2 rounded-md border  w-fit shadow bg-green-600 text-white font-medium text-lg flex justify-between gap-2'>Products total<span className='text-xl '>{total}</span></div>
                             <div class="inline-block min-w-full py-2  rounded-md  ">
                             <div class="overflow-hidden  ">
                                 <table
@@ -148,7 +128,7 @@ export default  function  Products({pageCount ,products, total,auth})  {
                                             <button
                                                 onClick={()=>{
                                                     dispatch(setDataToUpdate(e))
-                                                    router.visit("/dashboard/add_product")
+                                                    router.visit("/dashboard/update_product")
                                                 }
                                                 }
                                                      className='flex justify-between items-center gap-1 p-1 rounded bg-green-50 border border-green-500 text-green-500 hover:bg-green-200 hover:text-green-600'><TbEdit className=''/>Edit

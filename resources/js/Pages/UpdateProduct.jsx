@@ -40,17 +40,13 @@ registerPlugin(
     FilePondPluginFileValidateSize,
     FilePondPluginFileValidateType
 );
-export default function AddProduct(){
+export default function UpdateProduct(){
+    // const { dataToUpdate } = usePage().props;
+    const dataToUpdate = useSelector(state=>state.dataToUpdate.value)
 
-    //------- rest -- form data -------//
-    const selectedCategories = useSelector(state=>state.selectedCategories.value)
-    //selectedSizes existe
-    //colors existe
-
-    //------- rest -- form data -------//
-
+    console.log("data to up:",dataToUpdate)
     const dispatch = useDispatch()
-    const[selectedSizes,setSelectedSizes] = useState([])
+    const[selectedSizes,setSelectedSizes] = useState(dataToUpdate?.sizes || [])
     const[categories, setCategories] = useState([])
 
     console.log("selected categss:",categories)
@@ -65,6 +61,12 @@ export default function AddProduct(){
         ]);
     }, []);
 
+//------- rest -- form data -------//
+const selectedCategories = useSelector(state=>state.selectedCategories.value)
+//selectedSizes up line 49
+//colors down line 110
+
+//------- rest -- form data -------//
 
 
 
@@ -106,8 +108,9 @@ export default function AddProduct(){
         })
         return res
     }
-    const [colors,setColors] = useState([])
+    const [colors,setColors] = useState(colorsToUpdateTorgba(dataToUpdate?.colors))
     console.log("colors: ",colors)
+    console.log("colors: ",colorsToUpdateTorgba(dataToUpdate?.colors))
 
 
 
@@ -138,23 +141,9 @@ export default function AddProduct(){
 
       </div>))
 
-        const [tags, setTags] = useState([]);
         const [inputValue, setInputValue] = useState('');
 
-        const handleInputChange = (e) => {
-            setInputValue(e.target.value);
-        };
 
-        const handleInputKeyPress = (e) => {
-            if (e.key === 'Enter' && inputValue.trim() !== '') {
-                setTags([...tags, inputValue.trim()]);
-                setInputValue('');
-            }
-        };
-
-        const handleTagRemove = (indexToRemove) => {
-            setTags(tags.filter((_, index) => index !== indexToRemove));
-        };
         const handleSizeSelection = (e) => {
             e.preventDefault()
             const size = e.currentTarget.value;
@@ -168,8 +157,6 @@ export default function AddProduct(){
         };
     const toggleDarkMode = useSelector((state)=>state.changeTheme.value)
 
-    const sideOpen = useSelector((state)=>state.sideBar.value)
-    const [isMediumScreen, setIsMediumScreen] = useState(false);
 
     const refreshCategoriesState = useSelector(state=>state.refreshCategoriesState.value)
     console.log("RefreshCateg: ",refreshCategoriesState)
@@ -179,21 +166,7 @@ export default function AddProduct(){
             console.log("categ data: ",res.data)
 
         },[])
-      const checkScreenWidth = () => {
-        setIsMediumScreen(window.innerWidth <= 768); // Assuming medium screen width is 768px or less
-      };
 
-      checkScreenWidth(); // Check on component mount
-
-      const handleResize = () => {
-        checkScreenWidth();
-      };
-
-      window.addEventListener('resize', handleResize);
-
-      return () => {
-        window.removeEventListener('resize', handleResize);
-      };
     }, [refreshCategoriesState]);
 
     //-----------------------Post Process-----------------------------------
@@ -226,6 +199,7 @@ export default function AddProduct(){
         post('/dashboard', formData);
     };
 
+    console.log("DTU",dataToUpdate)
 
     const handleFileRemove = (file) => {
         const index = srcList.findIndex(item => item.id === file.id);
@@ -238,10 +212,10 @@ export default function AddProduct(){
     };
     return(
         <Dashboard>
-        <div className={` w-full duration-300 ease-in-out min-h-screen ${toggleDarkMode ? 'bg-neutral-700' : 'bg-neutral-100'} h-full p-4 ml-auto `}>
+        <div className={`w-full duration-300 ease-in-out min-h-screen ${toggleDarkMode ? 'bg-neutral-700' : 'bg-neutral-100'} h-full p-4 ml-auto `}>
                 <form onSubmit={handleFormSubmit}>
         <div className='w-full mb-2 flex justify-between '>
-            <h1 className="text-[1.4rem] font-semibold mb-4">Add a New Product</h1>
+            <h1 className="text-[1.4rem] font-semibold mb-4">Update Product : {dataToUpdate.title}</h1>
             <div className='flex gap-2'>
                 <Link href="/dashboard/products" className=' py-2 pl-1 pr-2 border border-[#1C2434] h-fit rounded-md flex text-[#1C2434] items-center gap-1'><Cancel className='size-5 '/>Cancel</Link>
                 <button className=' py-2 pl-1 pr-2 bg-[#1C2434] h-fit rounded-md flex text-white items-center gap-1'><MdPublish className='size-5 '/>Publish</button>
@@ -251,12 +225,12 @@ export default function AddProduct(){
         <div className=' '>
 
         <div className=' flex max-lg:flex-col left-full   gap-4 '>
-           <div className='w-full bg-white p-4 rounded-md'>
+           <div className=' w-full bg-white p-4 rounded-md'>
                     <h2 className="mb-2  text-lg">General Information</h2>
                 <div className="grid grid-cols-3 max-md:grid-cols-2 gap-4 mb-4  flex-wrap ">
                         <div className="flex flex-col gap-2 ">
                             <label htmlFor="pn">Product Name</label>
-                            <input required name='name' id="pn"  className="p-2 border  border-neutral-300 rounded" type="text" placeholder="type cloth name"/>
+                            <input required name='name' id="pn" defaultValue={dataToUpdate ? dataToUpdate.title:``} className="p-2 border  border-neutral-300 rounded" type="text" placeholder="type cloth name"/>
                         </div>
                         <div className="flex flex-col gap-2 ">
                             <label>Categories</label>
@@ -272,17 +246,17 @@ export default function AddProduct(){
 
                 <div className="flex flex-col gap-2">
                         <label>Descreption</label>
-                        <textarea className="p-2 border  border-neutral-300 rounded"  name="description" id="" cols={30} rows={5}/>
+                        <textarea className="p-2 border  border-neutral-300 rounded" defaultValue={dataToUpdate ? dataToUpdate.description:``}  name="description" id="" cols={30} rows={5}/>
                 </div>
 
                 <div className="grid grid-cols-2 gap-2 mt-4 mb-4">
                     <div className="flex flex-col gap-2 ">
                         <label htmlFor="sl">Sale Price</label>
-                        <CurrencyInput id='sl' placeholder='220DH' className="p-2 border border-neutral-300 rounded" suffix="DH"  />
+                        <CurrencyInput id='sl' defaultValue={dataToUpdate ? dataToUpdate.price:``} placeholder='220DH' className="p-2 border border-neutral-300 rounded" suffix="DH"  />
                     </div>
                     <div className="flex flex-col gap-2">
                         <label htmlFor="qn">Quantity </label>
-                        <input id='qn' type='number'  placeholder='20' className="p-2 border border-neutral-300 rounded"   />
+                        <input id='qn' type='number' defaultValue={dataToUpdate ? dataToUpdate.quantity:``} placeholder='20' className="p-2 border border-neutral-300 rounded"   />
                     </div>
                 </div>
 
