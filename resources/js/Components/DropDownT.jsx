@@ -2,25 +2,30 @@ import { Menu, Transition } from '@headlessui/react';
 import React, { useState, Fragment } from 'react';
 import { useEffect } from 'react';
 import { MdKeyboardArrowDown } from "react-icons/md";
+import { useDispatch } from 'react-redux';
+import { setSelectedCategories } from '@/redux/selectCategoriesSlice';
 
 
 
 export default function DropDown({Items}) {
-    useEffect(()=>{
-
-        console.log("IT: ",Items)
-    },[Items])
     const [selectedItem, setSelectedItem] = useState([]);
+
     function classNames(...classes) {
         return classes.filter(Boolean).join(' ');
     }
+    const dispatch = useDispatch()
+
+    useEffect(()=>{
+        dispatch(setSelectedCategories(selectedItem))
+        console.log("selectedItem: ",selectedItem)
+    },[selectedItem])
 
     return(
         <Menu as="div" className="relative align-middle items-center   ">
         <div className=' '>
         <Menu.Button className={"flex items-center justify-between px-2 border   rounded w-full  border-zinc-300 p-1  space-x-8 h-10  "} >
         <div className="[word-spacing:5px] line-clamp-1 text-left">
-            
+
             {selectedItem.map(e => (
                 <span key={e} className="bg-neutral-200 p-1 text-neutral-600 rounded-lg mx-1">{e}</span>
             ))}

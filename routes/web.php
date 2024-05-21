@@ -147,13 +147,15 @@ Route::get('/dashboard/categories', function () {
     return Inertia::render("Categories");
 })->middleware('auth')->name('categories');
 
-Route::get('/dashboard/add_product', function () {
-    return Inertia::render("Favorite");
-})->middleware('auth')->name('Favorite');
+
+Route::get('/dashboard/update_product', function () {
+    return Inertia::render("UpdateProduct");
+})->middleware('auth')->name('UpdateProduct');
 
 Route::get('/dashboard/users', function () {
     return Inertia::render("Users");
 })->middleware('auth')->name('users');
+
 Route::get('/dashboard/add_product', function () {
     return Inertia::render("AddProduct");
 })->middleware('auth')->name('AddProduct');

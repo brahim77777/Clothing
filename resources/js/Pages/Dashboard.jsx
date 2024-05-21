@@ -70,7 +70,7 @@ const Dashboard =  ({ children , auth}) => {
     { name: 'Products', icon: HomeIcon, current: true, href: "/dashboard/products"},
     { name: 'Categories', icon: TbCategory2, current: false , href:"/dashboard/categories"},
     { name: 'Users', icon: UsersIcon, current: false ,href:"/dashboard/users"},
-    { name: 'Sales', icon: GiPriceTag, current: false },
+    // { name: 'Sales', icon: GiPriceTag, current: false },
     { name: 'Calculations Space',href:"/calculs", icon: CalculateOutlined, current: false },
     { name: 'Statistiques', icon: ChartBarIcon, current: false, href :""}
   ]

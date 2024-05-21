@@ -14,6 +14,7 @@ import refreshCategoriesReduer from './refreshCategoriesSlice'
 import pageReducer from './pageSlice'
 import filtersReducer from './filtersSlice'
 import dataToUpdateReducer from "./updateProductSlice"
+import selectedCategoriesReducer from "./selectCategoriesSlice"
 
 export const store = configureStore({
   reducer: {
@@ -31,6 +32,7 @@ export const store = configureStore({
     refreshCategoriesState:refreshCategoriesReduer,
     page:pageReducer,
     filtersList:filtersReducer,
-    dataToUpdate:dataToUpdateReducer
+    dataToUpdate:dataToUpdateReducer,
+    selectedCategories:selectedCategoriesReducer
   }
 })
