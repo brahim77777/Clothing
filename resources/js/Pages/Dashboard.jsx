@@ -8,42 +8,15 @@ import { ArrowDown, ArrowUp, ShoppingCart } from 'phosphor-react';
 // import LineChart from "@/Components/LineChart"
 import { useSelector,useDispatch } from 'react-redux';
 import AddProduct from '@/Components/AddProduct';
-import { CalculateOutlined, CategoryOutlined, Shop2 } from '@mui/icons-material';
+import { CalculateOutlined, CategoryOutlined, Shop2, ThreePOutlined } from '@mui/icons-material';
 import { TbBrandProducthunt, TbCategory2 } from 'react-icons/tb';
 import { HiOutlineShoppingBag } from "react-icons/hi2";
+import { PiDotsThreeOutlineVerticalFill } from "react-icons/pi";
 
 import { useEffect } from 'react';
 import {Link} from '@inertiajs/react';
-// import Header from '../partials/Header';
 import WelcomeBanner from '../partials/dashboard/WelcomeBanner';
-// import DashboardAvatars from '../partials/dashboard/DashboardAvatars';
-// import FilterButton from '../Components/DropdownFilter';
-// import Datepicker from '../Components/Datepicker';
-import DashboardCard01 from '../partials/dashboard/DashboardCard01';
-import DashboardCard02 from '../partials/dashboard/DashboardCard02';
-import DashboardCard03 from '../partials/dashboard/DashboardCard03';
-import DashboardCard04 from '../partials/dashboard/DashboardCard04';
-import DashboardCard05 from '../partials/dashboard/DashboardCard05';
-import DashboardCard06 from '../partials/dashboard/DashboardCard06';
-import DashboardCard07 from '../partials/dashboard/DashboardCard07';
-import DashboardCard08 from '../partials/dashboard/DashboardCard08';
-import DashboardCard09 from '../partials/dashboard/DashboardCard09';
-// import DashboardCard10 from '../partials/dashboard/DashboardCard10';
-import DashboardCard11 from '../partials/dashboard/DashboardCard11';
-import DashboardCard12 from '../partials/dashboard/DashboardCard12';
-import DashboardCard13 from '../partials/dashboard/DashboardCard13';
-import { Add, EditTwoTone } from '@mui/icons-material';
-import { openProducts } from '@/redux/openProductsSlice';
-import { MdAdd, MdDelete } from 'react-icons/md';
-// import Banner from '../partials/Banner';
-import { openStat } from '@/redux/openStatSlice';
-import {usePage,router} from '@inertiajs/react';
-import { RiDeleteBin6Line } from "react-icons/ri";
-import { TbEdit } from 'react-icons/tb';
-import { FcAddRow, FcSalesPerformance } from 'react-icons/fc';
-import axios from 'axios';
 
-import Logo from "../../../public/Logo.svg"
 
 
 import { Fragment, useState } from 'react'
@@ -102,9 +75,8 @@ const Dashboard =  ({ children , auth}) => {
     { name: 'Statistiques', icon: ChartBarIcon, current: false, href :""}
   ]
   const userNavigation = [
-    { name: 'Your Profile', href: '/' },
-    { name: 'Settings', href: '/' },
-    { name: 'Sign out', href: '/' },
+    { name: 'Your Profile', href: '/profile' },
+    { name: 'Sign out', href: '/signout' },
   ]
 
 
@@ -263,8 +235,7 @@ const Dashboard =  ({ children , auth}) => {
                   type="button"
                   className="rounded-full bg-white p-1 text-gray-400 hover:text-gray-500 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
                 >
-                  <span className="sr-only">View notifications</span>
-                  <BellIcon className="h-6 w-6" aria-hidden="true" />
+
                 </button>
 
                 {/* Profile dropdown */}
@@ -272,10 +243,9 @@ const Dashboard =  ({ children , auth}) => {
                   <div>
                     <Menu.Button className="flex max-w-xs items-center rounded-full bg-white text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2">
                       <span className="sr-only">Open user menu</span>
-                      <img
-                        className="h-8 w-8 rounded-full"
-                        src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80"
-                        alt=""
+                      <PiDotsThreeOutlineVerticalFill
+
+                        className=" size-9  fill-gray-500 border p-[0.4rem] focus:ring rounded-full"
                       />
                     </Menu.Button>
                   </div>
@@ -292,7 +262,7 @@ const Dashboard =  ({ children , auth}) => {
                       {userNavigation.map((item) => (
                         <Menu.Item key={item.name}>
                           {({ active }) => (
-                            <a
+                            <Link
                               href={item.href}
                               className={classNames(
                                 active ? 'bg-gray-100' : '',
@@ -300,7 +270,7 @@ const Dashboard =  ({ children , auth}) => {
                               )}
                             >
                               {item.name}
-                            </a>
+                            </Link>
                           )}
                         </Menu.Item>
                       ))}
