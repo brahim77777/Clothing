@@ -7,6 +7,7 @@ import AdvancedFilter from "../Components/sidebar_filters";
 import Tooltip from "@/Components/Tooltip";
 import Card from "../Components/Card";
 import { useSelector } from "react-redux";
+import { Link } from "@inertiajs/react";
 
 export default function ViewAll() {
     const products = useSelector(state=>state.products.value)
@@ -49,9 +50,10 @@ export default function ViewAll() {
                     <h1 className="text-3xl italic">NEW CLOTHES</h1>
                     <div className="mt-4 flex justify-between items-center">
                         <div className="flex gap-2">
-                            <NavLink>New Arrivals</NavLink>
-                            <NavLink>Best Sellers</NavLink>
-                            <NavLink>Newest</NavLink>
+                            <Link  className='inline-flex items-center px-1 pt-1 border-b-2 border-b-transparent text-sm font-medium leading-5 transition duration-150 ease-in-out focus:outline-none text-gray-700 hover:border-b-gray-300 '>New Arrivals</Link>
+                            <Link  className='inline-flex items-center px-1 pt-1 border-b-2 border-b-transparent text-sm font-medium leading-5 transition duration-150 ease-in-out focus:outline-none text-gray-700 hover:border-b-gray-300 '>New Arrivals</Link>
+                            <Link  className='inline-flex items-center px-1 pt-1 border-b-2 border-b-transparent text-sm font-medium leading-5 transition duration-150 ease-in-out focus:outline-none text-gray-700 hover:border-b-gray-300 '>New Arrivals</Link>
+
                         </div>
                         <div className="flex justify-center items-center gap-2">
                             <Tooltip children={"Filter & Sort"} position={"left"} className={""} />
