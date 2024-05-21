@@ -138,4 +138,17 @@ class ProductController extends Controller
             "products" => ProductResource::collection($products),
         ]);
     }
+
+    public function newest()
+    {
+        $products = Product::orderBy('updated_at', 'desc')->get();
+        return Response::json(['products' => ProductResource::collection($products)]);
+    }
+
+    public function bestseller()
+    {
+        $products = Product::orderBy('quantity')->get();
+        return Response::json(['products' => ProductResource::collection($products)]);
+
+    }
 }

@@ -111,10 +111,8 @@ const Dashboard = ({ auth ,pageCount ,products, total}) => {
     const sideOpen = useSelector((state)=>state.sideBar.value)
 
     function deleteProduct(slug){
-        alert(slug)
+        if(confirm("Are you sure you want to delete this product?"))
         axios.delete('/products/'+slug).then((res)=>{
-            alert(res.data)
-            console.log("deleted check!",res.data)
 
             // Assuming 'myArray' is the state variable storing the array and 'setMyArray' is the setter function
 

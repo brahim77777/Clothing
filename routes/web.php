@@ -76,7 +76,7 @@ Route::get('/dashboard', function () {
     return Inertia::render('Dashboard', [
         'products' => ProductResource::collection($products),
         'pageCount' => $pageCount,
-        'total' => $products->total() ,
+        'total' => $products->total(),
     ]);
 })->middleware('auth')->name('dashboard');
 
@@ -91,7 +91,12 @@ Route::get('/categories', [CategoryController::class, 'index'])->name('categorie
 // Route::get('/products/{slug}', [ProductController::class, 'show'])->name('products.show');
 // Route::get('/products/category/{category:title}', [CategoryController::class, 'show'])->name('category.products');
 // Route::get("/trending", [ProductController::class, 'index'])->name('products');
-// Route::delete('/products/{product:slug}', [ProductController::class, 'destroy'])->name('products.delete');
+Route::delete('/products/{product:slug}', [ProductController::class, 'destroy'])->name('products.delete');
+
+Route::get('/dashboard/product/{product:slug}', function () {
+    return Inertia::render('EditProduct');
+});
+Route::delete('/users/{user:email}', [UserController::class, 'destroy']);
 
 Route::middleware(['auth'])->group(function () {
     Route::get('/products/{slug}', [ProductController::class, 'show'])->name('products.show');
