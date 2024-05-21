@@ -73,117 +73,33 @@ function classNames(...classes) {
   return classes.filter(Boolean).join(' ')
 }
 
-const Dashboard = ({ auth ,pageCount ,products, total}) => {
+const Dashboard =  ({ children , auth}) => {
     // const { products } = usePage().props;
 
     // const [page, setPage] = useState(0);
-    console.log("LastPagr: ",total)
 
-    const page = useSelector(state=>state.page.value)
-
-    const [mainUrl, setmainUrl] = useState('');
-    const url = window.location.pathname;
-
-    useEffect(()=>{
-        setmainUrl(url)
-    },[])
-
-    const handlePageChange = (selectedPage) => {
-
-        let nextPageUrl = ``
-        nextPageUrl = `${mainUrl}?page=${selectedPage.selected + 1}`;
-        dispatch(setPage(selectedPage.selected));
-        router.visit(nextPageUrl);
-        selectedPage.preventDefault();
-
-    }
+    console.log("this is auth:",auth)
 
 
 
-    console.log("From dashboard: ",products)
-    console.log(products.data)
-    const [productsList,setProductsList] = useState(products.data)
-    const openStatState = useSelector((state) => state.openStatState.value)
-    const openProductsState = useSelector((state) => state.openProductsState.value)
-    console.log(openStatState)
+
+    const [sidebarOpen, setSidebarOpen] = useState(false)
+
+
     const toggleDarkMode = useSelector((state)=>state.changeTheme.value)
     const dispatch = useDispatch()
     const sideOpen = useSelector((state)=>state.sideBar.value)
 
-    function deleteProduct(slug){
-        if(confirm("Are you sure you want to delete this product?"))
-        axios.delete('/products/'+slug).then((res)=>{
 
-            // Assuming 'myArray' is the state variable storing the array and 'setMyArray' is the setter function
 
-            // Remove an element from the array based on some condition
-
-            // Assuming 'myArray' is the state variable storing the array and 'setMyArray' is the setter function
-
-            // Remove an element from the array based on some condition
-
-            setProductsList(res.data.products)
-        })
-    }
-    const [isMediumScreen, setIsMediumScreen] = useState(false);
-    const[isInAddProduct,setAddProduct] = useState(!openProductsState)
-    useEffect(() => {
-      const checkScreenWidth = () => {
-        setIsMediumScreen(window.innerWidth <= 768); // Assuming medium screen width is 768px or less
-      };
-
-      checkScreenWidth(); // Check on component mount
-
-      const handleResize = () => {
-        checkScreenWidth();
-      };
-
-      window.addEventListener('resize', handleResize);
-
-      return () => {
-        window.removeEventListener('resize', handleResize);
-      };
-    }, []);
-
-    // //////////////////////////////////
-
-    const [isInCategTable,setisInCategTable] = useState(false)
-    const [isInUsersTable,setisInUsersTable] = useState(false)
-
-  const [sidebarOpen, setSidebarOpen] = useState(false)
 
   const navigation = [
-    { name: 'Dashboard', icon: HomeIcon, current: openProductsState, func: ()=>{
-      dispatch(openProducts(true))
-      dispatch(openStat(false))
-      setAddProduct(false)
-      setisInCategTable(false)
-      setisInUsersTable(false)
-      }},
-    { name: 'Categories', icon: TbCategory2, current: isInCategTable , func:()=>{
-      setisInCategTable(true)
-      dispatch(openStat(false));
-      dispatch(openProducts(false));
-      setAddProduct(false)
-      setisInUsersTable(false)
-      }},
-    { name: 'Users', icon: UsersIcon, current: isInUsersTable ,func:()=>{
-      setisInUsersTable(true)
-      setisInCategTable(false)
-      dispatch(openStat(false));
-      dispatch(openProducts(false));
-      setAddProduct(false)
-     }},
+    { name: 'Products', icon: HomeIcon, current: true, href: "/dashboard/products"},
+    { name: 'Categories', icon: TbCategory2, current: false , href:"/dashboard/categories"},
+    { name: 'Users', icon: UsersIcon, current: false ,href:"/dashboard/users"},
     { name: 'Sales', icon: GiPriceTag, current: false },
     { name: 'Calculations Space',href:"/calculs", icon: CalculateOutlined, current: false },
-    { name: 'Statistiques', icon: ChartBarIcon, current: openStatState, func :()=>{
-      dispatch(openStat(true));
-      dispatch(openProducts(false));
-      setAddProduct(false)
-      setisInCategTable(false)
-      setisInUsersTable(false)
-
-      }}
+    { name: 'Statistiques', icon: ChartBarIcon, current: false, href :""}
   ]
   const userNavigation = [
     { name: 'Your Profile', href: '/' },
@@ -191,22 +107,10 @@ const Dashboard = ({ auth ,pageCount ,products, total}) => {
     { name: 'Sign out', href: '/' },
   ]
 
-  const [dataToUpdate,setdataToUpdate] = useState({})
-    //   useEffect(()=>{
-    //     axios.get("products").then(res=>{
-    //         console.log("total products:",res.data)
-    //     })
-    //   })
+
   return (
     <>
-      {/*
-        This example requires updating your template:
 
-        ```
-        <html class="h-full bg-gray-100">
-        <body class="h-full">
-        ```
-      */}
       <div className=''>
         <Transition.Root show={sidebarOpen} as={Fragment}>
           <Dialog as="div" className="relative z-40 md:hidden" onClose={setSidebarOpen}>
@@ -300,7 +204,6 @@ const Dashboard = ({ auth ,pageCount ,products, total}) => {
             <div className="flex flex-1 flex-col overflow-y-auto">
               <nav className="flex-1 space-y-1 px-2 py-4 ">
                 {navigation.map((item) => (
-                 (item.href)?
                  <Link
                  key={item.name}
                  href={item.href}
@@ -319,24 +222,7 @@ const Dashboard = ({ auth ,pageCount ,products, total}) => {
                  />
                  {item.name}
                </Link>
-                 :
-                 <div
-                 key={item.name}
-                 onClick={item.func}
-                 className={classNames(
-                   item.current ? 'bg-gray-900 text-white' : 'text-gray-300 hover:bg-gray-700 hover:text-white',
-                   'group flex items-center cursor-pointer px-2 py-2 text-base font-medium rounded-md'
-                 )}
-               >
-                 <item.icon
-                   className={classNames(
-                     item.current ? 'text-gray-300' : 'text-gray-400 group-hover:text-gray-300',
-                     'mr-3 flex-shrink-0 h-6 w-6'
-                   )}
-                   aria-hidden="true"
-                 />
-                 {item.name}
-               </div>
+
                 ))}
               </nav>
             </div>
@@ -426,13 +312,13 @@ const Dashboard = ({ auth ,pageCount ,products, total}) => {
           </div>
 
           <main className="flex-1 ">
-            <div className="py-6 bg-white">
+                   <div className="py-6 bg-white">
               {/* <div className="mx-auto max-w-7xl px-4 sm:px-6 md:px-8 bg-white">
                 <h1 className="text-2xl font-semibold text-gray-900">Dashboard</h1>
               </div> */}
               <div className="mx-auto max-w-7xl px-4 sm:px-6 md:px-8 bg-white ">
               <AuthenticatedLayout
-            user={auth.user}
+            user={auth?.user}
 
             header={<h2 className="font-semibold text-xl text-gray-800 leading-tight">Dashboard</h2>}
             >
@@ -441,122 +327,11 @@ const Dashboard = ({ auth ,pageCount ,products, total}) => {
                     <div className=' '>
                         <WelcomeBanner />
                     </div>
-            {(openStatState)&&
-                    <main className={`${(sideOpen && !isMediumScreen) ? 'lg:w-[calc(100vw-18.5rem)] w-[calc(100vw-18.5rem)]' : 'w-full'} duration-300 ease-in-out min-h-screen ${toggleDarkMode ? 'bg-neutral-700' : 'bg-white'} h-full p-4 ml-auto `}>
-                    {/* <div className=''>
-                        <WelcomeBanner />
-                    </div> */}
-                    <div className='cards grid grid-cols-12 min-w-[13rem]  gap-6 mt-[2rem]  '>
 
-                        <DashboardCard01 />
-                        <DashboardCard02 />
-                        <DashboardCard03 />
-                        <DashboardCard04 />
-                         <DashboardCard05 />
-                        <DashboardCard06 />
-                        <DashboardCard07 />
-                        <DashboardCard08 />
-                        <DashboardCard09 />
-                        <DashboardCard11 />
-                        <DashboardCard12 />
-                        <DashboardCard13 />
-                    </div>
-                </main>
-        }
-
-{((openProductsState))&&<div className={`${(sideOpen && !isMediumScreen) ? 'lg:w-[calc(100vw-18.5rem)] w-[calc(100vw-18.5rem)]' : 'w-full'} duration-300  ease-in-out min-h-screen ${toggleDarkMode ? 'bg-neutral-700' : 'bg-white text-gray-900'} h-full  p-4  ml-auto `}>
-
-
-                        <div className=' w-full flex justify-end'>
-
-                            <button onClick={()=>{
-                                setdataToUpdate({})
-                                setAddProduct(true)
-                                dispatch(openProducts(false))
-                                }} className="flex bg-white bg-opacity-75 items-center py-1 rounded-md pl-2 pr-[4px] justify-between border border-gray-500">Add<MdAdd/></button>
-                        </div>
-                        <div class="overflow-x-auto w-full mx-auto   ">
-                            <div className='p-2 rounded-md border  w-fit shadow bg-green-600 text-white font-medium text-lg flex justify-between gap-2'>Products total<span className='text-xl '>{total}</span></div>
-                            <div class="inline-block min-w-full py-2  rounded-md  ">
-                            <div class="overflow-hidden  ">
-                                <table
-                                class="min-w-full relative bg-white rounded-md  text-left text-sm font-light text-surface  ">
-                                <thead
-                                    class={`border-b sticky   border-neutral-200 font-medium text-nowrap `}>
-                                    <tr>
-                                    <th scope="col" class="px-6 py-4 pr-10">ID</th>
-                                    <th scope="col" class="px-6 py-4">Title</th>
-                                    <th scope="col" class="px-6 py-4">Quantity</th>
-                                    <th scope="col" class="px-6 py-4">Last Update</th>
-                                    <th scope="col" class="px-6 py-4">Created at</th>
-                                    <th scope="col" class="px-6 py-4">Price</th>
-                                    <th scope="col" class="px-6 py-4">More Details</th>
-                                    <th scope="col" class="px-6 py-4">Action</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                        {productsList.map((e,index)=>(
-                                            <tr
-                                            class="border-b relative border-neutral-200  transition duration-300 ease-in-out hover:bg-neutral-100  ">
-                                            {/* <td class="whitespace-nowrap px-6 py-4 font-medium  max-w-[100px] duration-300 m-auto flex items-center jus absolute  hover:max-w-full bg-white h-full line-clamp-1">{e.slug}</td> */}
-                                            <td class="whitespace-nowrap px-6 py-4 ">{e.id}</td>
-                                            <td class=" whitespace-nowrap px-6 py-4">{e.title}</td>
-                                            <td class="whitespace-nowrap px-6 py-4">{e.quantity}</td>
-                                            <td class="whitespace-nowrap px-6 py-4">{(e.updated_at)}</td>
-                                            <td class="whitespace-nowrap px-6 py-4">{(e.created_at)}</td>
-                                            <td class="whitespace-nowrap px-6 py-4">{e.price}</td>
-                                            <td class="whitespace-nowrap px-6 py-4"><Link href={'/products/'+e.slug} className='px-2 bg-gray-50 hover:bg-neutral-100 py-1 border-gray-500  rounded border'>Click here</Link></td>
-                                            <td class="whitespace-nowrap px-6 py-4 flex items-center gap-2">
-                                                <button onClick={()=>{
-                                                    setdataToUpdate(e)
-                                                    setAddProduct(true);
-                                                    dispatch(openStat(false));
-                                                    dispatch(openProducts(false));
-                                                    }} className='flex justify-between items-center gap-1 p-1 rounded bg-green-50 border border-green-500 text-green-500 hover:bg-green-200 hover:text-green-600'><TbEdit className=''/>Edit</button>
-                                                <button onClick={()=>deleteProduct(e.slug)} className='flex  justify-between items-center gap-1 p-1 rounded bg-red-50 border border-red-500 text-red-500 hover:bg-red-200 hover:text-red-600'>Delete<RiDeleteBin6Line/></button>
-                                            </td>
-                                            </tr>
-                                        ))
-
-                                        }
-                                </tbody>
-                                </table>
-                                {/* { Object.entries(products.links).map((e)=>{return <h1>{e[0]}</h1>})} */}
-                                {/* <Pagination links={Object.entries(products.links)}/> */}
-                                <ReactPaginate
-                                    pageCount={pageCount}
-                                    onPageChange={handlePageChange}
-                                    forcePage={page}
-                                    containerClassName="flex items-center justify-start space-x-2 mt-4"
-                                    pageClassName=" border border-gray-300 text-gray-700 hover:bg-gray-100 rounded-md px-4 py-2"
-                                    activeClassName=" bg-blue-500 text-white  hover:text-black hover:bg-blue-200"
-                                    previousClassName="bg-white border border-gray-300 text-gray-700 hover:bg-gray-100 rounded-md px-4 py-2"
-                                    nextClassName="bg-white border border-gray-300 text-gray-700 hover:bg-gray-100 rounded-md px-4 py-2"
-                                    breakClassName="bg-white border border-gray-300 text-gray-700 rounded-md px-4 py-2"
-                                />
-
-                            </div>
-                            </div>
-                        </div>
-                    </div>}
-
-                    {
-                        ((isInAddProduct)&&<AddProduct dataToUpdate={dataToUpdate} setAddProduct={setAddProduct} isInAddProduct={isInAddProduct}/>)
-                    }
-
-                    {
-                      (isInCategTable)&&<CategTable/>
-                    }
-                    {
-                      (isInUsersTable)&&<UserTable/>
-                    }
-        </div>
-        </AuthenticatedLayout>
-                {/* <div className="py-4">
-                  <div className="h-96 rounded-lg border-4 border-dashed border-gray-200" />
-                </div> */}
-                {/* /End replace */}
-              </div>
+            { children }
+            </div>
+            </AuthenticatedLayout>
+            </div>
             </div>
           </main>
         </div>

@@ -80,6 +80,21 @@ Route::get('/dashboard', function () {
     ]);
 })->middleware('auth')->name('dashboard');
 
+Route::get('/dashboard/products', function () {
+    // Fetch all products
+    $products = Product::with(['category'])->paginate(10);
+
+    // Calculate the page count
+    $pageCount = ceil($products->total() / $products->perPage());
+
+    // Pass the products data and page count as props to the Inertia view
+    return Inertia::render('Products', [
+        'products' => ProductResource::collection($products),
+        'pageCount' => $pageCount,
+        'total' => $products->total(),
+    ]);
+})->middleware('auth')->name('products');
+
 
 //Users
 Route::get('/users', [UserController::class, 'index'])->name('users.index');
@@ -128,6 +143,14 @@ Route::get('/ViewAll', function () {
     return Inertia::render("ViewAll");
 })->middleware('auth')->name('ViewAll');
 
+Route::get('/dashboard/categories', function () {
+    return Inertia::render("Categories");
+})->middleware('auth')->name('categories');
+
+Route::get('/dashboard/users', function () {
+    return Inertia::render("Users");
+})->middleware('auth')->name('users');
+
 Route::get('/Cart', function () {
     return Inertia::render("Cart");
 })->middleware('auth')->name('Cart');
@@ -136,6 +159,7 @@ Route::get('/Cart', function () {
 Route::get('/Favorite', function () {
     return Inertia::render("Favorite");
 })->middleware('auth')->name('Favorite');
+
 
 
 Route::get('tailwindui', function () {
