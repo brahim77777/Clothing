@@ -47,6 +47,7 @@ function App({categories, products}) {
         <div className='bg-orange-50 pb-2'>
             <Hero/>
         </div>
+        
         <div className='mt-6 mb-8 mx-6 flex justify-between items-center'>
             <h3 className='text-4xl font-semibold'>The best and newest</h3>
             <Link href='/products' className='bg-gray-800 flex justify-between items-center gap-2 text-white border border-black px-2 py-1 hover:scale-105 duration-200 ease-in-out rounded text-xl font-serif'>View All
