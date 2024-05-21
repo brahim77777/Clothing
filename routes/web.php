@@ -133,7 +133,7 @@ Route::middleware('auth')->group(function () {
 
 Route::get('/products', function () {
     return Inertia::render("ViewAll");
-})->middleware('auth')->name('ViewAll');
+})->name('ViewAll');
 
 // Route::get('/ProductDetails', function () {
 //     return Inertia::render("ProductDetails");
@@ -141,7 +141,7 @@ Route::get('/products', function () {
 
 Route::get('/ViewAll', function () {
     return Inertia::render("ViewAll");
-})->middleware('auth')->name('ViewAll');
+})->name('ViewAll');
 
 Route::get('/dashboard/categories', function () {
     return Inertia::render("Categories");
@@ -153,7 +153,7 @@ Route::get('/dashboard/users', function () {
 
 Route::get('/Cart', function () {
     return Inertia::render("Cart");
-})->middleware('auth')->name('Cart');
+})->name('Cart');
 
 
 Route::get('/Favorite', function () {

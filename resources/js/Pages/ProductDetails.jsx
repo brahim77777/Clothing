@@ -58,10 +58,11 @@ export default function ProductDetails({product}){
         <div class="grid items-start grid-cols-1 lg:grid-cols-5 gap-12">
           <div class="lg:col-span-3 w-full lg:sticky top-0 text-center">
             <div class=" relative h-[85vh] m-auto  ">
-              <img src={product.main_image} alt="Product"
+              <img   src={`/storage/${product.main_image}`}
+                alt="Product"
                 className=" z-10 duration-300 ease-in-out absolute top-0 left-0 object-cover hover:object-contain w-full h-full" />
                 <div className="  relative overflow-hidden  h-full">
-              <img src={product.secondary_image} alt="Product"
+              <img src={product.secondary_images} alt="Product"
                className="blur-md z-0 scale-110   object-cover hover:object-contain h-full w-full" />
                 </div>
             </div>

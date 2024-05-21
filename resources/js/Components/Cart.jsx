@@ -84,8 +84,10 @@ export default function Cart({isOpen,setOpen}) {
                             {products.map((product) => (
                               <li key={product.id} className="flex py-6">
                                 <div className="h-24 w-24 flex-shrink-0 overflow-hidden rounded-md border border-gray-200">
+                                  {console.log("productImage---------:",product)}
                                   <img
-                                    src={product.main_image}
+
+                                    src={`/storage/${product.main_image}`}
                                     alt={product.imageAlt}
                                     className="h-full w-full object-cover object-center"
                                   />
