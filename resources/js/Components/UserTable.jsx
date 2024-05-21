@@ -67,7 +67,13 @@ const UserTable = () => {
                                             <button onClick={() => {}} className='flex justify-between items-center gap-1 p-1 rounded bg-green-50 border border-green-500 text-green-500 hover:bg-green-200 hover:text-green-600'>
                                                 <TbEdit /> Edit
                                             </button>
-                                            <button onClick={() => {}} className='flex justify-between items-center gap-1 p-1 rounded bg-red-50 border border-red-500 text-red-500 hover:bg-red-200 hover:text-red-600'>
+                                            <button onClick={() => {
+                                                if(confirm("are you sure you want to delete this user ?"))
+                                                    axios.delete("/users/"+e.email).then((res)=>{
+                                                        alert(res.data.success? "done!" : "Failed!")
+                                                        fetchUsers()
+                                                    })
+                                            }} className='flex justify-between items-center gap-1 p-1 rounded bg-red-50 border border-red-500 text-red-500 hover:bg-red-200 hover:text-red-600'>
                                                 Delete <RiDeleteBin6Line />
                                             </button>
                                         </td>

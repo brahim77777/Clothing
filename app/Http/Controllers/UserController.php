@@ -35,4 +35,9 @@ class UserController extends Controller
             "prev_page_url" => $users->previousPageUrl()
         ]);
     }
+    public function destroy(User $user)
+    {
+        return Response::json(["success" => $user->delete() ? true : false]);
+
+    }
 }
