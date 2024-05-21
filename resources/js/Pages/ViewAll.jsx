@@ -15,17 +15,32 @@ export default function ViewAll() {
     const [productsData, setProductsData] = useState([]);
     const [pageCount, setPageCount] = useState(0);
     const [currentPage, setCurrentPage] = useState(1);
-
+    const [currentUrl, setCurrentUrl] = useState("/api/products?page=1");
+    const [ViewFilter, setViewFilter] = useState("");
     const filtersR = useSelector(state=>state.filtersList.value)
 
     console.log("Filter Redux:",filtersR)
     useEffect(() => {
-        (products )?setProductsData(products.products):fetchProducts(currentPage);
+        (products )?setProductsData(products.products):fetchProducts(ViewFilter,currentPage);
+
 
     }, [currentPage,products]);
+    useEffect(() => {
+        fetchProducts();
+    }, [])
+    const fetchProducts = (ViewFilter,page = 1) => {
+        router.cancel();
+        let url = "/api/products?page=" + page;
+        if (ViewFilter) {
+            url = '/api/products/'+ViewFilter+'?page='+page
+        }
+        if(ViewFilter)
+            setViewFilter(ViewFilter)
+        else setViewFilter("")
 
-    const fetchProducts = (page = 1) => {
-        axios.get(`/api/products?page=${page}`).then((res) => {
+        console.log("url", url)
+
+        axios.get(url).then((res) => {
             setProductsData(res.data.products);
             setPageCount(res.data.last_page);
             setCurrentPage(res.data.current_page);
@@ -34,18 +49,9 @@ export default function ViewAll() {
         });
     };
 
-    const fetchBestSellers = () => {
-        router.cancel()
-        axios.get(`/api/products/bestsellers`).then((res) => {
-            setProductsData(res.data.products);
-            setPageCount(res.data.last_page);
-            setCurrentPage(res.data.current_page);
-        }).catch((error) => {
-            console.error("Error fetching products:", error);
-        });
-    };
 
     const handlePageClick = (data) => {
+        console.log("data->"    ,data)
         setCurrentPage(data.selected + 1);
     };
 
@@ -61,9 +67,9 @@ export default function ViewAll() {
                     <h1 className="text-3xl italic">NEW CLOTHES</h1>
                     <div className="mt-4 flex justify-between items-center">
                         <div className="flex gap-2">
-                            <button onClick={()=>{}}  className='inline-flex items-center px-1 pt-1 border-b-2 border-b-transparent text-sm font-medium leading-5 transition duration-150 ease-in-out focus:outline-none text-gray-700 hover:border-b-gray-300 '>New Arrivals</button >
-                            <button onClick={fetchBestSellers}  className='inline-flex items-center px-1 pt-1 border-b-2 border-b-transparent text-sm font-medium leading-5 transition duration-150 ease-in-out focus:outline-none text-gray-700 hover:border-b-gray-300 '>Best Sellers</button >
-                            <button onClick={()=>{}}  className='inline-flex items-center px-1 pt-1 border-b-2 border-b-transparent text-sm font-medium leading-5 transition duration-150 ease-in-out focus:outline-none text-gray-700 hover:border-b-gray-300 '>Newest</button >
+                            <button onClick={()=>fetchProducts()}  className='inline-flex items-center px-1 pt-1 border-b-2 border-b-transparent text-sm font-medium leading-5 transition duration-150 ease-in-out focus:outline-none text-gray-700 hover:border-b-gray-300 '>New Arrivals</button >
+                            <button onClick={()=>fetchProducts('bestsellers', 1)}  className='inline-flex items-center px-1 pt-1 border-b-2 border-b-transparent text-sm font-medium leading-5 transition duration-150 ease-in-out focus:outline-none text-gray-700 hover:border-b-gray-300 '>Best Sellers</button >
+                            <button onClick={()=>fetchProducts('newest', 1)}  className='inline-flex items-center px-1 pt-1 border-b-2 border-b-transparent text-sm font-medium leading-5 transition duration-150 ease-in-out focus:outline-none text-gray-700 hover:border-b-gray-300 '>Newest</button >
 
                         </div>
                         <div className="flex justify-center items-center gap-2">
