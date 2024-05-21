@@ -154,6 +154,9 @@ Route::get('/dashboard/add_product', function () {
 Route::get('/dashboard/users', function () {
     return Inertia::render("Users");
 })->middleware('auth')->name('users');
+Route::get('/dashboard/add_product', function () {
+    return Inertia::render("AddProduct");
+})->middleware('auth')->name('AddProduct');
 
 Route::get('/cart', function () {
     return Inertia::render("Cart");

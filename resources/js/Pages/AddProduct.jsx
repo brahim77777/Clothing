@@ -9,15 +9,14 @@ import { Cancel, ClearAll, Create, Publish } from '@mui/icons-material';
 import { TbCategoryPlus, TbClearAll, TbDragDrop } from 'react-icons/tb';
 import { useDropzone } from "react-dropzone";
 // import Dropdown from 'DropDownT';
-import Dropdown from './DropDownT';
-import Modal from './Modal';
-import ModalCat from "./ModalCat"
+import Dropdown from '../Components/DropDownT';
+import Modal from '../Components/Modal';
+import ModalCat from "../Components/ModalCat"
 import { useDispatch, useSelector } from 'react-redux';
 import { openProducts } from '@/redux/openProductsSlice';
-import Categs from './Categs';
 //file pond imports
 
-import { useForm } from '@inertiajs/react';
+import { Link, useForm } from '@inertiajs/react';
 import { FilePond, registerPlugin } from 'react-filepond';
 import 'filepond/dist/filepond.min.css';
 import 'filepond-plugin-image-preview/dist/filepond-plugin-image-preview.min.css';
@@ -31,6 +30,7 @@ import 'filepond-plugin-image-edit/dist/filepond-plugin-image-edit.css';
 import FilePondPluginImageResize from 'filepond-plugin-image-resize';
 import FilePondPluginImageTransform from 'filepond-plugin-image-transform';
 import Dashboard from './Dashboard';
+import { usePage } from '@inertiajs/react';
 
 registerPlugin(
     FilePondPluginImagePreview,
@@ -41,7 +41,11 @@ registerPlugin(
     FilePondPluginFileValidateSize,
     FilePondPluginFileValidateType
 );
-export default function AddProduct({isInAddProduct,setAddProduct,dataToUpdate}){
+export default function AddProduct(){
+    // const { dataToUpdate } = usePage().props;
+    const dataToUpdate = useSelector(state=>state.dataToUpdate.value)
+
+    console.log("data to up:",dataToUpdate)
     const dispatch = useDispatch()
     const[selectedSizes,setSelectedSizes] = useState(dataToUpdate?.sizes || [])
     const[categories, setCategories] = useState([])
@@ -231,15 +235,12 @@ export default function AddProduct({isInAddProduct,setAddProduct,dataToUpdate}){
     };
     return(
         <Dashboard>
-        <div className={`${(sideOpen && !isMediumScreen) ? 'lg:w-[calc(100vw-18.5rem)] w-[calc(100vw-18.5rem)]' : 'w-full'} duration-300 ease-in-out min-h-screen ${toggleDarkMode ? 'bg-neutral-700' : 'bg-neutral-100'} h-full p-4 ml-auto ${!isInAddProduct&&`hidden`}`}>
+        <div className={`${(sideOpen && !isMediumScreen) ? 'lg:w-[calc(100vw-18.5rem)] w-[calc(100vw-18.5rem)]' : 'w-full'} duration-300 ease-in-out min-h-screen ${toggleDarkMode ? 'bg-neutral-700' : 'bg-neutral-100'} h-full p-4 ml-auto `}>
                 <form onSubmit={handleFormSubmit}>
         <div className='w-full mb-2 flex justify-between '>
             <h1 className="text-[1.4rem] font-semibold mb-4">Add a New Product</h1>
             <div className='flex gap-2'>
-                <button onClick={()=>{
-                    dispatch(openProducts())
-                    setAddProduct(!isInAddProduct)
-                }} className=' py-2 pl-1 pr-2 border border-[#1C2434] h-fit rounded-md flex text-[#1C2434] items-center gap-1'><Cancel className='size-5 '/>Cancel</button>
+                <Link href="/dashboard/products" className=' py-2 pl-1 pr-2 border border-[#1C2434] h-fit rounded-md flex text-[#1C2434] items-center gap-1'><Cancel className='size-5 '/>Cancel</Link>
                 <button className=' py-2 pl-1 pr-2 bg-[#1C2434] h-fit rounded-md flex text-white items-center gap-1'><MdPublish className='size-5 '/>Publish</button>
             </div>
         </div>

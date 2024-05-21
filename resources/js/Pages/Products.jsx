@@ -14,7 +14,7 @@ import {router} from '@inertiajs/react';
 import { RiDeleteBin6Line } from "react-icons/ri";
 import { TbEdit } from 'react-icons/tb';
 import axios from 'axios';
-
+import { setDataToUpdate } from '@/redux/updateProductSlice';
 
 
 import {  useState } from 'react'
@@ -91,6 +91,13 @@ export default  function  Products({pageCount ,products, total,auth})  {
       };
     }, []);
 
+    const dataToUpdate = useSelector(state=>state.dataToUpdate.value)
+
+    useEffect(()=>{
+        console.log("send dataToUpdate:",dataToUpdate)
+    },[dataToUpdate])
+
+
   return (
 <Dashboard>
 
@@ -99,7 +106,12 @@ export default  function  Products({pageCount ,products, total,auth})  {
 
                         <div className=' w-full flex justify-end'>
 
-                            <Link href='/' className="flex bg-white bg-opacity-75 items-center py-1 rounded-md pl-2 pr-[4px] justify-between border border-gray-500">Add<MdAdd/></Link>
+                        <button
+                            onClick={()=>{
+                            dispatch(setDataToUpdate({}))
+                            router.visit("/dashboard/add_product")
+                        }}  className="flex bg-white bg-opacity-75 items-center py-1 rounded-md pl-2 pr-[4px] justify-between border border-gray-500">Add<MdAdd/>
+                        </button>
                         </div>
                         <div class="overflow-x-auto w-full mx-auto   ">
                             <div className='p-2 rounded-md border  w-fit shadow bg-green-600 text-white font-medium text-lg flex justify-between gap-2'>Products total<span className='text-xl '>{total}</span></div>
@@ -133,9 +145,14 @@ export default  function  Products({pageCount ,products, total,auth})  {
                                             <td class="whitespace-nowrap px-6 py-4">{e.price}</td>
                                             <td class="whitespace-nowrap px-6 py-4"><Link href={'/products/'+e.slug} className='px-2 bg-gray-50 hover:bg-neutral-100 py-1 border-gray-500  rounded border'>Click here</Link></td>
                                             <td class="whitespace-nowrap px-6 py-4 flex items-center gap-2">
-                                                <Link href='/AddProduct' onClick={()=>{
-                                                    setdataToUpdate(e)
-                                                    }} className='flex justify-between items-center gap-1 p-1 rounded bg-green-50 border border-green-500 text-green-500 hover:bg-green-200 hover:text-green-600'><TbEdit className=''/>Edit</Link>
+                                            <button
+                                                onClick={()=>{
+                                                    dispatch(setDataToUpdate(e))
+                                                    router.visit("/dashboard/add_product")
+                                                }
+                                                }
+                                                     className='flex justify-between items-center gap-1 p-1 rounded bg-green-50 border border-green-500 text-green-500 hover:bg-green-200 hover:text-green-600'><TbEdit className=''/>Edit
+                                            </button>
                                                 <button onClick={()=>deleteProduct(e.slug)} className='flex  justify-between items-center gap-1 p-1 rounded bg-red-50 border border-red-500 text-red-500 hover:bg-red-200 hover:text-red-600'>Delete<RiDeleteBin6Line/></button>
                                             </td>
                                             </tr>
