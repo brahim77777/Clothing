@@ -215,7 +215,7 @@ const selectedCategories = useSelector(state=>state.selectedCategories.value)
         <div className={`w-full duration-300 ease-in-out min-h-screen ${toggleDarkMode ? 'bg-neutral-700' : 'bg-neutral-100'} h-full p-4 ml-auto `}>
                 <form onSubmit={handleFormSubmit}>
         <div className='w-full mb-2 flex justify-between '>
-            <h1 className="text-[1.4rem] font-semibold mb-4">Update  a New Product</h1>
+            <h1 className="text-[1.4rem] font-semibold mb-4">Update Product : {dataToUpdate.title}</h1>
             <div className='flex gap-2'>
                 <Link href="/dashboard/products" className=' py-2 pl-1 pr-2 border border-[#1C2434] h-fit rounded-md flex text-[#1C2434] items-center gap-1'><Cancel className='size-5 '/>Cancel</Link>
                 <button className=' py-2 pl-1 pr-2 bg-[#1C2434] h-fit rounded-md flex text-white items-center gap-1'><MdPublish className='size-5 '/>Publish</button>
