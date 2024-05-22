@@ -9,12 +9,16 @@ import { useEffect } from 'react';
 import {Link} from '@inertiajs/react';
 
 import { MdAdd, MdDelete } from 'react-icons/md';
+import { BsSortNumericDown } from "react-icons/bs";
+import { BsSortNumericUp } from "react-icons/bs";
 
 import {router} from '@inertiajs/react';
 import { RiDeleteBin6Line } from "react-icons/ri";
 import { TbEdit } from 'react-icons/tb';
 import axios from 'axios';
 import { setDataToUpdate } from '@/redux/updateProductSlice';
+import { BsSortAlphaDown } from "react-icons/bs";
+import { BsSortAlphaUp } from "react-icons/bs";
 
 
 import {  useState } from 'react'
@@ -22,6 +26,7 @@ import {  useState } from 'react'
 import ReactPaginate from 'react-paginate';
 import { setPage } from '@/redux/pageSlice';
 import Dashboard from './Dashboard';
+import { ArrowUp } from 'phosphor-react';
 
 export default  function  Products({pageCount ,products, total,auth})  {
 
@@ -47,6 +52,9 @@ export default  function  Products({pageCount ,products, total,auth})  {
 
     }
     const [productsList,setProductsList] = useState(products?.data)
+
+
+    const [sort ,setSort] = useState({"order":"asc","target":"title"})
 
 
     const toggleDarkMode = useSelector((state)=>state.changeTheme.value)
@@ -80,6 +88,7 @@ export default  function  Products({pageCount ,products, total,auth})  {
     },[dataToUpdate])
 
 
+console.log(sort)
   return (
 <Dashboard>
 
@@ -103,8 +112,17 @@ export default  function  Products({pageCount ,products, total,auth})  {
                                     class={`border-b sticky   border-neutral-200 font-medium text-nowrap `}>
                                     <tr>
                                     <th scope="col" class="px-6 py-4 pr-10">ID</th>
-                                    <th scope="col" class="px-6 py-4">Title</th>
-                                    <th scope="col" class="px-6 py-4">Quantity</th>
+                                    <th scope="col" class="px-6 py-4 gap-4 flex justify-between items-center">Title
+                                        <BsSortAlphaUp onClick={()=>setSort({"order":"asc","target":"title"})} className={` ${ sort.order == "asc" && `hidden`} size-8  rounded-full hover:border cursor-pointer duration-100 hover:bg-gray-50 p-1`}/>
+                                        <BsSortAlphaDown onClick={()=>setSort({"order":"desc","target":"title"})} className={`${ sort.order == "desc" && `hidden`} size-8 rounded-full hover:border cursor-pointer duration-100 hover:bg-gray-50 p-1`}/>
+                                    </th>
+                                    <th scope="col" class="px-6 py-4 ">
+                                        <div className='flex gap-4 justify-between items-center'>
+                                        Quantity
+                                        <BsSortNumericUp onClick={()=>setSort({"order":"asc","target":"quantity"})} className={` ${ sort.order == "asc" && `hidden`} size-8  rounded-full hover:border cursor-pointer duration-100 hover:bg-gray-50 p-1`}/>
+                                        <BsSortNumericDown onClick={()=>setSort({"order":"desc","target":"quantity"})} className={`${ sort.order == "desc" && `hidden`} size-8 rounded-full hover:border cursor-pointer duration-100 hover:bg-gray-50 p-1`}/>
+                                        </div>
+                                    </th>
                                     <th scope="col" class="px-6 py-4">Last Update</th>
                                     <th scope="col" class="px-6 py-4">Created at</th>
                                     <th scope="col" class="px-6 py-4">Price</th>
