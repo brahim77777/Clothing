@@ -16,6 +16,7 @@ export default function DropDown({Items}) {
     const dispatch = useDispatch()
 
     useEffect(()=>{
+        console.log("selected categ: ",selecetdCategory)
         dispatch(setSelectedCategory(selecetdCategory))
         console.log("selecetdCategory: ",selecetdCategory)
     },[selecetdCategory])

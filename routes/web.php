@@ -23,13 +23,57 @@ use App\Models\Product;
 use Illuminate\Http\Request;
 
 
-Route::post('/dashboard', function (Request $request) {
-    $filePaths = [];
+// Route::post('/dashboard', function (Request $request) {
+//     $filePaths = [];
 
+//     $request->validate([
+//         'avatars' => 'required|array', // Ensure 'avatars' is an array
+//         'avatars.*' => 'required|file|image|max:5120', // Validate each file in the array
+//     ]);
+
+//     foreach ($request->file('avatars') as $index => $avatar) {
+
+//         $filename = uniqid() . '_' . $index . '.' . $avatar->getClientOriginalExtension();
+//         $path = $avatar->storeAs('public', $filename);
+//         $filePaths[] = $path;
+
+//     }
+
+//     return Inertia::render('/dashboard');
+// });
+
+Route::post('/dashboard/add_product', function (Request $request) {
     $request->validate([
+        'title' => 'required|string|max:255',
+        'category_id' => 'required|integer|exists:categories,id',
+        'description' => 'required|string',
+        'price' => 'required|numeric',
+        'quantity' => 'required|integer',
+        'sizes' => 'required|string',
+        'colors' => 'required|string',
         'avatars' => 'required|array', // Ensure 'avatars' is an array
-        'avatars.*' => 'required|file|image|max:5120', // Validate each file in the array
+        'avatars.*' => 'image|mimes:jpeg,png,jpg,gif,svg|max:2048',
     ]);
+
+    $product = new Product();
+    $product->title = $request->title;
+    $product->category_id = $request->category_id;
+    $product->description = $request->description;
+    $product->price = $request->price;
+    $product->quantity = $request->quantity;
+    $product->sizes = json_decode($request->sizes);
+    $product->colors = json_decode($request->colors);
+    $product->slug = Str::slug($request->title);
+
+
+    if ($request->hasFile('avatars')) {
+        $images = [];
+        foreach ($request->file('avatars') as $image) {
+            $path = $image->store('images', 'public');
+            $images[] = $path;
+        }
+        $product->images = json_encode($images);
+    }
 
     foreach ($request->file('avatars') as $index => $avatar) {
 
@@ -39,7 +83,9 @@ Route::post('/dashboard', function (Request $request) {
 
     }
 
-    return Inertia::render('/dashboard');
+    $product->save();
+
+    return redirect('/dashboard/products')->with('success', 'Product created successfully!');
 });
 
 
