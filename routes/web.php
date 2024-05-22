@@ -22,6 +22,7 @@ use App\Models\Product;
 
 use Illuminate\Http\Request;
 
+
 Route::post('/dashboard', function (Request $request) {
     $filePaths = [];
 
@@ -37,6 +38,7 @@ Route::post('/dashboard', function (Request $request) {
         $filePaths[] = $path;
 
     }
+
     return Inertia::render('/dashboard');
 });
 
@@ -158,7 +160,7 @@ Route::get('/dashboard/add_product', function () {
     return Inertia::render("AddProduct");
 })->middleware('auth')->name('AddProduct');
 
-Route::get('/check_out', function () {
+Route::get('/dashboard/check_out', function () {
     return Inertia::render("CheckoutPage");
 })->middleware('auth')->name('CheckoutPage');
 
@@ -190,10 +192,5 @@ Route::get('/calculs', function () {
         'products' => ProductResource::collection($products)
     ]);
 });
-
-Route::get('/simplex', function () {
-    return Inertia::render('Simplex');
-});
-
 
 require __DIR__ . '/auth.php';

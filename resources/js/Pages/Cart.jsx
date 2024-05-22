@@ -153,35 +153,7 @@ export default function Cart(){
 
                     </button>
 
-                    <button
-                    className="linear flex flex-row justify-between items-center rounded w-full bg-gray-700 px-4 py-3 text-base font-medium text-white transition duration-200 hover:bg-gray-800 active:bg-gray-900  dark:text-white  "
-                    data-ripple-light
-                    >
-                   <div className="linear flex flex-row items-center">
-                   <svg
-                        className="mr-2 fill-white"
-                        xmlns="http://www.w3.org/2000/svg"
-                        viewBox="0 0 20 20"
-                        height="16"
-                        width="16"
-                    >
-                        <path d="M18.5 5.146V14.854Q18.5 15.688 17.927 16.26Q17.354 16.833 16.521 16.833H3.479Q2.646 16.833 2.073 16.26Q1.5 15.688 1.5 14.854V5.146Q1.5 4.312 2.073 3.74Q2.646 3.167 3.479 3.167H16.521Q17.354 3.167 17.927 3.74Q18.5 4.312 18.5 5.146ZM3.479 6.625H16.521V5.146Q16.521 5.146 16.521 5.146Q16.521 5.146 16.521 5.146H3.479Q3.479 5.146 3.479 5.146Q3.479 5.146 3.479 5.146ZM3.479 10.062V14.854Q3.479 14.854 3.479 14.854Q3.479 14.854 3.479 14.854H16.521Q16.521 14.854 16.521 14.854Q16.521 14.854 16.521 14.854V10.062ZM3.479 14.854Q3.479 14.854 3.479 14.854Q3.479 14.854 3.479 14.854V5.146Q3.479 5.146 3.479 5.146Q3.479 5.146 3.479 5.146Q3.479 5.146 3.479 5.146Q3.479 5.146 3.479 5.146V14.854Q3.479 14.854 3.479 14.854Q3.479 14.854 3.479 14.854Z" />
-                    </svg>
-                    Debit or Credit Card
-                   </div>
-                    <ArrowRight/>
-                    </button>
-
-                    <button
-                    className="linear  flex flex-row justify-between items-center rounded w-full bg-gray-100 px-4 py-3 text-base font-medium   transition duration-200 hover:bg-gray-200 active:bg-gray-300  dark:text-white  "
-                    data-ripple-light
-                    >
-                   <div className="linear flex flex-row items-center text-gray-700">
-                   <FcGoogle className="mr-2"/>
-                    Pay with Google pay
-                   </div>
-                    <ArrowRight className="text-black"/>
-                    </button>
+                    
                  </div>
 
                 </div>

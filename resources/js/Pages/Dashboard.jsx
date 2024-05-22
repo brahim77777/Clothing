@@ -7,7 +7,6 @@ import { Head } from '@inertiajs/react';
 import { ArrowDown, ArrowUp, ShoppingCart } from 'phosphor-react';
 // import LineChart from "@/Components/LineChart"
 import { useSelector,useDispatch } from 'react-redux';
-import AddProduct from '@/Components/AddProduct';
 import { CalculateOutlined, CategoryOutlined, Shop2, ThreePOutlined } from '@mui/icons-material';
 import { TbBrandProducthunt, TbCategory2 } from 'react-icons/tb';
 import { HiOutlineShoppingBag } from "react-icons/hi2";
@@ -33,12 +32,6 @@ import {
   XMarkIcon,
 } from '@heroicons/react/24/outline'
 import { MagnifyingGlassIcon } from '@heroicons/react/20/solid'
-import { GiPriceTag } from 'react-icons/gi';
-import { Pagination } from '@mui/material';
-import ReactPaginate from 'react-paginate';
-import { setPage } from '@/redux/pageSlice';
-import CategTable from '@/Components/CategTable';
-import UserTable from '@/Components/UserTable';
 
 
 
@@ -57,12 +50,6 @@ const Dashboard =  ({ children , auth}) => {
 
 
     const [sidebarOpen, setSidebarOpen] = useState(false)
-
-
-    const toggleDarkMode = useSelector((state)=>state.changeTheme.value)
-    const dispatch = useDispatch()
-    const sideOpen = useSelector((state)=>state.sideBar.value)
-
 
 
 
