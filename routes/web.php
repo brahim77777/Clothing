@@ -158,7 +158,7 @@ Route::get('/dashboard/add_product', function () {
     return Inertia::render("AddProduct");
 })->middleware('auth')->name('AddProduct');
 
-Route::get('/dashboard/check_out', function () {
+Route::get('/check_out', function () {
     return Inertia::render("CheckoutPage");
 })->middleware('auth')->name('CheckoutPage');
 
