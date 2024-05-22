@@ -7,17 +7,13 @@ import ButtonGroup from '@mui/material/ButtonGroup';
 import axios from 'axios';
 import Rating from '@mui/material/Rating';
 import StarIcon from '@mui/icons-material/Star';
+import { useForm } from '@inertiajs/react';
 
 const labels = {
-  0.5: 'Useless',
   1: 'Useless+',
-  1.5: 'Poor',
   2: 'Poor+',
-  2.5: 'Ok',
   3: 'Ok+',
-  3.5: 'Good',
   4: 'Good+',
-  4.5: 'Excellent',
   5: 'Excellent+',
 };
 
@@ -44,11 +40,18 @@ export default function BModal() {
 
   const [open, setOpen] = React.useState(false);
   const handleOpen = () => setOpen(true);
-  const [body,setBody] = React.useState("");
+  const [riview,setRiview] = React.useState();
   const handleClose = () => setOpen(false);
+  const { data, setData } = useForm({
+      riview: '',
+      rating : 0,
+
+  });
   const sendRating = () => {
     setOpen(false)
-    axios.post('/rating', {body}).then((res)=>{
+
+
+    axios.post('/rating', {data}).then((res)=>{
         console.log("response from rating Store :", res.data)
     })
   }
@@ -84,6 +87,7 @@ export default function BModal() {
                     getLabelText={getLabelText}
                     onChange={(event, newValue) => {
                     setValue(newValue);
+                    setData('riview',newValue)
                     }}
                     onChangeActive={(event, newHover) => {
                     setHover(newHover);
@@ -96,7 +100,7 @@ export default function BModal() {
             </Box>
           </div>
           <div className='h-[65%]  mt-2 '>
-            <textarea placeholder='What do you think about this product' onChange={(e)=>setBody(e.target.value)} className='p-2 w-full outline-none border h-full border-neutral-300 rounded-md' />
+            <textarea placeholder='What do you think about this product' onChange={(e)=>setData('rating',e.target.value)} className='p-2 w-full outline-none border h-full border-neutral-300 rounded-md' />
           </div>
           <div className='flex justify-end'>
           <ButtonGroup className='my-2' variant="outlined" aria-label="Basic button group">
