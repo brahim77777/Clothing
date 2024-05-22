@@ -30,6 +30,7 @@ import FilePondPluginImageResize from 'filepond-plugin-image-resize';
 import FilePondPluginImageTransform from 'filepond-plugin-image-transform';
 import Dashboard from './Dashboard';
 import { usePage } from '@inertiajs/react';
+import axios from 'axios';
 
 registerPlugin(
     FilePondPluginImagePreview,
@@ -236,6 +237,11 @@ export default function AddProduct(){
         }
         console.log(srcList);
     };
+
+//------ here post ------------------------------------------------------------------------------
+    axios.post('/', {}).then((res)=>{
+        console.log("response from product Store :", res.data)
+    })
     return(
         <Dashboard>
         <div className={` w-full duration-300 ease-in-out min-h-screen ${toggleDarkMode ? 'bg-neutral-700' : 'bg-neutral-100'} h-full p-4 ml-auto `}>
