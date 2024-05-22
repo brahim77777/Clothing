@@ -37,6 +37,9 @@ function RatioOfReview(productReviews) {
 
 export default function ProductDetails({product}){
 
+    const colors = product.colors.split(",")
+    const sizes = product.sizes.split(",")
+
     const cart = useSelector(state=>state.cart.value)
 
     console.log("cart data: ",cart)
@@ -49,15 +52,15 @@ export default function ProductDetails({product}){
 
   const[qnt,setQnt] = useState(1)
 
+  console.log("sizes: ",product.sizes)
     return(
         <div className="font-[sans-serif]  ">
 
       <div class="p-6 lg:max-w-7xl max-w-2xl max-lg:mx-auto">
-      <Link href="/cart" className="my-2 px-2 py-1 border rounded-lg bg-amber-500">Cart</Link>
 
         <div class="grid items-start grid-cols-1 lg:grid-cols-5 gap-12">
           <div class="lg:col-span-3 w-full lg:sticky top-0 text-center">
-            <div class=" relative h-[85vh] m-auto  ">
+            <div class=" relative h-[85vh] m-auto  shadow  ">
               <img   src={`/storage/${product.main_image}`}
                 alt="Product"
                 className=" z-10 duration-300 ease-in-out absolute top-0 left-0 object-cover hover:object-contain w-full h-full" />
@@ -66,9 +69,9 @@ export default function ProductDetails({product}){
                className="blur-md z-0 scale-110   object-cover hover:object-contain h-full w-full" />
                 </div>
             </div>
-            <div className="Parent mt-1 flex items-center relative h-[8rem]   " >
+            {!product.secondary_images.split(',')&&<div className="Parent mt-1 flex items-center relative h-[8rem]   " >
             <Carousel secondary_images={product.secondary_images.split(',')}/>
-            </div>
+            </div>}
           </div>
           <div class="lg:col-span-2">
             <h2 class="text-2xl font-extrabold ">{product.title} | {product.category.title}</h2>
@@ -129,10 +132,21 @@ export default function ProductDetails({product}){
             {/* ABOUT PRODUCT */}
             <div class="mt-8">
               <h3 class="text-lg font-bold text-yellow-30">About the Product</h3>
-              <ul class="space-y-3 list-disc mt-4 pl-4 text-sm ">
+              <ul  class="space-y-3 list-disc mt-4 pl-4 text-sm ">
                 <li>{product.description}</li>
-
               </ul>
+            </div>
+            <div class="mt-8 flex gap-2 items-center">
+            Available product sizes { sizes.map((e,index)=>
+                <div className="px-2 py-[2px] border-gray-500 text-gray-600 bg-gray-50 rounded border" key={index}>{e}</div>)}
+            </div>
+            <div class="mt-8 flex gap-2 items-center">
+            Available product colors {colors.map((e,index)=>
+                <div className='flex gap-2 flex-wrap'>
+                {colors.map((color, index) => (
+                    <div key={index} className="p-2 border rounded" style={{ backgroundColor: e }}></div>
+                ))}
+            </div>)}
             </div>
             <div class="mt-8">
 
