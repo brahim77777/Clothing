@@ -18,5 +18,8 @@ Route::get('/products', [ProductController::class, 'index'])->name('api.products
 Route::get('/products/newest', [ProductController::class, 'newest'])->name('api.products.newest');
 Route::get('/products/bestsellers', [ProductController::class, 'bestseller'])->name('api.products.bestseller');
 Route::post('/simplex', [SimplexController::class, 'simplex'])->name('api.simplex');
+// Route::post('/products', function (Request $request) {
+//     return response()->json(['success' => $request->all()]);
+// });
 
-
+Route::post('/products', [ProductController::class, 'store'])->name('api.products.store');

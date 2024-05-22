@@ -24,50 +24,23 @@ const responsive = {
   }
 };
 
-export default function Carousel1(){
+export default function Carousel1({secondary_images}){
     // const [productImage, setProductImage] = useState(import.meta.env.VITE_APP_PRODUCT_IMAGE1)
     const dispatch = useDispatch()
     const productImage = useSelector((state)=>state.productImage.value)
+    console.log('Product Image ===========================> ', secondary_images)
 
     return(
 
         <Carousel className="w-full z-0 " responsive={responsive}>
-                    <div class="bg-gray-800   p-[2px] h-[8rem] w-[7rem] flex-none">
-                        <img onClick={(e)=>dispatch(changeImage(e.target.src))} src={import.meta.env.VITE_APP_PRODUCT_IMAGE1} alt="Product1"
-                        class={`${(productImage === import.meta.env.VITE_APP_PRODUCT_IMAGE1)?` opacity-30`:` opacity-100`} object-cover size-full cursor-pointer `} />
-                    </div>
-                    <div class="bg-gray-800   p-[2px] h-[8rem] w-[7rem] flex-none">
-                        <img onClick={(e)=>dispatch(changeImage(e.target.src))} src={import.meta.env.VITE_APP_PRODUCT_IMAGE2} alt="Product2"
-                        class={`${(productImage === import.meta.env.VITE_APP_PRODUCT_IMAGE2)?` opacity-30`:` opacity-100`} object-cover size-full cursor-pointer `} />
-                    </div>
-                    <div class="bg-gray-800   p-[2px] h-[8rem] w-[7rem] flex-none">
-                        <img onClick={(e)=>dispatch(changeImage(e.target.src))} src={import.meta.env.VITE_APP_PRODUCT_IMAGE3} alt="Product3"
-                        class={`${(productImage === import.meta.env.VITE_APP_PRODUCT_IMAGE3)?` opacity-30`:` opacity-100`} object-cover size-full cursor-pointer `} />
-                    </div>
-                    <div class="bg-gray-800   p-[2px] h-[8rem] w-[7rem] flex-none">
-                        <img onClick={(e)=>dispatch(changeImage(e.target.src))} src={import.meta.env.VITE_APP_PRODUCT_IMAGE1} alt="Product1"
-                        class={`${(productImage === import.meta.env.VITE_APP_PRODUCT_IMAGE1)?` opacity-30`:` opacity-100`} object-cover size-full cursor-pointer `} />
-                    </div>
-                    <div class="bg-gray-800   p-[2px] h-[8rem] w-[7rem] flex-none">
-                        <img onClick={(e)=>dispatch(changeImage(e.target.src))} src={import.meta.env.VITE_APP_PRODUCT_IMAGE2} alt="Product2"
-                        class={`${(productImage === import.meta.env.VITE_APP_PRODUCT_IMAGE2)?` opacity-30`:` opacity-100`} object-cover size-full cursor-pointer `} />
-                    </div>
-                    <div class="bg-gray-800   p-[2px] h-[8rem] w-[7rem] flex-none">
-                        <img onClick={(e)=>dispatch(changeImage(e.target.src))} src={import.meta.env.VITE_APP_PRODUCT_IMAGE3} alt="Product3"
-                        class={`${(productImage === import.meta.env.VITE_APP_PRODUCT_IMAGE3)?` opacity-30`:` opacity-100`} object-cover size-full cursor-pointer `} />
-                    </div>
-                    <div class="bg-gray-800   p-[2px] h-[8rem] w-[7rem] flex-none">
-                        <img onClick={(e)=>dispatch(changeImage(e.target.src))} src={import.meta.env.VITE_APP_PRODUCT_IMAGE1} alt="Product1"
-                        class={`${(productImage === import.meta.env.VITE_APP_PRODUCT_IMAGE1)?` opacity-30`:` opacity-100`} object-cover size-full cursor-pointer `} />
-                    </div>
-                    <div class="bg-gray-800   p-[2px] h-[8rem] w-[7rem] flex-none">
-                        <img onClick={(e)=>dispatch(changeImage(e.target.src))} src={import.meta.env.VITE_APP_PRODUCT_IMAGE2} alt="Product2"
-                        class={`${(productImage === import.meta.env.VITE_APP_PRODUCT_IMAGE2)?` opacity-30`:` opacity-100`} object-cover size-full cursor-pointer `} />
-                    </div>
-                    <div class="bg-gray-800   p-[2px] h-[8rem] w-[7rem] flex-none">
-                        <img onClick={(e)=>dispatch(changeImage(e.target.src))} src={import.meta.env.VITE_APP_PRODUCT_IMAGE3} alt="Product3"
-                        class={`${(productImage === import.meta.env.VITE_APP_PRODUCT_IMAGE3)?` opacity-30`:` opacity-100`} object-cover size-full cursor-pointer `} />
-                    </div>
+            {secondary_images.map((image)=>{
+                return <div class="bg-gray-800   p-[2px] h-[8rem] w-[7rem] flex-none">
+                    <img onClick={(e)=>dispatch(changeImage(e.target.src))} src={`/storage/${image}`} alt="Product1"
+                class={`${(productImage === import.meta.env.VITE_APP_PRODUCT_IMAGE1)?` opacity-30`:` opacity-100`} object-cover size-full cursor-pointer `} />
+                </div>
+            })}
+
+
 
         </Carousel>
     )

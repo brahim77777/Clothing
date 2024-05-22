@@ -67,7 +67,7 @@ export default function ProductDetails({product}){
                 </div>
             </div>
             <div className="Parent mt-1 flex items-center relative h-[8rem]   " >
-            <Carousel/>
+            <Carousel secondary_images={product.secondary_images.split(',')}/>
             </div>
           </div>
           <div class="lg:col-span-2">
@@ -146,9 +146,9 @@ export default function ProductDetails({product}){
                         d="M7 0L9.4687 3.60213L13.6574 4.83688L10.9944 8.29787L11.1145 12.6631L7 11.2L2.8855 12.6631L3.00556 8.29787L0.342604 4.83688L4.5313 3.60213L7 0Z" />
                     </svg>
                     <div class="bg-slate-200 rounded w-full h-2 ml-3">
-                      <div style={{width: Math.floor(ratios.five/product.reviews.length*100)+'%'}} class={ "h-full rounded  bg-amber-400"}></div>
+                      <div style={{width: isNaN(Math.floor(ratios.five/product.reviews.length*100)) ? 0 : Math.floor(ratios.five/product.reviews.length*100) +'%'}} class={ "h-full rounded  bg-amber-400"}></div>
                     </div>
-                    <p class="text-sm text-whit font-bold ml-3">{Math.floor(ratios.five/product.reviews.length *100)}%</p>
+                    <p class="text-sm text-whit font-bold ml-3">{isNaN(Math.floor(ratios.five/product.reviews.length*100)) ? 0 : Math.floor(ratios.five/product.reviews.length*100) }%</p>
                   </div>
                   <div class="flex items-center">
                     <p class="text-sm text-whit font-bold">4.0</p>
@@ -157,9 +157,9 @@ export default function ProductDetails({product}){
                         d="M7 0L9.4687 3.60213L13.6574 4.83688L10.9944 8.29787L11.1145 12.6631L7 11.2L2.8855 12.6631L3.00556 8.29787L0.342604 4.83688L4.5313 3.60213L7 0Z" />
                     </svg>
                     <div class="bg-slate-200 rounded w-full h-2 ml-3">
-                      <div style={{width: Math.floor(ratios.four/product.reviews.length*100)+'%'}} class={ " h-full rounded  bg-amber-400"} ></div>
+                      <div style={{width: isNaN(Math.floor(ratios.four/product.reviews.length*100)) ? 0 : Math.floor(ratios.four/product.reviews.length*100) +'%'}} class={ " h-full rounded  bg-amber-400"} ></div>
                     </div>
-                    <p class="text-sm text-whit font-bold ml-3">{Math.floor(ratios.four/product.reviews.length*100)}%</p>
+                    <p class="text-sm text-whit font-bold ml-3">{isNaN(Math.floor(ratios.four/product.reviews.length*100)) ? 0 : Math.floor(ratios.four/product.reviews.length*100) }%</p>
                   </div>
                   <div class="flex items-center">
                     <p class="text-sm text-whit font-bold">3.0</p>
@@ -168,9 +168,9 @@ export default function ProductDetails({product}){
                         d="M7 0L9.4687 3.60213L13.6574 4.83688L10.9944 8.29787L11.1145 12.6631L7 11.2L2.8855 12.6631L3.00556 8.29787L0.342604 4.83688L4.5313 3.60213L7 0Z" />
                     </svg>
                     <div class="bg-slate-200 rounded w-full h-2 ml-3">
-                      <div style={{width: Math.floor(ratios.three/product.reviews.length*100)+'%'}} class={ " h-full rounded  bg-amber-400"}></div>
+                      <div style={{width: isNaN(Math.floor(ratios.three/product.reviews.length*100)) ? 0 : Math.floor(ratios.three/product.reviews.length*100) +'%'}} class={ " h-full rounded  bg-amber-400"}></div>
                     </div>
-                    <p class="text-sm text-whit font-bold ml-3">{Math.floor(ratios.three/product.reviews.length*100)}%</p>
+                    <p class="text-sm text-whit font-bold ml-3">{isNaN(Math.floor(ratios.three/product.reviews.length*100)) ? 0 : Math.floor(ratios.three/product.reviews.length*100) }%</p>
                   </div>
                   <div class="flex items-center">
                     <p class="text-sm text-whit font-bold">2.0</p>
@@ -179,9 +179,9 @@ export default function ProductDetails({product}){
                         d="M7 0L9.4687 3.60213L13.6574 4.83688L10.9944 8.29787L11.1145 12.6631L7 11.2L2.8855 12.6631L3.00556 8.29787L0.342604 4.83688L4.5313 3.60213L7 0Z" />
                     </svg>
                     <div class="bg-slate-200 rounded w-full h-2 ml-3">
-                      <div style={{width: Math.floor(ratios.one/product.reviews.length*100)+'%'}} class={ " h-full rounded  bg-amber-400"}></div>
+                      <div style={{width: isNaN(Math.floor(ratios.two/product.reviews.length*100)) ? 0 : Math.floor(ratios.two/product.reviews.length*100) +'%'}} class={ " h-full rounded  bg-amber-400"}></div>
                     </div>
-                    <p class="text-sm text-whit font-bold ml-3">{Math.floor(ratios.two/product.reviews.length*100)}%</p>
+                    <p class="text-sm text-whit font-bold ml-3">{isNaN(Math.floor(ratios.two/product.reviews.length*100)) ? 0 : Math.floor(ratios.two/product.reviews.length*100) }%</p>
                   </div>
                   <div class="flex items-center">
                     <p class="text-sm text-whit font-bold">1.0</p>
@@ -190,9 +190,9 @@ export default function ProductDetails({product}){
                         d="M7 0L9.4687 3.60213L13.6574 4.83688L10.9944 8.29787L11.1145 12.6631L7 11.2L2.8855 12.6631L3.00556 8.29787L0.342604 4.83688L4.5313 3.60213L7 0Z" />
                     </svg>
                     <div class="bg-slate-200 rounded w-full h-2 ml-3">
-                    <div style={{width: Math.floor(ratios.one/product.reviews.length*100)+'%'}} className={` h-full rounded bg-amber-400`}></div>
+                    <div style={{width: isNaN(Math.floor(ratios.one/product.reviews.length*100)) ? 0 : Math.floor(ratios.one/product.reviews.length*100) +'%'}} className={` h-full rounded bg-amber-400`}></div>
                     </div>
-                    <p class="text-sm text-whit font-bold ml-3">{Math.floor(ratios.one/product.reviews.length*100)}%</p>
+                    <p class="text-sm text-whit font-bold ml-3">{isNaN(Math.floor(ratios.one/product.reviews.length*100)) ? 0 : Math.floor(ratios.one/product.reviews.length*100) }%</p>
                   </div>
                 </div>
               </div>

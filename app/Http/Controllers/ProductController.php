@@ -88,6 +88,7 @@ use App\Models\Product;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Response;
 use Inertia\Inertia;
+use Illuminate\Support\Str;
 
 class ProductController extends Controller
 {
@@ -125,7 +126,51 @@ class ProductController extends Controller
     public function getProductById(Request $request)
     {
         $product = Product::find($request->id);
-        
+
+    }
+
+    public function store(Request $request)
+    {
+        $data = $request->validate([
+            'title' => 'required',
+            'description' => 'required',
+            'price' => 'required',
+            'quantity' => 'required',
+            'colors' => 'required',
+            'sizes' => 'required',
+            'category_id' => 'required',
+            'secondary_images.*' => 'required|image',
+        ]);
+        $secondaryImages = $request->file('secondary_images');
+
+        //Store the first image
+        $imagePath = $secondaryImages[0]->store('', 'public');
+        $data["main_image"] = $imagePath;
+        // Store the secondary images
+        $counter = 0;
+        $secondaryImagePaths = [];
+        foreach ($secondaryImages as $image) {
+            if ($counter++ == 0)
+                continue;
+            // $imagePath = $image->store('images', 'public');
+            $imagePath = $image->store('', 'public');
+            $secondaryImagePaths[] = $imagePath;
+        }
+        $data["secondary_images"] = implode(',', $secondaryImagePaths);
+        $data["colors"] = implode(',', $data["colors"]);
+        $data["sizes"] = implode(',', $data["sizes"]);
+
+        do {
+            $data["slug"] = Str::random(10);
+
+        } while (Product::where("slug", $data["slug"])->first());
+
+        $data = Product::create($data);
+        return response()->json([
+            "success" => true,
+            "request_data_brahim" => $data,
+            "numberOfImages" => count($secondaryImagePaths),
+        ]);
     }
 
     public function show(Request $request)

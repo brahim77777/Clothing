@@ -151,14 +151,23 @@ export default function AddProduct() {
         formData.append('colors', JSON.stringify(colors));
 
         setData('slug',`idnumber${data?.quantity}`)
-        console.log("form data: ",formData)
+        console.log("form data: ",data)
 
         try {
-            await axios.post('/dashboard/add_product', data, {
+            await axios.post('/api/products', data, {
                 headers: {
                     'Content-Type': 'multipart/form-data'
                 }
-            });
+            }).then(
+                (response) => {
+                    console.log('Form submitted successfully:', response.data);
+                    // Handle successful form submission
+                },
+                (error) => {
+                    console.error('Error submitting form:', error);
+                    // Handle error during form submission
+                }
+            );
             // Handle successful form submission
         } catch (error) {
             console.error('Error submitting form:', error);

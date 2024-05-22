@@ -84,7 +84,7 @@ function Card({cart}){
         <div>
         <div className="flex max-sm:flex-col gap-2 border border-black ">
 
-            <img className=" sm:size-48" src="https://assetmanagerpim-res.cloudinary.com/images/bb07ea62b4054df1ac07afd000e419fd_9366/IM4497_000_plp_model.jpg?sh=364&strip=false&sw=364"/>
+            <img className=" sm:size-48" src={"/storage/"+cart.main_image}/>
             <div className="w-full p-2">
                 <div className="flex justify-between mr-2 "><div className=" line-clamp-1">ADICOLOR CLASSICS TREFOIL HOODIE</div><span>$65.00</span></div>
                 <div>{cart.title}</div>
@@ -153,7 +153,7 @@ export default function Cart(){
 
                     </button>
 
-                    
+
                  </div>
 
                 </div>
