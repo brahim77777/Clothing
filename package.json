@@ -42,7 +42,7 @@
         "filepond-plugin-image-resize": "^2.0.10",
         "filepond-plugin-image-transform": "^3.8.7",
         "framer-motion": "^11.1.7",
-        "i18next": "^23.11.2",
+        "i18next": "^23.11.3",
         "i18next-browser-languagedetector": "^7.2.1",
         "phosphor-react": "^1.4.1",
         "react-chartjs-2": "^5.2.0",
