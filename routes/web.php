@@ -23,24 +23,24 @@ use App\Models\Product;
 use Illuminate\Http\Request;
 
 
-// Route::post('/dashboard', function (Request $request) {
-//     $filePaths = [];
+Route::post('/upload', function (Request $request) {
+    $filePaths = [];
 
-//     $request->validate([
-//         'avatars' => 'required|array', // Ensure 'avatars' is an array
-//         'avatars.*' => 'required|file|image|max:5120', // Validate each file in the array
-//     ]);
+    $request->validate([
+        'avatars' => 'required|array', // Ensure 'avatars' is an array
+        'avatars.*' => 'required|file|image|max:5120', // Validate each file in the array
+    ]);
 
-//     foreach ($request->file('avatars') as $index => $avatar) {
+    foreach ($request->file('avatars') as $index => $avatar) {
 
-//         $filename = uniqid() . '_' . $index . '.' . $avatar->getClientOriginalExtension();
-//         $path = $avatar->storeAs('public', $filename);
-//         $filePaths[] = $path;
+        $filename = uniqid() . '_' . $index . '.' . $avatar->getClientOriginalExtension();
+        $path = $avatar->storeAs('public', $filename);
+        $filePaths[] = $path;
 
-//     }
+    }
 
-//     return Inertia::render('/dashboard');
-// });
+    return Inertia::render('/dashboard');
+});
 
 Route::post('/dashboard/add_product', function (Request $request) {
     $request->validate([
@@ -75,13 +75,7 @@ Route::post('/dashboard/add_product', function (Request $request) {
         $product->images = json_encode($images);
     }
 
-    foreach ($request->file('avatars') as $index => $avatar) {
 
-        $filename = uniqid() . '_' . $index . '.' . $avatar->getClientOriginalExtension();
-        $path = $avatar->storeAs('public', $filename);
-        $filePaths[] = $path;
-
-    }
 
     $product->save();
 
