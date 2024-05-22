@@ -11,7 +11,7 @@ import { TbEdit } from 'react-icons/tb';
 import ReactPaginate from 'react-paginate';
 import { HiUsers } from "react-icons/hi2";
 import Dashboard from './Dashboard';
-import { BsSave } from 'react-icons/bs';
+import { BsSave, BsSortAlphaDown, BsSortAlphaUp } from 'react-icons/bs';
 import { GiSave } from 'react-icons/gi';
 import { VscSave } from 'react-icons/vsc';
 import { MdSave } from 'react-icons/md';
@@ -68,6 +68,8 @@ const Users = () => {
 
     const [changeRole, setChangeRole] = useState(false);
 
+    const [sort ,setSort] = useState({"order":"asc","target":"name"})
+
     return (
         <Dashboard>
             <div className='my-2 overflow-hidden bg-gray-50 font-semibold relative flex font-Nunito justify-between p-4 border rounded-lg text-[1.5rem]'>
@@ -82,8 +84,12 @@ const Users = () => {
                             <thead className="border-b border-neutral-200 font-medium text-nowrap">
                                 <tr>
                                     <th scope="col" className="px-6 py-4 pr-10">ID</th>
-                                    <th scope="col" className="px-6 py-4">Name</th>
+                                    <th scope="col" class="px-6 py-4 gap-4 flex justify-between items-center">Name
+                                        <BsSortAlphaUp onClick={()=>setSort({"order":"asc","target":"name"})} className={` ${ sort.order == "asc" && `hidden`} size-8  rounded-full hover:border cursor-pointer duration-100 hover:bg-gray-50 p-1`}/>
+                                        <BsSortAlphaDown onClick={()=>setSort({"order":"desc","target":"name"})} className={`${ sort.order == "desc" && `hidden`} size-8 rounded-full hover:border cursor-pointer duration-100 hover:bg-gray-50 p-1`}/>
+                                    </th>
                                     <th scope="col" className="px-6 py-4">Email</th>
+
                                     <th scope="col" className="px-6 py-4">Email Verification At</th>
                                     <th scope="col" className="px-6 py-4">Role</th>
                                     <th scope="col" className="px-6 py-4">Last Update</th>

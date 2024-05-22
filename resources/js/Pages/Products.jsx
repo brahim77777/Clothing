@@ -54,7 +54,11 @@ export default  function  Products({pageCount ,products, total,auth})  {
     const [productsList,setProductsList] = useState(products?.data)
 
 
-    const [sort ,setSort] = useState({"order":"asc","target":"title"})
+    const [sortTitle ,setSortTitle] = useState({"order":"asc","target":"title"})
+    const [sortQuantity ,setSortQuantity] = useState({"order":"asc","target":"quantity"})
+    const [sortPrice ,setSortPrice] = useState({"order":"asc","target":"price"})
+    const [sortLastUpdate ,setSortLastUpdate] = useState({"order":"asc","target":"LastUpdate"})
+    const [sortCreatedAt ,setSortCreatedAt] = useState({"order":"asc","target":"CreatedAt"})
 
 
     const toggleDarkMode = useSelector((state)=>state.changeTheme.value)
@@ -88,7 +92,10 @@ export default  function  Products({pageCount ,products, total,auth})  {
     },[dataToUpdate])
 
 
-console.log(sort)
+console.log(sortPrice)
+console.log(sortCreatedAt)
+console.log(sortQuantity)
+console.log(sortTitle)
   return (
 <Dashboard>
 
@@ -112,20 +119,41 @@ console.log(sort)
                                     class={`border-b sticky   border-neutral-200 font-medium text-nowrap `}>
                                     <tr>
                                     <th scope="col" class="px-6 py-4 pr-10">ID</th>
-                                    <th scope="col" class="px-6 py-4 gap-4 flex justify-between items-center">Title
-                                        <BsSortAlphaUp onClick={()=>setSort({"order":"asc","target":"title"})} className={` ${ sort.order == "asc" && `hidden`} size-8  rounded-full hover:border cursor-pointer duration-100 hover:bg-gray-50 p-1`}/>
-                                        <BsSortAlphaDown onClick={()=>setSort({"order":"desc","target":"title"})} className={`${ sort.order == "desc" && `hidden`} size-8 rounded-full hover:border cursor-pointer duration-100 hover:bg-gray-50 p-1`}/>
+                                    <th scope="col" class="px-6 py-4 gap-4 flex justify-between items-center">
+                                    <div className='flex gap-4 justify-between items-center'>
+                                            Title
+                                            <BsSortAlphaUp onClick={()=>setSortTitle({"order":"asc","target":sortTitle.target})} className={` ${ sortTitle.order == "asc" && `hidden`} size-8  rounded-full hover:border cursor-pointer duration-100 hover:bg-gray-50 p-1`}/>
+                                            <BsSortAlphaDown onClick={()=>setSortTitle({"order":"desc","target":sortTitle.target})} className={`${ sortTitle.order == "desc" && `hidden`} size-8 rounded-full hover:border cursor-pointer duration-100 hover:bg-gray-50 p-1`}/>
+                                        </div>
                                     </th>
                                     <th scope="col" class="px-6 py-4 ">
                                         <div className='flex gap-4 justify-between items-center'>
-                                        Quantity
-                                        <BsSortNumericUp onClick={()=>setSort({"order":"asc","target":"quantity"})} className={` ${ sort.order == "asc" && `hidden`} size-8  rounded-full hover:border cursor-pointer duration-100 hover:bg-gray-50 p-1`}/>
-                                        <BsSortNumericDown onClick={()=>setSort({"order":"desc","target":"quantity"})} className={`${ sort.order == "desc" && `hidden`} size-8 rounded-full hover:border cursor-pointer duration-100 hover:bg-gray-50 p-1`}/>
+                                            Quantity
+                                            <BsSortNumericUp onClick={()=>setSortQuantity({"order":"asc","target":sortQuantity.target})} className={` ${ sortQuantity.order == "asc" && `hidden`} size-8  rounded-full hover:border cursor-pointer duration-100 hover:bg-gray-50 p-1`}/>
+                                            <BsSortNumericDown onClick={()=>setSortQuantity({"order":"desc","target":sortQuantity.target})} className={`${ sortQuantity.order == "desc" && `hidden`} size-8 rounded-full hover:border cursor-pointer duration-100 hover:bg-gray-50 p-1`}/>
                                         </div>
                                     </th>
-                                    <th scope="col" class="px-6 py-4">Last Update</th>
-                                    <th scope="col" class="px-6 py-4">Created at</th>
-                                    <th scope="col" class="px-6 py-4">Price</th>
+                                    <th scope="col" class="px-6 py-4">
+                                        <div className='flex gap-4 justify-between items-center'>
+                                            Last Update
+                                            <BsSortNumericUp onClick={()=>setSortLastUpdate({"order":"asc","target":sortLastUpdate.target})} className={` ${ sortLastUpdate.order == "asc" && `hidden`} size-8  rounded-full hover:border cursor-pointer duration-100 hover:bg-gray-50 p-1`}/>
+                                            <BsSortNumericDown onClick={()=>setSortLastUpdate({"order":"desc","target":sortLastUpdate.target})} className={`${ sortLastUpdate.order == "desc" && `hidden`} size-8 rounded-full hover:border cursor-pointer duration-100 hover:bg-gray-50 p-1`}/>
+                                        </div>
+                                    </th>
+                                    <th scope="col" class="px-6 py-4">
+                                        <div className='flex gap-4 justify-between items-center'>
+                                            Created at
+                                            <BsSortNumericUp onClick={()=>setSortCreatedAt({"order":"asc","target":sortCreatedAt.target})} className={` ${ sortCreatedAt.order == "asc" && `hidden`} size-8  rounded-full hover:border cursor-pointer duration-100 hover:bg-gray-50 p-1`}/>
+                                            <BsSortNumericDown onClick={()=>setSortCreatedAt({"order":"desc","target":sortCreatedAt.target})} className={`${ sortCreatedAt.order == "desc" && `hidden`} size-8 rounded-full hover:border cursor-pointer duration-100 hover:bg-gray-50 p-1`}/>
+                                        </div>
+                                    </th>
+                                    <th scope="col" class="px-6 py-4">
+                                        <div className='flex gap-4 justify-between items-center'>
+                                            Price
+                                            <BsSortNumericUp onClick={()=>setSortPrice({"order":"asc","target":sortPrice.target})} className={` ${ sortPrice.order == "asc" && `hidden`} size-8  rounded-full hover:border cursor-pointer duration-100 hover:bg-gray-50 p-1`}/>
+                                            <BsSortNumericDown onClick={()=>setSortPrice({"order":"desc","target":sortPrice.target})} className={`${ sortPrice.order == "desc" && `hidden`} size-8 rounded-full hover:border cursor-pointer duration-100 hover:bg-gray-50 p-1`}/>
+                                        </div>
+                                    </th>
                                     <th scope="col" class="px-6 py-4">More Details</th>
                                     <th scope="col" class="px-6 py-4">Action</th>
                                     </tr>
