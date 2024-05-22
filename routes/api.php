@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\RatingController;
 use App\Http\Controllers\SimplexController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
@@ -23,3 +24,4 @@ Route::post('/simplex', [SimplexController::class, 'simplex'])->name('api.simple
 // });
 
 Route::post('/products', [ProductController::class, 'store'])->name('api.products.store');
+

@@ -7,6 +7,8 @@ import { TbMinus } from 'react-icons/tb'
 import { TbPlus } from 'react-icons/tb'
 import Modal from "../Components/ModalRiv"
 import { Link } from "@inertiajs/react";
+// import { router } from '@inertiajs/react'
+
 
 function RatioOfReview(productReviews) {
     let ratios = { one: 0, two: 0, three: 0, four: 0, five: 0 }; // Initialize ratios here
@@ -127,7 +129,8 @@ export default function ProductDetails({product}){
             }
             } type="button" class="min-w-[200px] px-4 py-2.5 border border-neutral-300 bg-transparent text-yellow-30 text-sm font-bold rounded">Add to cart</button>
               {/* <button type="button" class="min-w-[200px] px-4 py-3 border border-neutral-300  bg-transparent  text-sm font-bold rounded">Submit your riview</button> */}
-              <Modal/>
+              <Modal slug={product.slug} />
+
             </div>
             {/* ABOUT PRODUCT */}
             <div class="mt-8">

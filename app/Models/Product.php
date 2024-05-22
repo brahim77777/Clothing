@@ -32,4 +32,15 @@ class Product extends Model
     {
         return $this->hasMany(Review::class);
     }
+
+    public function addRating($rating = 5, $body = null)
+    {
+        return $this->reviews()->create([
+            'rating' => $rating,
+            'body' => $body,
+            'user_id' => auth()->id(),
+            'user_name' => auth()->user()->name
+        ]);
+
+    }
 }

@@ -7,6 +7,8 @@ import ButtonGroup from '@mui/material/ButtonGroup';
 import axios from 'axios';
 import Rating from '@mui/material/Rating';
 import StarIcon from '@mui/icons-material/Star';
+import { Link } from '@inertiajs/react'
+import {router} from '@inertiajs/react'
 
 const labels = {
   0.5: 'Useless',
@@ -38,7 +40,7 @@ function getLabelText(value) {
     return `${value} Star${value !== 1 ? 's' : ''}, ${labels[value]}`;
   }
 
-export default function BModal() {
+export default function BModal({slug}) {
     const [value, setValue] = React.useState(2);
     const [hover, setHover] = React.useState(-1);
 
@@ -46,11 +48,22 @@ export default function BModal() {
   const handleOpen = () => setOpen(true);
   const [body,setBody] = React.useState("");
   const handleClose = () => setOpen(false);
+  router.on('success', (event) => {
+        alert('sended successfuly')
+
+  })
+  router.on('error', (event) => {
+    console.log(`Failed to make a visit to--------------------------------------909098098 `)
+    console.log(event.detail.errors)
+  })
   const sendRating = () => {
-    setOpen(false)
-    axios.post('/rating', {body}).then((res)=>{
-        console.log("response from rating Store :", res.data)
+    let review = {body: body, rating: value, slug: slug}
+    console.log(review)
+    router.post('/rating', {
+        review
     })
+
+
   }
   return (
     <div className=' '>
@@ -101,7 +114,9 @@ export default function BModal() {
           <div className='flex justify-end'>
           <ButtonGroup className='my-2' variant="outlined" aria-label="Basic button group">
             <Button onClick={handleClose}>canecl</Button>
-            <Button onClick={sendRating}>Submit</Button>
+            <Button onClick={sendRating} >Submit</Button>
+
+
           </ButtonGroup>
           </div>
         </Box>
