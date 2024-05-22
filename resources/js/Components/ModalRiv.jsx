@@ -3,13 +3,9 @@ import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
 import Modal from '@mui/material/Modal';
-import { HighlighterCircle } from 'phosphor-react';
-import Rating from "./RatingUI"
 import ButtonGroup from '@mui/material/ButtonGroup';
 import axios from 'axios';
-import * as React from 'react';
 import Rating from '@mui/material/Rating';
-import Box from '@mui/material/Box';
 import StarIcon from '@mui/icons-material/Star';
 
 const labels = {
