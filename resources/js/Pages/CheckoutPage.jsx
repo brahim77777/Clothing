@@ -9,9 +9,6 @@ const CheckoutPage = () => {
 
     console.log("total: ",total)
 
-    console.log("cart 01250:",cart)
-
-    console.log("cart: ",cart)
     const fraiLivr = 49
   return (
     <div className="py-10">
