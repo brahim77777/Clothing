@@ -7,6 +7,23 @@ import { HighlighterCircle } from 'phosphor-react';
 import Rating from "./RatingUI"
 import ButtonGroup from '@mui/material/ButtonGroup';
 import axios from 'axios';
+import * as React from 'react';
+import Rating from '@mui/material/Rating';
+import Box from '@mui/material/Box';
+import StarIcon from '@mui/icons-material/Star';
+
+const labels = {
+  0.5: 'Useless',
+  1: 'Useless+',
+  1.5: 'Poor',
+  2: 'Poor+',
+  2.5: 'Ok',
+  3: 'Ok+',
+  3.5: 'Good',
+  4: 'Good+',
+  4.5: 'Excellent',
+  5: 'Excellent+',
+};
 
 const style = {
   position: 'relative',
@@ -21,7 +38,14 @@ const style = {
   padding: "1rem"
 };
 
+function getLabelText(value) {
+    return `${value} Star${value !== 1 ? 's' : ''}, ${labels[value]}`;
+  }
+
 export default function BModal() {
+    const [value, setValue] = React.useState(2);
+    const [hover, setHover] = React.useState(-1);
+
   const [open, setOpen] = React.useState(false);
   const handleOpen = () => setOpen(true);
   const [body,setBody] = React.useState("");
@@ -49,7 +73,31 @@ export default function BModal() {
           </Typography>
           <div className='flex space-x-6 '>
             <div>Rate this product</div>
-            <Rating/>
+
+            <Box
+                sx={{
+                    width: 200,
+                    display: 'flex',
+                    alignItems: 'center',
+                }}
+                >
+                <Rating
+                    name="hover-feedback"
+                    value={value}
+                    precision={1}
+                    getLabelText={getLabelText}
+                    onChange={(event, newValue) => {
+                    setValue(newValue);
+                    }}
+                    onChangeActive={(event, newHover) => {
+                    setHover(newHover);
+                    }}
+                    emptyIcon={<StarIcon style={{ opacity: 0.55 }} fontSize="inherit" />}
+                />
+                {value !== null && (
+                    <Box sx={{ ml: 2 }}>{labels[hover !== -1 ? hover : value]}</Box>
+                )}
+            </Box>
           </div>
           <div className='h-[65%]  mt-2 '>
             <textarea placeholder='What do you think about this product' onChange={(e)=>setBody(e.target.value)} className='p-2 w-full outline-none border h-full border-neutral-300 rounded-md' />

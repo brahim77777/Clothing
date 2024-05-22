@@ -10,6 +10,8 @@ export default function Calculs ({products}){
         'Y': [3, 5, 7, 9, 11]
         }
 
+            console.log("products: ",products)
+
     axios.post(`http://127.0.0.2:8000/api/`,{
         data:data
     }).then(res=>{
