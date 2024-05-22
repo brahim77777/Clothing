@@ -11,7 +11,7 @@ class RatingController extends Controller
     {
         return response()->json([
             "success" => true,
-            "body" => $request->body
+            "body" => $request->all()
         ]);
     }
 }
