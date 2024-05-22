@@ -1,20 +1,13 @@
 import CurrencyInput from 'react-currency-input-field';
 import '../../css/app.css';
-
 import { SketchPicker } from 'react-color';
-// import Sketch from './Sketch';
-import React, { useEffect, useState, useCallback,useRef } from 'react';
-import { MdCategory, MdColorLens, MdPublish } from 'react-icons/md';
-import { Cancel, ClearAll, Create, Publish } from '@mui/icons-material';
-import { TbCategoryPlus, TbClearAll, TbDragDrop } from 'react-icons/tb';
-import { useDropzone } from "react-dropzone";
-// import Dropdown from 'DropDownT';
-import Dropdown from '../Components/DropDownT';
-import Modal from '../Components/Modal';
-import ModalCat from "../Components/ModalCat"
+import React, { useEffect, useState } from 'react';
+import { MdColorLens, MdPublish } from 'react-icons/md';
+import { Cancel } from '@mui/icons-material';
+import { TbClearAll } from 'react-icons/tb';
+import DropDown from '../Components/DropDownT';
+import ModalCat from "../Components/ModalCat";
 import { useDispatch, useSelector } from 'react-redux';
-import { openProducts } from '@/redux/openProductsSlice';
-//file pond imports
 import { Link, useForm } from '@inertiajs/react';
 import { FilePond, registerPlugin } from 'react-filepond';
 import 'filepond/dist/filepond.min.css';
@@ -29,7 +22,6 @@ import 'filepond-plugin-image-edit/dist/filepond-plugin-image-edit.css';
 import FilePondPluginImageResize from 'filepond-plugin-image-resize';
 import FilePondPluginImageTransform from 'filepond-plugin-image-transform';
 import Dashboard from './Dashboard';
-import { usePage } from '@inertiajs/react';
 import axios from 'axios';
 
 registerPlugin(
@@ -41,370 +33,202 @@ registerPlugin(
     FilePondPluginFileValidateSize,
     FilePondPluginFileValidateType
 );
-export default function AddProduct(){
 
-    //------- rest -- form data -------//
-    const selectedCategories = useSelector(state=>state.selectedCategories.value)
-    //selectedSizes existe
-    //colors existe
-
-    //------- rest -- form data -------//
-
-    const dispatch = useDispatch()
-    const[selectedSizes,setSelectedSizes] = useState([])
-    const[categories, setCategories] = useState([])
-
-    console.log("selected categss:",categories)
+export default function AddProduct() {
+    const selectedCategory = useSelector(state => state.selectedCategories.value);
+    const [selectedSizes, setSelectedSizes] = useState([]);
+    const [categories, setCategories] = useState([]);
     const [files, setFiles] = useState([]);
-    const onDrop = useCallback((acceptedFiles) => {
-        setFiles((prevFiles) => [
-          ...prevFiles,
-          ...acceptedFiles.map((file) => ({
-            ...file,
-            preview: URL.createObjectURL(file),
-          })),
-        ]);
-    }, []);
-
-
-
-
-
-
+    const [colors, setColors] = useState([]);
     const [state, setState] = useState({
         displayColorPicker: false,
-        color: {
-            r: '255',
-            g: '255',
-            b: '255',
-            a: '1',
-        },
+        color: { r: '255', g: '255', b: '255', a: '1' }
     });
-    function hexToRgba(hex, alpha = 1) {
-        hex = hex.replace(/^#/, '');
+    const { data, setData, post, progress } = useForm({
+        title: '',
+        description: '',
+        price: '',
+        quantity: '',
+        category_id: '',
+        sizes: [],
+        colors: [],
+        avatars: [],
+    });
+    const toggleDarkMode = useSelector((state) => state.changeTheme.value);
+    const refreshCategoriesState = useSelector(state => state.refreshCategoriesState.value);
 
-        if (hex.length === 3) {
-            hex = hex.split('').map(char => char + char).join('');
+    useEffect(() => {
+        axios.get('/categories').then((res) => {
+            setCategories(res.data.categories);
+        });
+    }, [refreshCategoriesState]);
+
+    useEffect(() => {
+        if (selectedCategory) {
+            setData('category_id', selectedCategory.id);
         }
-
-        const bigint = parseInt(hex, 16);
-        const r = (bigint >> 16) & 255;
-        const g = (bigint >> 8) & 255;
-        const b = bigint & 255;
-
-        return {r: r,g: g,b: b,a: alpha}
-    }
-
-    const colorsArr = (str) =>{
-        return str?.split("#")?.filter((e)=>e!="")
-    }
-
-    const colorsToUpdateTorgba = (arr) =>{
-        arr = colorsArr(arr)
-        let res = []
-        arr?.map(e=>{
-            res.push(hexToRgba(e))
-        })
-        return res
-    }
-    const [colors,setColors] = useState([])
-    console.log("colors: ",colors)
-
-
-
+    }, [selectedCategory]);
 
     const handleClick = () => {
         setState({ ...state, displayColorPicker: !state.displayColorPicker });
-        if (!colors.some(c => c === state.color)&&state.displayColorPicker) {
-            handleClose()
+        if (!colors.some(c => c === state.color) && state.displayColorPicker) {
+            handleClose();
         }
     };
 
     const handleClose = () => {
         setColors([...colors, state.color]);
+        setData('colors', [...colors, state.color]);
     };
 
     const handleChange = (color) => {
         setState({ ...state, color: color.rgb });
-
-
     };
 
-
-      const color = colors.map((e,index)=>(<div key={index}>
-        <div style={{border: '1px solid #ccc',backgroundColor: `rgba(${e.r}, ${e.g}, ${e.b}, ${e.a})`,borderRadius: '5px'}} className={`size-6`} >
-
-        <div />
-      </div>
-
-      </div>))
-
-        const [tags, setTags] = useState([]);
-        const [inputValue, setInputValue] = useState('');
-
-        const handleInputChange = (e) => {
-            setInputValue(e.target.value);
-        };
-
-        const handleInputKeyPress = (e) => {
-            if (e.key === 'Enter' && inputValue.trim() !== '') {
-                setTags([...tags, inputValue.trim()]);
-                setInputValue('');
-            }
-        };
-
-        const handleTagRemove = (indexToRemove) => {
-            setTags(tags.filter((_, index) => index !== indexToRemove));
-        };
-        const handleSizeSelection = (e) => {
-            e.preventDefault()
-            const size = e.currentTarget.value;
-            setSelectedSizes((prevSizes) => {
-                if (prevSizes?.includes(size)) {
-                    return prevSizes?.filter((s) => s !== size);
-                } else {
-                    return [...prevSizes, size];
-                }
-            });
-        };
-    const toggleDarkMode = useSelector((state)=>state.changeTheme.value)
-
-    const sideOpen = useSelector((state)=>state.sideBar.value)
-    const [isMediumScreen, setIsMediumScreen] = useState(false);
-
-    const refreshCategoriesState = useSelector(state=>state.refreshCategoriesState.value)
-    console.log("RefreshCateg: ",refreshCategoriesState)
-    useEffect(() => {
-        axios.get('/categories').then((res)=>{
-            setCategories(res.data.categories)
-            console.log("categ data: ",res.data)
-
-        },[])
-      const checkScreenWidth = () => {
-        setIsMediumScreen(window.innerWidth <= 768); // Assuming medium screen width is 768px or less
-      };
-
-      checkScreenWidth(); // Check on component mount
-
-      const handleResize = () => {
-        checkScreenWidth();
-      };
-
-      window.addEventListener('resize', handleResize);
-
-      return () => {
-        window.removeEventListener('resize', handleResize);
-      };
-    }, [refreshCategoriesState]);
-
-    //-----------------------Post Process-----------------------------------
-
-    const { data, setData, post, progress } = useForm({
-        name: '',
-        avatars: [],
-    });
-
-    const srcList = [];
-
-    const handleFileProcess = (error, file) => {
-        if (!error) {
-            console.log('File processed:', file);
-        }
+    const handleSizeSelection = (e) => {
+        e.preventDefault();
+        const size = e.currentTarget.value;
+        setSelectedSizes((prevSizes) => {
+            const newSizes = prevSizes.includes(size) ? prevSizes.filter((s) => s !== size) : [...prevSizes, size];
+            setData('sizes', newSizes);
+            return newSizes;
+        });
     };
 
-    const handleUpdateFiles = (fileItems) => {
-        setData('avatars', fileItems.map(fileItem => fileItem.file));
+    const handleFileUpdate = (fileItems) => {
+        const files = fileItems.map(fileItem => fileItem.file);
+        setData('avatars', files);
     };
 
     const handleFormSubmit = (e) => {
         e.preventDefault();
         const formData = new FormData();
-        formData.append('name', data.name);
+        formData.append('title', data.title);
+        formData.append('description', data.description);
+        formData.append('price', data.price);
+        formData.append('quantity', data.quantity);
+        formData.append('category_id', data.category_id);
+        formData.append('sizes', JSON.stringify(data.sizes));
+        formData.append('colors', JSON.stringify(data.colors));
         data.avatars.forEach((file, index) => {
-            formData.append(`avatar_${index}`, file);
+            formData.append(`avatars[${index}]`, file);
         });
 
-        post('/dashboard', formData);
+        axios.post('/product', formData)
+            .then(response => {
+                console.log(response);
+            })
+            .catch(error => {
+                console.log(error);
+            });
     };
 
-
-    const handleFileRemove = (file) => {
-        const index = srcList.findIndex(item => item.id === file.id);
-
-        if (index !== -1) {
-            srcList.splice(index, 1);
-            document.getElementById('con').children[index].remove();
-        }
-        console.log(srcList);
-    };
-
-//------ here post ------------------------------------------------------------------------------
-    axios.post('/', {}).then((res)=>{
-        console.log("response from product Store :", res.data)
-    })
-    return(
+    return (
         <Dashboard>
-        <div className={` w-full duration-300 ease-in-out min-h-screen ${toggleDarkMode ? 'bg-neutral-700' : 'bg-neutral-100'} h-full p-4 ml-auto `}>
+            <div className={`w-full duration-300 ease-in-out min-h-screen ${toggleDarkMode ? 'bg-neutral-700' : 'bg-neutral-100'} h-full p-4 ml-auto`}>
                 <form onSubmit={handleFormSubmit}>
-        <div className='w-full mb-2 flex justify-between '>
-            <h1 className="text-[1.4rem] font-semibold mb-4">Add a New Product</h1>
-            <div className='flex gap-2'>
-                <Link href="/dashboard/products" className=' py-2 pl-1 pr-2 border border-[#1C2434] h-fit rounded-md flex text-[#1C2434] items-center gap-1'><Cancel className='size-5 '/>Cancel</Link>
-                <button className=' py-2 pl-1 pr-2 bg-[#1C2434] h-fit rounded-md flex text-white items-center gap-1'><MdPublish className='size-5 '/>Publish</button>
-            </div>
-        </div>
-
-        <div className=' '>
-
-        <div className=' flex max-lg:flex-col left-full   gap-4 '>
-           <div className='w-full bg-white p-4 rounded-md'>
-                    <h2 className="mb-2  text-lg">General Information</h2>
-                <div className="grid grid-cols-3 max-md:grid-cols-2 gap-4 mb-4  flex-wrap ">
-                        <div className="flex flex-col gap-2 ">
-                            <label htmlFor="pn">Product Name</label>
-                            <input required name='name' id="pn"  className="p-2 border  border-neutral-300 rounded" type="text" placeholder="type cloth name"/>
+                    <div className='w-full mb-2 flex justify-between'>
+                        <h1 className="text-[1.4rem] font-semibold mb-4">Add a New Product</h1>
+                        <div className='flex gap-2'>
+                            <Link href="/dashboard/products" className='py-2 pl-1 pr-2 border border-[#1C2434] h-fit rounded-md flex text-[#1C2434] items-center gap-1'>
+                                <Cancel className='size-5' />Cancel
+                            </Link>
+                            <button className='py-2 pl-1 pr-2 bg-[#1C2434] h-fit rounded-md flex text-white items-center gap-1'>
+                                <MdPublish className='size-5' />Publish
+                            </button>
                         </div>
-                        <div className="flex flex-col gap-2 ">
-                            <label>Categories</label>
-                            {console.log("categ [0]:",categories[0]?.title)}
-                            <Dropdown Items={categories} />
-
-
-                        </div>
-                        <div className="flex flex-col justify-end gap-2 w-fit text-nowrap mb-[2.5px]">
-                            <ModalCat/>
-                        </div>
-                </div>
-
-                <div className="flex flex-col gap-2">
-                        <label>Descreption</label>
-                        <textarea className="p-2 border  border-neutral-300 rounded"  name="description" id="" cols={30} rows={5}/>
-                </div>
-
-                <div className="grid grid-cols-2 gap-2 mt-4 mb-4">
-                    <div className="flex flex-col gap-2 ">
-                        <label htmlFor="sl">Sale Price</label>
-                        <CurrencyInput id='sl' placeholder='220DH' className="p-2 border border-neutral-300 rounded" suffix="DH"  />
-                    </div>
-                    <div className="flex flex-col gap-2">
-                        <label htmlFor="qn">Quantity </label>
-                        <input id='qn' type='number'  placeholder='20' className="p-2 border border-neutral-300 rounded"   />
-                    </div>
-                </div>
-
-                <div className="flex flex-col gap-2 w-full mb-4">
-                    <label htmlFor="sl">select size(s)</label>
-                    <div className='flex gap-2'>
-                        <button onClick={(e) => { handleSizeSelection(e) }} value="XS" className={`${selectedSizes?.includes("XS") ? `border-gray-800 text-black border-2`:`text-zinc-400 bg-gray-100 `}   p-1 border rounded min-w-8 text-center border-neutral-400`}>XS</button>
-                        <button onClick={(e) => { handleSizeSelection(e) }} value="S" className={`${selectedSizes?.includes("S") ? `border-gray-800 text-black border-2`:`text-zinc-400 bg-gray-100 `}   p-1 border rounded min-w-8 text-center border-neutral-400`}>S</button>
-                        <button onClick={(e) => { handleSizeSelection(e) }} value="M" className={`${selectedSizes?.includes("M") ? `border-gray-800 text-black border-2`:`text-zinc-400 bg-gray-100 `}   p-1 border rounded min-w-8 text-center border-neutral-400`}>M</button>
-                        <button onClick={(e) => { handleSizeSelection(e) }} value="L" className={`${selectedSizes?.includes("L") ? `border-gray-800 text-black border-2`:`text-zinc-400 bg-gray-100 `}   p-1 border rounded min-w-8 text-center border-neutral-400`}>L</button>
-                        <button onClick={(e) => { handleSizeSelection(e) }} value="XL" className={`${selectedSizes?.includes("XL") ? `border-gray-800 text-black border-2`:`text-zinc-400 bg-gray-100 `}   p-1 border rounded min-w-8 text-center border-neutral-400`}>XL</button>
-                        <button onClick={(e) => { handleSizeSelection(e) }} value="XXL" className={`${selectedSizes?.includes("XXL") ? `border-gray-800 text-black border-2`:`text-zinc-400 bg-gray-100 `}   p-1 border rounded min-w-8 text-center border-neutral-400`}>XXL</button>
-                        <button onClick={(e) => { handleSizeSelection(e) }} value="XXXL" className={`${selectedSizes?.includes("XXXL") ? `border-gray-800 text-black border-2`:`text-zinc-400 bg-gray-100 `}   p-1 border rounded min-w-8 text-center border-neutral-400`}>XXXL</button>
                     </div>
 
-                </div>
-                <div className="flex flex-col gap-2 mb-4 w-full">
-                    <div className='flex justify-between'>
-                    <label htmlFor="sl">Add color(s)</label>
-                    {colors.length!==0&&<div className='text-green-400 size-5'>{colors.length}</div>}
-                    </div>
-
-                    <div className='flex gap-2 duration-300 w-full z-10 flex-wrap' >
-                        {color}
-                       <div className='relative' >
-                       <div className={`size-6 border cursor-pointer border-neutral-400 flex items-center  justify-center rounded bg-white`} onClick={handleClick}>
-                            <MdColorLens/>
-                        </div>
-
-                        {state.displayColorPicker ? (
-                            <div className='mt-2 absolute '>
-                                <SketchPicker className=' static' color={state.color} onChange={handleChange} />
+                    <div className=''>
+                        <div className='flex max-lg:flex-col-reverse justify-between gap-2'>
+                            <div className={`p-4 ${toggleDarkMode ? 'bg-[#171D2A]' : 'bg-white'} rounded-md w-full flex flex-col gap-4`}>
+                                <div className='w-full'>
+                                    <label htmlFor="title">Product Name</label>
+                                    <input type="text" id="title" value={data.title} onChange={e => setData('title', e.target.value)} className='border-neutral-400 w-full' />
+                                </div>
+                                <div className='w-full'>
+                                    <label htmlFor="description">Description</label>
+                                    <textarea id="description" value={data.description} onChange={e => setData('description', e.target.value)} className='border-neutral-400 w-full'></textarea>
+                                </div>
+                                <div className='w-full'>
+                                    <label htmlFor="price">Price</label>
+                                    <CurrencyInput
+                                        id="price"
+                                        name="price"
+                                        prefix="$"
+                                        defaultValue={data.price}
+                                        decimalsLimit={2}
+                                        className='border-neutral-400 w-full'
+                                        onValueChange={(value) => setData('price', value)}
+                                    />
+                                </div>
+                                <div className='w-full'>
+                                    <label htmlFor="quantity">Quantity</label>
+                                    <input type="number" id="quantity" value={data.quantity} onChange={e => setData('quantity', e.target.value)} className='border-neutral-400 w-full' />
+                                </div>
+                                <div className='w-full flex justify-between'>
+                                    <div className='w-full'>
+                                        <label htmlFor="cp">Sizes</label>
+                                        <div className='flex flex-col'>
+                                            <div className="flex justify-between">
+                                                {['xs', 'sm', 'md', 'lg', 'xl', '2xl'].map((size, index) => (
+                                                    <button
+                                                        key={index}
+                                                        className={`p-2 border border-neutral-400 rounded-md w-10 h-10 flex justify-center items-center ${selectedSizes.includes(size) ? 'bg-blue-500 text-white' : 'bg-white text-black'}`}
+                                                        value={size}
+                                                        onClick={handleSizeSelection}
+                                                    >
+                                                        {size}
+                                                    </button>
+                                                ))}
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div className='w-full'>
+                                    <div className="w-full flex flex-col gap-2">
+                                        <label htmlFor="category">Category</label>
+                                        <div className="w-full">
+                                            <DropDown Items={categories} />
+                                        </div>
+                                    </div>
+                                </div>
+                                <div className="flex flex-col gap-2">
+                                    <label htmlFor="cp">Colors</label>
+                                    <div className='flex flex-col'>
+                                        <button type='button' className='flex items-center gap-1 w-fit p-1 border border-neutral-400 rounded-md' onClick={handleClick}>
+                                            <MdColorLens className='size-4' />Pick color
+                                        </button>
+                                        {state.displayColorPicker && (
+                                            <div className='absolute z-10'>
+                                                <div className="fixed inset-0 bg-black opacity-50" onClick={handleClose}></div>
+                                                <SketchPicker color={state.color} onChange={handleChange} />
+                                            </div>
+                                        )}
+                                        <div className='flex gap-1'>
+                                            {colors.map((color, index) => (
+                                                <div key={index} style={{ background: `rgba(${color.r}, ${color.g}, ${color.b}, ${color.a})` }} className='w-5 h-5 rounded-full border-2 border-black' />
+                                            ))}
+                                        </div>
+                                    </div>
+                                </div>
                             </div>
-                        ) : null}
-                       </div>
-                       {(colors?.length !== 0)&&
-                            <div onClick={()=>setColors([])} className={`size-6 border cursor-pointer border-neutral-400 flex items-center  justify-center rounded bg-white`} >
-                                <TbClearAll/>
-                            </div>}
-                </div>
-
-
-            </div>
-
-            <div className='flex flex-col gap-2 w-full '>
-
-
-                <fieldset className="flex flex-col gap-2 borderl  rounded-md  border-[#1C2434]k  ">
-                    <legend className='mb-2 borderl border-[#1C2434]k rounded-full px-2k pb-0.5' >Product Images </legend>
-{/*//////////////// Drag and Drop Part /////////////////////////////////////////////////*/}
-                    <div>
-                    <FilePond
-                    files={data.avatars}
-                    allowMultiple={true}
-                    allowReorder
-                    allowImageEdit={true}
-                    onpreparefile={(file, output) => {
-                        const img = document.createElement("img");
-                        img.src = URL.createObjectURL(output);
-                        img.className = "rounded-md ring shadow size-[8rem] object-cover hover:object-contain";
-                        document.getElementById('con').appendChild(img);
-
-                        const index = srcList.findIndex(item => item.id === file.id);
-
-                        if (index !== -1) {
-                            srcList.splice(index, 1);
-                            document.getElementById('con').children[index].remove();
-                        }
-
-                        srcList.push({ src: img.src, id: file.id, time: Date.now() });
-                        console.log(srcList);
-                    }}
-                    onupdatefiles={handleUpdateFiles}
-                    onprocessfile={handleFileProcess}
-                    onremovefile={handleFileRemove}
-                    server={{
-                        url: '/dashboard',
-                        process: {
-                            method: 'POST',
-                            withCredentials: true,
-                            headers: {
-                                'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
-                            },
-                            onload: (response) => {
-                                if (Array.isArray(response)) {
-                                    setData('avatars', response);
-                                } else {
-                                    console.error('Unexpected response format:', response);
-                                }
-                            }
-                        }
-                    }}
-                    acceptedFileTypes={['image/*']}
-                    maxFileSize="5MB"
-                    beforeRemoveFile={handleFileRemove}
-                    labelIdle='Drag & Drop your picture or <span class="filepond--label-action">Browse</span>'
-                    imageResizeTargetWidth={200}
-                    imageResizeTargetHeight={144}
-                    imageResizeUpscale={false}
-                    imageResizeMode={"contain"}
-                    />
-                {progress && (
-                    <progress className='rounded' value={progress.percentage} max="100">
-                        {progress.percentage}%
-                    </progress>
-                )}
-                <div className='flex gap-6 flex-wrap mt-4' id='con'></div>                    </div>
-{/*//////////////// Drag and Drop Part /////////////////////////////////////////////////*/}
-
-                </fieldset>
-            </div>
+                            <div className="w-full bg-white p-4 rounded-md">
+                                <h2 className="mb-2 text-lg">Upload Images</h2>
+                                <FilePond
+                                    files={files}
+                                    onupdatefiles={handleFileUpdate}
+                                    allowMultiple={true}
+                                    maxFiles={4}
+                                    name="avatars"
+                                    labelIdle='Drag & Drop your images or <span class="filepond--label-action">Browse</span>'
+                                    acceptedFileTypes={['image/*']}
+                                />
+                            </div>
                         </div>
+                    </div>
+                </form>
             </div>
-        </div>
-        </form>
-    </div>
-    </Dashboard>
-    )
+        </Dashboard>
+    );
 }
