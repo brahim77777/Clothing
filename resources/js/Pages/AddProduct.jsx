@@ -1,12 +1,12 @@
 import CurrencyInput from 'react-currency-input-field';
 import '../../css/app.css';
 import { SketchPicker } from 'react-color';
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useCallback } from 'react';
 import { MdColorLens, MdPublish } from 'react-icons/md';
 import { Cancel } from '@mui/icons-material';
 import { TbClearAll } from 'react-icons/tb';
-import DropDown from '../Components/DropDownT';
-import ModalCat from "../Components/ModalCat";
+import Dropdown from '../Components/DropDownT';
+import ModalCat from "../Components/ModalCat"
 import { useDispatch, useSelector } from 'react-redux';
 import { Link, useForm } from '@inertiajs/react';
 import { FilePond, registerPlugin } from 'react-filepond';
@@ -24,6 +24,7 @@ import FilePondPluginImageTransform from 'filepond-plugin-image-transform';
 import Dashboard from './Dashboard';
 import axios from 'axios';
 
+
 registerPlugin(
     FilePondPluginImagePreview,
     FilePondPluginImageExifOrientation,
@@ -34,28 +35,29 @@ registerPlugin(
     FilePondPluginFileValidateType
 );
 
-export default function AddProduct() {
-    const selectedCategory = useSelector(state => state.selectedCategories.value);
-    const [selectedSizes, setSelectedSizes] = useState([]);
+export default function AddProduct({ toggleDarkMode }) {
+    const dispatch = useDispatch();
+    const selectedCategory = useSelector(state => state.selectedCategory.value);
+    const refreshCategoriesState = useSelector(state => state.refreshCategoriesState.value);
     const [categories, setCategories] = useState([]);
     const [files, setFiles] = useState([]);
     const [colors, setColors] = useState([]);
+    const [selectedSizes, setSelectedSizes] = useState([]);
     const [state, setState] = useState({
         displayColorPicker: false,
         color: { r: '255', g: '255', b: '255', a: '1' }
     });
+
     const { data, setData, post, progress } = useForm({
-        title: '',
+        name: '',
         description: '',
         price: '',
         quantity: '',
-        category_id: '',
+        category_id: selectedCategory?.id || '',
         sizes: [],
         colors: [],
         avatars: [],
     });
-    const toggleDarkMode = useSelector((state) => state.changeTheme.value);
-    const refreshCategoriesState = useSelector(state => state.refreshCategoriesState.value);
 
     useEffect(() => {
         axios.get('/categories').then((res) => {
@@ -103,7 +105,7 @@ export default function AddProduct() {
     const handleFormSubmit = (e) => {
         e.preventDefault();
         const formData = new FormData();
-        formData.append('title', data.title);
+        formData.append('name', data.name);
         formData.append('description', data.description);
         formData.append('price', data.price);
         formData.append('quantity', data.quantity);
@@ -140,57 +142,42 @@ export default function AddProduct() {
                     </div>
 
                     <div className=''>
-                        <div className='flex max-lg:flex-col-reverse justify-between gap-2'>
-                            <div className={`p-4 ${toggleDarkMode ? 'bg-[#171D2A]' : 'bg-white'} rounded-md w-full flex flex-col gap-4`}>
-                                <div className='w-full'>
-                                    <label htmlFor="title">Product Name</label>
-                                    <input type="text" id="title" value={data.title} onChange={e => setData('title', e.target.value)} className='border-neutral-400 w-full' />
-                                </div>
-                                <div className='w-full'>
-                                    <label htmlFor="description">Description</label>
-                                    <textarea id="description" value={data.description} onChange={e => setData('description', e.target.value)} className='border-neutral-400 w-full'></textarea>
-                                </div>
-                                <div className='w-full'>
-                                    <label htmlFor="price">Price</label>
-                                    <CurrencyInput
-                                        id="price"
-                                        name="price"
-                                        prefix="$"
-                                        defaultValue={data.price}
-                                        decimalsLimit={2}
-                                        className='border-neutral-400 w-full'
-                                        onValueChange={(value) => setData('price', value)}
-                                    />
-                                </div>
-                                <div className='w-full'>
-                                    <label htmlFor="quantity">Quantity</label>
-                                    <input type="number" id="quantity" value={data.quantity} onChange={e => setData('quantity', e.target.value)} className='border-neutral-400 w-full' />
-                                </div>
-                                <div className='w-full flex justify-between'>
-                                    <div className='w-full'>
-                                        <label htmlFor="cp">Sizes</label>
-                                        <div className='flex flex-col'>
-                                            <div className="flex justify-between">
-                                                {['xs', 'sm', 'md', 'lg', 'xl', '2xl'].map((size, index) => (
-                                                    <button
-                                                        key={index}
-                                                        className={`p-2 border border-neutral-400 rounded-md w-10 h-10 flex justify-center items-center ${selectedSizes.includes(size) ? 'bg-blue-500 text-white' : 'bg-white text-black'}`}
-                                                        value={size}
-                                                        onClick={handleSizeSelection}
-                                                    >
-                                                        {size}
-                                                    </button>
-                                                ))}
-                                            </div>
-                                        </div>
+                        <div className='flex max-lg:flex-col left-full gap-4'>
+                            <div className='w-full bg-white p-4 rounded-md'>
+                                <h2 className="mb-2 text-lg">General Information</h2>
+                                <div className="grid grid-cols-3 max-md:grid-cols-2 gap-4 mb-4 flex-wrap">
+                                    <div className="flex flex-col gap-2">
+                                        <label htmlFor="pn">Product Name</label>
+                                        <input required name='name' id="pn" className="p-2 border border-neutral-300 rounded" type="text" placeholder="type cloth name" onChange={(e) => setData('name', e.target.value)} />
+                                    </div>
+                                    <div className="flex flex-col gap-2">
+                                        <label>Categories</label>
+                                        <Dropdown Items={categories} selected={data.category_id} onChange={(value) => setData('category_id', value)} />
+                                    </div>
+                                    <div className="flex flex-col justify-end gap-2 w-fit text-nowrap mb-[2.5px]">
+                                        <ModalCat />
                                     </div>
                                 </div>
-                                <div className='w-full'>
-                                    <div className="w-full flex flex-col gap-2">
-                                        <label htmlFor="category">Category</label>
-                                        <div className="w-full">
-                                            <DropDown Items={categories} />
-                                        </div>
+                                <div className="flex flex-col gap-2">
+                                    <label>Description</label>
+                                    <textarea className="p-2 border border-neutral-300 rounded" name="description" cols={30} rows={5} onChange={(e) => setData('description', e.target.value)} />
+                                </div>
+                                <div className="grid grid-cols-2 gap-2 mt-4 mb-4">
+                                    <div className="flex flex-col gap-2">
+                                        <label htmlFor="sl">Sale Price</label>
+                                        <CurrencyInput id='sl' placeholder='220DH' className="p-2 border border-neutral-300 rounded" suffix="DH" onValueChange={(value) => setData('price', value)} />
+                                    </div>
+                                    <div className="flex flex-col gap-2">
+                                        <label htmlFor="qn">Quantity</label>
+                                        <input id='qn' type='number' placeholder='20' className="p-2 border border-neutral-300 rounded" onChange={(e) => setData('quantity', e.target.value)} />
+                                    </div>
+                                </div>
+                                <div className="flex flex-col gap-2 w-full mb-4">
+                                    <label htmlFor="sl">Select size(s)</label>
+                                    <div className='flex gap-2'>
+                                        {['XS', 'S', 'M', 'L', 'XL', 'XXL', 'XXXL'].map(size => (
+                                            <button key={size} onClick={handleSizeSelection} value={size} className={`${selectedSizes.includes(size) ? 'border-gray-800 text-black border-2' : 'text-zinc-400 bg-gray-100'} p-1 border rounded min-w-8 text-center border-neutral-400`}>{size}</button>
+                                        ))}
                                     </div>
                                 </div>
                                 <div className="flex flex-col gap-2">
