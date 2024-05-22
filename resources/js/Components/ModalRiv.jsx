@@ -6,6 +6,7 @@ import Modal from '@mui/material/Modal';
 import { HighlighterCircle } from 'phosphor-react';
 import Rating from "./RatingUI"
 import ButtonGroup from '@mui/material/ButtonGroup';
+import axios from 'axios';
 
 const style = {
   position: 'relative',
@@ -23,8 +24,14 @@ const style = {
 export default function BModal() {
   const [open, setOpen] = React.useState(false);
   const handleOpen = () => setOpen(true);
+  const [body,setBody] = React.useState("");
   const handleClose = () => setOpen(false);
-
+  const sendRating = () => {
+    setOpen(false)
+    axios.post('/rating', {body}).then((res)=>{
+        console.log("response from rating Store :", res.data)
+    })
+  }
   return (
     <div className=' '>
       {/* <button className='px-3 py-2 text-xs font-bold text-white uppercase bg-gray-500 rounded' onClick={handleOpen}>See More</button> */}
@@ -45,12 +52,12 @@ export default function BModal() {
             <Rating/>
           </div>
           <div className='h-[65%]  mt-2 '>
-            <textarea placeholder='What do you think about this product' className='p-2 w-full outline-none border h-full border-neutral-300 rounded-md' />
+            <textarea placeholder='What do you think about this product' onChange={(e)=>setBody(e.target.value)} className='p-2 w-full outline-none border h-full border-neutral-300 rounded-md' />
           </div>
           <div className='flex justify-end'>
           <ButtonGroup className='my-2' variant="outlined" aria-label="Basic button group">
             <Button onClick={handleClose}>canecl</Button>
-            <Button>Submit</Button>
+            <Button onClick={sendRating}>Submit</Button>
           </ButtonGroup>
           </div>
         </Box>

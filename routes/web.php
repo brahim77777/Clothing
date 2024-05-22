@@ -3,6 +3,7 @@
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\RatingController;
 use App\Http\Controllers\SearchController;
 use App\Http\Controllers\UserController;
 use App\Http\Resources\ProductResource;
@@ -236,5 +237,6 @@ Route::get('/calculs', function () {
 Route::get('/simplex', function () {
     return Inertia::render('Simplex');
 });
+Route::post("/rating", [RatingController::class, 'store'])->middleware('auth')->name('rating.store');
 
 require __DIR__ . '/auth.php';

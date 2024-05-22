@@ -3,7 +3,7 @@
 // import { TbStar,TbStarFilled } from "react-icons/tb";
 
 
- 
+
 // export function RatingUI({value}) {
 //   return (
 //     <Rating
@@ -53,7 +53,7 @@ export default function HoverRating() {
       <Rating
         name="hover-feedback"
         value={value}
-        precision={0.5}
+        precision={1}
         getLabelText={getLabelText}
         onChange={(event, newValue) => {
           setValue(newValue);
