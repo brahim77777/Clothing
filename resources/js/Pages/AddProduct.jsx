@@ -11,6 +11,8 @@ import { useDispatch, useSelector } from 'react-redux';
 import { Link, useForm } from '@inertiajs/react';
 import { FilePond, registerPlugin } from 'react-filepond';
 import 'filepond/dist/filepond.min.css';
+import DropDown from '../Components/DropDownT';
+
 import 'filepond-plugin-image-preview/dist/filepond-plugin-image-preview.min.css';
 import FilePondPluginImagePreview from 'filepond-plugin-image-preview';
 import FilePondPluginImageExifOrientation from 'filepond-plugin-image-exif-orientation';
@@ -73,12 +75,10 @@ export default function AddProduct({ toggleDarkMode }) {
 
     const handleClick = () => {
         setState({ ...state, displayColorPicker: !state.displayColorPicker });
-        if (!colors.some(c => c === state.color) && state.displayColorPicker) {
-            handleClose();
-        }
     };
 
     const handleClose = () => {
+        setState({ ...state, displayColorPicker: false });
         setColors([...colors, state.color]);
         setData('colors', [...colors, state.color]);
     };
@@ -99,6 +99,7 @@ export default function AddProduct({ toggleDarkMode }) {
 
     const handleFileUpdate = (fileItems) => {
         const files = fileItems.map(fileItem => fileItem.file);
+        setFiles(files);
         setData('avatars', files);
     };
 
@@ -152,7 +153,7 @@ export default function AddProduct({ toggleDarkMode }) {
                                     </div>
                                     <div className="flex flex-col gap-2">
                                         <label>Categories</label>
-                                        <Dropdown Items={categories} selected={data.category_id} onChange={(value) => setData('category_id', value)} />
+                                        <DropDown Items={categories} selected={data.category_id} onChange={(value) => setData('category_id', value)} />
                                     </div>
                                     <div className="flex flex-col justify-end gap-2 w-fit text-nowrap mb-[2.5px]">
                                         <ModalCat />
