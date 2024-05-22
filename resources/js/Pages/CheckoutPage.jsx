@@ -4,17 +4,20 @@ import { useSelector } from 'react-redux';
 const CheckoutPage = () => {
 
     const cart = useSelector(state=>state.cart.value)
-    const total = 0
-    // cart?.foreach((e)=> total = total + e.quantity)
+    let total = 0
+    cart?.map((e)=> total = total + e.quantity*e.price)
+
+    console.log("total: ",total)
 
     console.log("cart 01250:",cart)
 
     console.log("cart: ",cart)
+    const fraiLivr = 49
   return (
-    <div className="min-h-screen bg-gray-100 py-10">
-      <div className="container   mx-auto px-4">
-          <form className='lg:flex gap-4 mx-4'>
-        <div className="bg-white p-8 rounded-lg w-full shadow-lg">
+    <div className="py-10">
+      <div className="    mx-auto px-4">
+          <form className='lg:flex gap-4 mx-4 relative '>
+        <div className="bg-white xl:w-[68vw] z-10 p-8 rounded-lg border border-rose-400 w-full shadow-lg">
           <h2 className="text-2xl font-bold mb-6">Détails de facturation</h2>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
               <div className="flex flex-col">
@@ -69,8 +72,8 @@ const CheckoutPage = () => {
 
         </div>
 
-        <div className="max-lg:mt-10 h-full">
-          <div className="bg-white p-8 rounded-lg shadow-lg">
+        <div className="max-lg:mt-10 min-w-[25vw] h-full z-40 right-8 xl-w-[20vw]  sticky">
+          <div className="bg-white p-8 rounded-lg shadow-lg border border-rose-400">
             <h2 className="text-2xl font-bold mb-2">Votre commande</h2>
             <div className=' my-2'>
                 <div className=' bg-gray-300 rounded-sm h-[2px]'/>
@@ -93,28 +96,28 @@ const CheckoutPage = () => {
                 <div>Expédition</div>
                   <div className='flex justify-between'>
                     <div>
-                        <input type="radio" id="freeShipping" name="shipping" className="mr-2" defaultChecked />
+                        <input type="radio" checked id="freeShipping" name="shipping" className="mr-2" defaultChecked />
                         <label htmlFor="freeShipping">Livraison gratuite</label>
                     </div>
                     <div>0.00 DH</div>
                   </div>
-                  <diV>
+                  <div className="flex justify-between">
                     <div>
                         <input type="radio" id="paidShipping" name="shipping" className="mr-2" />
-                        <label htmlFor="paidShipping">Frais de transport: 49,00 DH</label>
+                        <label htmlFor="paidShipping">Frais de transport</label>
                     </div>
-                    <div>{}</div>
-                  </diV>
+                    <div>49,00 DH</div>
+                  </div>
               </div>
               <div className="flex justify-between font-semibold">
                 <div>Total</div>
-                <div>{5500}DH</div>
+                <div>{total+fraiLivr}DH</div>
               </div>
               <div className="flex items-center mt-6">
                 <input type="radio" id="paymentOnDelivery" name="payment" className="mr-2" defaultChecked />
                 <label htmlFor="paymentOnDelivery">Paiement à la livraison</label>
               </div>
-              <button className="w-full mt-6 py-3 bg-red-500 text-white font-semibold rounded-md hover:bg-red-600 focus:outline-none focus:ring-2 focus:ring-red-500">Commander</button>
+              <button disabled={cart?.length == 0} className={`w-full mt-6 py-3 ${cart?.length > 0 ? `bg-red-500 hover:bg-red-600 `:`bg-gray-500 hover:bg-gray-600  cursor-not-allowed`}  text-white font-semibold rounded-md focus:outline-none focus:ring-2 focus:ring-red-500`}>Commander</button>
             </div>
           </div>
         </div>
