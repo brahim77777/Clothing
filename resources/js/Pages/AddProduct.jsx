@@ -1,6 +1,6 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useCallback } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { Link, router, useForm } from '@inertiajs/react';
+import { Link,router,useForm } from '@inertiajs/react';
 import { SketchPicker } from 'react-color';
 import { MdColorLens, MdPublish } from 'react-icons/md';
 import { Cancel } from '@mui/icons-material';
@@ -16,7 +16,7 @@ import FilePondPluginFileValidateSize from 'filepond-plugin-file-validate-size';
 import FilePondPluginFileValidateType from 'filepond-plugin-file-validate-type';
 import FilePondPluginImageResize from 'filepond-plugin-image-resize';
 import FilePondPluginImageTransform from 'filepond-plugin-image-transform';
-import axios from 'axios';
+import axios from 'axios'; // Import axios
 import Dashboard from './Dashboard';
 import ModalCat from '@/Components/ModalCat';
 import '../../css/app.css';
@@ -34,36 +34,60 @@ registerPlugin(
 export default function AddProduct() {
     const dispatch = useDispatch();
     const selectedCategory = useSelector(state => state.selectedCategory.value);
-    const toggleDarkMode = useSelector(state => state.changeTheme.value);
-    const refreshCategoriesState = useSelector(state => state.refreshCategoriesState.value);
+    console.log("category hgfyh: ", selectedCategory)
+    const [selectedSizes, setSelectedSizes] = useState([]);
+    const [categories, setCategories] = useState([]);
+    const [colors, setColors] = useState([]);
+    const [files, setFiles] = useState([]);
+    const [state, setState] = useState({
+        displayColorPicker: false,
+        color: [{
+            r: '255',
+            g: '255',
+            b: '255',
+            a: '1',
+        }]
+    });
+
+    function rgbToHex(colors) {
+        return colors?.map(color => {
+            const { r, g, b, a } = color;
+            // Convert RGB values to hexadecimal format
+            const red = parseInt(r).toString(16).padStart(2, '0');
+            const green = parseInt(g).toString(16).padStart(2, '0');
+            const blue = parseInt(b).toString(16).padStart(2, '0');
+            // If alpha value exists, include it in the result
+            const alpha = a ? Math.round(parseFloat(a) * 255).toString(16).padStart(2, '0') : '';
+            // Construct hexadecimal color string
+            return `#${red}${green}${blue}${alpha}`.toUpperCase();
+        });
+    }
+
+
 
     const { data, setData, post, progress } = useForm({
         title: '',
-        slug: '',
+        slug : '',
         description: '',
         price: '',
         quantity: '',
         category_id: '',
-        secondary_images: [],
+        secondary_images : [],
         sizes: [],
         colors: [],
         main_image: '',
     });
 
-    const [categories, setCategories] = useState([]);
-    const [state, setState] = useState({
-        displayColorPicker: false,
-        color: {
-            r: '255',
-            g: '255',
-            b: '255',
-            a: '1',
-        },
-    });
 
-    useEffect(() => {
-        setData('category_id', selectedCategory?.id);
-    }, [selectedCategory]);
+
+    useEffect(()=>{
+        console.log("selected categ here : ",selectedCategory)
+        setData('category_id',selectedCategory?.id)
+    },[selectedCategory])
+
+
+    const toggleDarkMode = useSelector(state => state.changeTheme.value);
+    const refreshCategoriesState = useSelector(state => state.refreshCategoriesState.value);
 
     useEffect(() => {
         axios.get('/categories').then((res) => {
@@ -72,42 +96,47 @@ export default function AddProduct() {
     }, [refreshCategoriesState]);
 
     const handleClick = () => {
-        router.cancel();
-        setState(prevState => ({ ...prevState, displayColorPicker: !prevState.displayColorPicker }));
+        router.cancel()
+        setState({ ...state, displayColorPicker: !state.displayColorPicker });
+        if (!colors.some(c => c === state.color) && state.displayColorPicker) {
+            handleClose();
+        }
     };
 
     const handleClose = () => {
-        router.cancel();
-        const hexColor = rgbToHex(state.color);
-        setData('colors', [...data.colors, hexColor]);
-        setState(prevState => ({ ...prevState, displayColorPicker: false }));
+        router.cancel()
+        setColors([...colors, state.color]);
+        setData('colors',rgbToHex(colors))
     };
 
     const handleChange = (color) => {
-        router.cancel();
-        setState(prevState => ({ ...prevState, color: color.rgb }));
-    };
-
-    const rgbToHex = (color) => {
-        const { r, g, b, a } = color;
-        const red = parseInt(r).toString(16).padStart(2, '0');
-        const green = parseInt(g).toString(16).padStart(2, '0');
-        const blue = parseInt(b).toString(16).padStart(2, '0');
-        const alpha = a ? Math.round(parseFloat(a) * 255).toString(16).padStart(2, '0') : '';
-        return `#${red}${green}${blue}${alpha}`.toUpperCase();
+        router.cancel()
+        setState({ ...state, color: color.rgb });
     };
 
     const handleSizeSelection = (e) => {
         e.preventDefault();
         const size = e.currentTarget.value;
-        const newSizes = data.sizes.includes(size)
-            ? data.sizes.filter(s => s !== size)
-            : [...data.sizes, size];
-        setData('sizes', newSizes);
+        setSelectedSizes((prevSizes) => {
+            if (prevSizes.includes(size)) {
+                return prevSizes.filter((s) => s !== size);
+            } else {
+                return [...prevSizes, size];
+            }
+        });
+
+        setData('sizes',selectedSizes)
+
+    };
+
+    const handleFileProcess = ( file) => {
+        router.cancel()
+            console.log('File processed:', file);
     };
 
     const handleUpdateFiles = (fileItems) => {
-        router.cancel();
+        router.cancel()
+        setFiles(fileItems.map(fileItem => fileItem.file));
         const avatarFiles = fileItems.map(fileItem => fileItem.file);
         setData('main_image', avatarFiles[0]);
         setData('secondary_images', avatarFiles);
@@ -115,8 +144,13 @@ export default function AddProduct() {
 
     const handleFormSubmit = async (e) => {
         e.preventDefault();
-        router.cancel();
-        setData('slug', `idnumber${data?.quantity}`);
+        // router.cancel()
+        console.log("data transfer: ",data)
+
+
+        setData('slug',`idnumber${data?.quantity}`)
+        console.log("form data: ",data)
+
         try {
             await axios.post('/api/products', data, {
                 headers: {
@@ -125,13 +159,17 @@ export default function AddProduct() {
             }).then(
                 (response) => {
                     console.log('Form submitted successfully:', response.data);
+                    // Handle successful form submission
                 },
                 (error) => {
                     console.error('Error submitting form:', error);
+                    // Handle error during form submission
                 }
             );
+            // Handle successful form submission
         } catch (error) {
             console.error('Error submitting form:', error);
+            // Handle error during form submission
         }
     };
 
@@ -150,6 +188,29 @@ export default function AddProduct() {
                     <div className='flex max-lg:flex-col left-full gap-4 '>
                         <div className='w-full bg-white p-4 rounded-md'>
                             <h2 className="mb-2 text-lg">General Information</h2>
+                            <div className='w-full flex flex-col gap-2 mb-4'>
+                                <label>Upload product Image(s)</label>
+                                <FilePond
+                                    files={files}
+                                    allowMultiple={true}
+                                    maxFiles={6}
+                                    onupdatefiles={handleUpdateFiles}
+                                    server={{
+                                        process: {
+                                            url: '/upload', // Update the process URL to the correct route
+                                            method: 'POST',
+                                            withCredentials: true,
+                                            headers: {
+                                                'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
+                                            }
+
+                                        }
+                                    }}
+                                    onprocessfile={handleFileProcess}
+                                    name="main_image"
+                                    labelIdle='Drag & Drop your files or <span class="filepond--label-action">Browse</span>'
+                                />
+                            </div>
                             <div className="grid grid-cols-3 max-md:grid-cols-2 gap-4 mb-4 flex-wrap">
                                 <div className="flex flex-col gap-2 ">
                                     <label htmlFor="pn">Product Name</label>
@@ -172,7 +233,7 @@ export default function AddProduct() {
                             <div className="grid grid-cols-2 gap-2 mt-4 mb-4">
                                 <div className="flex flex-col gap-2 ">
                                     <label htmlFor="sl">Sale Price</label>
-                                    <CurrencyInput id='sl' placeholder='220DH' className="p-2 border border-neutral-300 rounded" suffix="DH" onValueChange={(value, name, values) => setData('price', value)} />
+                                    <CurrencyInput id='sl' placeholder='220DH' className="p-2 border border-neutral-300 rounded" suffix="DH"   onValueChange={(value, name, values) => setData('price', value)}/>
                                 </div>
                                 <div className="flex flex-col gap-2">
                                     <label htmlFor="qn">Quantity </label>
@@ -183,9 +244,12 @@ export default function AddProduct() {
                             <div className="flex flex-col gap-2 w-full mb-4">
                                 <label htmlFor="sl">Select size(s)</label>
                                 <div className='flex gap-2'>
-                                    {['XS', 'S', 'M', 'L', 'XL', 'XXL'].map(size => (
-                                        <button key={size} onClick={handleSizeSelection} value={size} className={`${data.sizes.includes(size) ? 'border-gray-800 text-black border-2' : 'text-zinc-400 bg-gray-100'} p-1 border rounded min-w-8 text-center border-neutral-400`}>{size}</button>
-                                    ))}
+                                    <button onClick={(e) => { handleSizeSelection(e) }} value="XS" className={`${selectedSizes.includes("XS") ? `border-gray-800 text-black border-2` : `text-zinc-400 bg-gray-100`} p-1 border rounded min-w-8 text-center border-neutral-400`}>XS</button>
+                                    <button onClick={(e) => { handleSizeSelection(e) }} value="S" className={`${selectedSizes.includes("S") ? `border-gray-800 text-black border-2` : `text-zinc-400 bg-gray-100`} p-1 border rounded min-w-8 text-center border-neutral-400`}>S</button>
+                                    <button onClick={(e) => { handleSizeSelection(e) }} value="M" className={`${selectedSizes.includes("M") ? `border-gray-800 text-black border-2` : `text-zinc-400 bg-gray-100`} p-1 border rounded min-w-8 text-center border-neutral-400`}>M</button>
+                                    <button onClick={(e) => { handleSizeSelection(e) }} value="L" className={`${selectedSizes.includes("L") ? `border-gray-800 text-black border-2` : `text-zinc-400 bg-gray-100`} p-1 border rounded min-w-8 text-center border-neutral-400`}>L</button>
+                                    <button onClick={(e) => { handleSizeSelection(e) }} value="XL" className={`${selectedSizes.includes("XL") ? `border-gray-800 text-black border-2` : `text-zinc-400 bg-gray-100`} p-1 border rounded min-w-8 text-center border-neutral-400`}>XL</button>
+                                    <button onClick={(e) => { handleSizeSelection(e) }} value="XXL" className={`${selectedSizes.includes("XXL") ? `border-gray-800 text-black border-2` : `text-zinc-400 bg-gray-100`} p-1 border rounded min-w-8 text-center border-neutral-400`}>XXL</button>
                                 </div>
                             </div>
 
@@ -194,46 +258,25 @@ export default function AddProduct() {
                                 <div className='relative'>
                                     <button
                                         className={`rounded h-[30px] w-full p-1 border ${toggleDarkMode ? 'bg-neutral-700 text-white' : 'bg-neutral-100 text-black'}`}
-                                        onClick={(e) => {
-                                            e.preventDefault();
-                                            handleClick();
-                                        }}><MdColorLens className='inline-block align-middle' /><span className='inline-block align-middle'>Choose a Color</span></button>
+                                        onClick={(e)=>{
+                                                e.preventDefault()
+                                                handleClick()
+                                                }}><MdColorLens className='inline-block align-middle' /><span className='inline-block align-middle'>Choose a Color</span></button>
                                     {state.displayColorPicker ? (
                                         <div className='absolute z-50'>
-                                            <div className='fixed top-0 right-0 bottom-0 left-0' onClick={handleClose} />
-                                            <SketchPicker color={state.color} onChange={handleChange} />
+                                            <div className='fixed top-0 right-0 bottom-0 left-0' onClick={handleClick} />
+                                            <SketchPicker  color={state.color} onChange={handleChange} />
                                         </div>
                                     ) : null}
                                 </div>
                                 <div className='flex gap-2 flex-wrap'>
-                                    {data.colors.map((color, index) => (
-                                        <div key={index} className="p-2 border rounded" style={{ backgroundColor: color }}></div>
+                                    {colors.map((color, index) => (
+                                        <div key={index} className="p-2 border rounded" style={{ backgroundColor: `rgba(${color.r},${color.g},${color.b},${color.a})` }}></div>
                                     ))}
                                 </div>
                             </div>
 
-                            <div className='w-full flex flex-col gap-2 mb-4'>
-                                <label>Upload Image(s)</label>
-                                <FilePond
-                                    files={data.secondary_images}
-                                    allowMultiple={true}
-                                    maxFiles={6}
-                                    onupdatefiles={handleUpdateFiles}
-                                    server={{
-                                        process: {
-                                            url: '/upload',
-                                            method: 'POST',
-                                            withCredentials: true,
-                                            headers: {
-                                                'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
-                                            }
 
-                                        }
-                                    }}
-                                    name="main_image"
-                                    labelIdle='Drag & Drop your files or <span class="filepond--label-action">Browse</span>'
-                                />
-                            </div>
                         </div>
                     </div>
                 </form>
