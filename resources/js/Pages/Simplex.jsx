@@ -68,6 +68,25 @@ const SimplexInputs = () => {
       setResult(res.data.result);
     });
   };
+  const handleSubmitMin = () => {
+    const objective = 'min';
+    const numVariables = products.length;
+    const numConstraints = constraints.length;
+    const constraintsData = constraints.map(constraint => {
+      const constraintValues = constraint.capacities.slice(0, -1).join(',');
+      const operator = constraint.operator === '<=' ? 'L' : 'G';
+      const capacity = constraint.capacities.slice(-1)[0];
+      return `${constraintValues},${operator},${capacity}`;
+    }).join(' ');
+
+    const objectiveFunction = products.map(product => product.profit).join(',');
+    const dataString = `${objective} ${numVariables} ${numConstraints} ${constraintsData} ${objectiveFunction},0`;
+
+    console.log(dataString);
+    axios.post('/api/simplex', { data: dataString }).then((res) => {
+      setResult(res.data.result);
+    });
+  };
 
   return (
     <div>
@@ -148,6 +167,9 @@ const SimplexInputs = () => {
       </Button>
       <Button onClick={handleSubmit} variant="contained" color="success" style={{ marginTop: 20, marginLeft: 10 }}>
         Submit
+      </Button>
+      <Button onClick={handleSubmitMin} variant="contained" color="success" style={{ marginTop: 20, marginLeft: 10 }}>
+        Submit Min
       </Button>
 
       {result && (

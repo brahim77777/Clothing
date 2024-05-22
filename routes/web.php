@@ -233,4 +233,8 @@ Route::get('/calculs', function () {
     ]);
 });
 
+Route::get('/simplex', function () {
+    return Inertia::render('Simplex');
+});
+
 require __DIR__ . '/auth.php';
