@@ -6,7 +6,7 @@ import Carousel from "@/Components/Carousel";
 import { TbMinus } from 'react-icons/tb'
 import { TbPlus } from 'react-icons/tb'
 import Modal from "../Components/ModalRiv"
-import { Link } from "@inertiajs/react";
+import { Link,useForm } from "@inertiajs/react";
 // import { router } from '@inertiajs/react'
 
 
@@ -44,6 +44,10 @@ export default function ProductDetails({product}){
 
     const cart = useSelector(state=>state.cart.value)
 
+
+
+
+
     console.log("cart data: ",cart)
 
     console.log("this is PRoductDeatils---> Product", product)
@@ -53,6 +57,9 @@ export default function ProductDetails({product}){
   const dispatch = useDispatch()
 
   const[qnt,setQnt] = useState(1)
+
+  const[size , setSize] = useState("")
+  const[color , setColor] = useState("")
 
   console.log("sizes: ",product.sizes)
     return(
@@ -114,11 +121,12 @@ export default function ProductDetails({product}){
               <button onClick={()=>{
                 dispatch(add(
                     {
+                        'id':product.id,
                         'title' : product.title,
                         'category_id':product.category,
                         'main_image':product.main_image,
-                        'colors':product.colors,
-                        'sizes':product.sizes,
+                        'color':color,
+                        'size':size,
                         'price':product.price,
                         'rating':product.rating,
                         'slug':product.slug,
@@ -141,15 +149,15 @@ export default function ProductDetails({product}){
             </div>
             <div class="mt-8 flex gap-2 items-center">
             Available product sizes { sizes.map((e,index)=>
-                <div className="px-2 py-[2px] border-gray-500 text-gray-600 bg-gray-50 rounded border" key={index}>{e}</div>)}
+                <button onClick={()=>setSize(e)} className={`px-2 py-[2px] ${size == e ? `bg-blue-500 text-white`: `border-gray-500 text-gray-600 bg-gray-50 `} min-w-[2rem] rounded border`} key={index}>{e}</button>)}
             </div>
             <div class="mt-8 flex gap-2 items-center">
-            Available product colors {colors.map((e,index)=>
+            Available product colors
                 <div className='flex gap-2 flex-wrap'>
-                {colors.map((color, index) => (
-                    <div key={index} className="p-2 border rounded" style={{ backgroundColor: e }}></div>
+                {colors.map((e, index) => (
+                    <button onClick={()=>setColor(e)} key={index} className={`p-2  ${color == e && `ring-[2px]`} ring-offset-1 ring-gray-500 shadow  size-6 rounded-full `} style={{ backgroundColor: e}}></button>
                 ))}
-            </div>)}
+            </div>
             </div>
             <div class="mt-8">
 
