@@ -58,8 +58,8 @@ export default function ProductDetails({product}){
 
   const[qnt,setQnt] = useState(1)
 
-  const[size , setSize] = useState(colors[0])
-  const[color , setColor] = useState(sizes[0])
+  const[size , setSize] = useState(product.sizes.split(",")[0])
+  const[color , setColor] = useState(product.colors.split(",")[0])
 
   console.log("sizes: ",product.sizes)
     return(

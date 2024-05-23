@@ -47,7 +47,7 @@ const CheckoutPage = () => {
 
         const orderData = {
             ...formData,
-            cart,
+            miniCart,
             total: total + (formData.shippingMethod === 'paid' ? fraiLivr : 0)
         };
 
