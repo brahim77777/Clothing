@@ -59,7 +59,7 @@ const Dashboard =  ({ children , auth}) => {
     { name: 'Users', icon: UsersIcon, current: false ,href:"/dashboard/users"},
     // { name: 'Sales', icon: GiPriceTag, current: false },
     { name: 'Calculations Space',href:"/calculs", icon: CalculateOutlined, current: false },
-    { name: 'Statistiques', icon: ChartBarIcon, current: false, href :""}
+    { name: 'Statistiques', icon: ChartBarIcon, current: false, href :"/dashboard/statistiques"}
   ]
   const userNavigation = [
     { name: 'Your Profile', href: '/profile' },

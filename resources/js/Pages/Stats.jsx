@@ -72,6 +72,7 @@ const datas = {
   ]
 };
 
+
 const Stats = ({products}) => {
   console.log("hshshhhsh:",products)
   // Prepare data for each chart
@@ -144,7 +145,7 @@ const Stats = ({products}) => {
     })),
   };
 
-  axios.get("/rating").then(res=>{
+  axios.get("/commands").then(res=>{
     console.log("chart: ",res.data)
   })
 
