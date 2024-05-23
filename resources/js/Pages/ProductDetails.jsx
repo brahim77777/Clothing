@@ -6,6 +6,8 @@ import Carousel from "@/Components/Carousel";
 import { TbMinus } from 'react-icons/tb'
 import { TbPlus } from 'react-icons/tb'
 import Modal from "../Components/ModalRiv"
+import { formatDistanceToNow, parseISO } from 'date-fns';
+
 import { Link,useForm } from "@inertiajs/react";
 // import { router } from '@inertiajs/react'
 
@@ -39,14 +41,12 @@ function RatioOfReview(productReviews) {
 
 export default function ProductDetails({product}){
 
+    console.log("det:",product)
+
     const colors = product.colors.split(",")
     const sizes = product.sizes.split(",")
 
     const cart = useSelector(state=>state.cart.value)
-
-
-
-
 
     console.log("cart data: ",cart)
 
@@ -54,14 +54,16 @@ export default function ProductDetails({product}){
     const ratios = RatioOfReview(product.reviews);
 
     RatioOfReview(product.reviews)
-  const dispatch = useDispatch()
+    const dispatch = useDispatch()
 
-  const[qnt,setQnt] = useState(1)
+    const[qnt,setQnt] = useState(1)
 
-  const[size , setSize] = useState(product.sizes.split(",")[0])
-  const[color , setColor] = useState(product.colors.split(",")[0])
+    const[size , setSize] = useState(product.sizes.split(",")[0])
+    const[color , setColor] = useState(product.colors.split(",")[0])
 
-  console.log("sizes: ",product.sizes)
+    console.log("sizes: ",product.sizes)
+
+    const [readAll,setReadAll] = useState(false)
     return(
         <div className="font-[sans-serif]  ">
 
@@ -138,7 +140,6 @@ export default function ProductDetails({product}){
             } type="button" class="min-w-[200px] px-4 py-2.5 border border-neutral-300 bg-transparent text-yellow-30 text-sm font-bold rounded">Add to cart</button>
               {/* <button type="button" class="min-w-[200px] px-4 py-3 border border-neutral-300  bg-transparent  text-sm font-bold rounded">Submit your riview</button> */}
               <Modal slug={product.slug} />
-
             </div>
             {/* ABOUT PRODUCT */}
             <div class="mt-8">
@@ -160,7 +161,6 @@ export default function ProductDetails({product}){
             </div>
             </div>
             <div class="mt-8">
-
               <div class="mt-8">
                 <h3 class="text-lg font-bold text-yellow-30">Reviews({product.reviews.length})</h3>
                 <div class="space-y-3 mt-4">
@@ -221,18 +221,33 @@ export default function ProductDetails({product}){
                   </div>
                 </div>
               </div>
-              <div class="flex items-start mt-8">
-                <img src="https://readymadeui.com/team-2.webp" alt="team" className="w-12 h-12 rounded-full border-2 border-white" />
-                <div class="ml-3">
-                  <h4 class="text-sm font-bold text-whit">John Doe</h4>
-                  <div class="flex items-center space-x-1 mt-1">
-                    <Rating defaultValue={4} size="small" readOnly/>
-                    <p class="text-xs !ml-2 font-semibold text-whit">2 mins ago</p>
+             {  readAll ?
+                product.reviews?.map((e,index)=>
+                    <div key={index} class="flex items-start mt-8">
+                    <div class="ml-3">
+                      <h4 class="text-sm font-bold text-whit">{e.user_name}</h4>
+                      <div class="flex items-center space-x-1 mt-1">
+                        <Rating defaultValue={e.rating} size="small" readOnly/>
+                        <p class="text-xs !ml-2 font-semibold text-whit">{formatDistanceToNow(parseISO(e.created_at))}</p>
+                      </div>
+                      <p class="text-xs mt-4 text-whit">{e.body}</p>
+                    </div>
                   </div>
-                  <p class="text-xs mt-4 text-whit">The service was amazing. I never had to wait that long for my demand. The staff was friendly and attentive, and the delivery was impressively prompt.</p>
+                )
+                :
+                <div class="flex items-start mt-8">
+                <div class="ml-3">
+                  <h4 class="text-sm font-bold text-whit">{product.reviews[0].user_name}</h4>
+                  <div class="flex items-center space-x-1 mt-1">
+                    <Rating defaultValue={product.reviews[0].rating} size="small" readOnly/>
+                    <p class="text-xs !ml-2 font-semibold text-whit">{formatDistanceToNow(parseISO(product.reviews[0].created_at))}</p>
+                  </div>
+                  <p class="text-xs mt-4 text-whit">{product.reviews[0].body}</p>
                 </div>
               </div>
-              <button type="button" class="w-full mt-8 px-4 py-2 bg-transparent border-2 border-yellow-30 text-yellow-30 font-bold rounded">Read all reviews</button>
+
+             }
+              <button onClick={()=>setReadAll(!readAll)} type="button" class="w-full mt-8 px-4 py-2 bg-transparent border-2 border-yellow-30 text-yellow-30 font-bold rounded">Read all reviews</button>
             </div>
           </div>
         </div>
