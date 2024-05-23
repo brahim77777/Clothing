@@ -122,9 +122,9 @@ const Dashboard =  ({ children , auth}) => {
                   <div className="mt-[5rem] h-0 flex-1 overflow-y-auto">
                     <nav className="space-y-1 px-2">
                       {navigation.map((item) => (
-                        <div
+                        <Link
                           key={item.name}
-                          onClick={item.func}
+                          href={item.href}
                           className={classNames(
                             item.current
                               ? 'bg-gray-900 text-white'
@@ -140,7 +140,7 @@ const Dashboard =  ({ children , auth}) => {
                             aria-hidden="true"
                           />
                           {item.name}
-                        </div>
+                        </Link>
                       ))}
                     </nav>
                   </div>

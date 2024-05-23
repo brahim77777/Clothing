@@ -10,15 +10,52 @@ export default function Calculs ({products}){
         'Y': [3, 5, 7, 9, 11]
         }
 
-            console.log("products: ",products)
+        const [productsd, setProducts] = useState([
+            {
+                id: 1,
+                title: "quo",
+                category: "officia",
+                main_image: "product4.jpeg",
+                colors: "#bec996,#2b6bc9,#31012b",
+                created_at: "1 day ago",
+                description: "Suscipit culpa non maxime perspiciatis consequuntur.",
+                price: "864",
+                quantity: 11,
+                rating: 1,
+                sizes: "XL,S,L,M",
+                slug: "soluta-aut-beatae-laboriosam-id-ut-ut-est",
+                updated_at: "1 day ago"
+            }
+        ]);
+    console.log("data look: ",data)
+    console.log("products look: ",products.data)
 
-    axios.post(`http://127.0.0.2:8000/api/`,{
-        data:data
-    }).then(res=>{
-        setData(res.data.r)
-        // datap = res.data
-        console.log("Python data: ",res.data)
-    })
+    console.log("products : ",products)
+
+
+    // axios.post(`http://127.0.0.2:8000/api/`,{
+    //     data:data
+    // }).then(res=>{
+    //     setData(res.data.r)
+    //     // datap = res.data
+    //     console.log("Python data: ",res.data)
+    // })
+
+    // axios.post(`http://127.0.0.2:8000/predict_price/`,{
+    //     products:products.data
+    // }).then(res=>{
+    //     console.log(res.data)
+    // })
+
+    const handlePredict = () => {
+        axios.post('http://127.0.0.2:8000/predict_price', products.data)
+            .then(res => {
+                console.log('Predicted Prices:', res.data.predicted_prices);
+            })
+            .catch(err => {
+                console.error('Error:', err);
+            });
+    };
     return (
         <div class="min-h-screen flex flex-col justify-center py-12 sm:px-6 lg:px-8">
         {/* <div class="sm:mx-auto sm:w-full sm:max-w-md">
@@ -109,6 +146,7 @@ export default function Calculs ({products}){
             </form>
           </div>
         </div> */}
+            <button onClick={handlePredict}>Predict Prices</button>
 
         <div>R square: {datap}</div>
     <Simplex_form products={products}/>

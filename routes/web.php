@@ -193,6 +193,11 @@ Route::get('/dashboard/update_product', function () {
     return Inertia::render("UpdateProduct");
 })->middleware('auth')->name('UpdateProduct');
 
+Route::get('/dashboard/statistiques', function () {
+    return Inertia::render("Stats");
+})->middleware('auth')->name('Stats');
+
+
 Route::get('/dashboard/users', function () {
     return Inertia::render("Users");
 })->middleware('auth')->name('users');
