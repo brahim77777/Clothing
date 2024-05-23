@@ -277,12 +277,7 @@ Route::get('/dashboard/products/sort', function (Request $request) {
 
 })->name('products');
 
-Route::get(
-    '/commands',
-    [CommandController::class, 'index']
-
-)->name('commands');
-
+Route::get('/commands', [CommandController::class, 'index'])->name('commands');
 Route::get('/commands/save', [CommandController::class, 'storeCsv'])->name('commands.save');
 Route::get('/commands/all', [CommandController::class, 'readCsv'])->name('commands.read');
 
