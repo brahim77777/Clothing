@@ -253,4 +253,11 @@ class ProductController extends Controller
 
     }
 
+    public function command(Request $request)
+    {
+        // $request->validate([
+        // ''
+        // ])
+    }
+
 }
