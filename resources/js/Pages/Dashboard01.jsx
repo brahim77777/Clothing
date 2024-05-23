@@ -59,11 +59,11 @@ export default function Dashboard({ auth, products }) {
     function deleteProduct(slug){
 
 
-        alert(slug)
+        // alert(slug)
 
 
         axios.delete('/products/'+slug).then((res)=>{
-            alert(res.data)
+            // alert(res.data)
             console.log("deleted check!",res.data)
 
             // Assuming 'myArray' is the state variable storing the array and 'setMyArray' is the setter function

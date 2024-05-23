@@ -214,7 +214,7 @@ const Users = () => {
                                             <button onClick={() => {
                                                 if (confirm("are you sure you want to delete this user ?"))
                                                     axios.delete("/users/" + user.email).then((res) => {
-                                                        alert(res.data.success ? "done!" : "Failed!")
+                                                        // alert(res.data.success ? "done!" : "Failed!")
                                                         fetchUsers()
                                                     })
                                             }} className='flex justify-between items-center gap-1 p-1 rounded bg-red-500 text-white border  hover:bg-red-200 hover:text-red-600'>

@@ -32,6 +32,16 @@ const CheckoutPage = () => {
         });
     };
 
+    const miniCart = []
+
+    cart.map(e=>{
+        miniCart.push({'product_id': e.id, "color":e.color, "size":e.size})
+    })
+
+    console.log("mini Cart:", miniCart)
+
+
+
     const handlCommand = async (e) => {
         e.preventDefault();
 
