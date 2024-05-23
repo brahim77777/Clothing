@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\CategoryController;
+use App\Http\Controllers\CommandController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\RatingController;
@@ -276,12 +277,15 @@ Route::get('/dashboard/products/sort', function (Request $request) {
 
 })->name('products');
 
-Route::get('/commands', function () {
-    return response()->json(
-        ["commands" => Command::all()]
-    );
+Route::get(
+    '/commands',
+    [CommandController::class, 'index']
 
-});
+)->name('commands');
+
+Route::get('/commands/save', [CommandController::class, 'storeCsv'])->name('commands.save');
+Route::get('/commands/all', [CommandController::class, 'readCsv'])->name('commands.read');
+
 Route::get('/commands/seed', function () {
     Command::create(
         [
