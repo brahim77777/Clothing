@@ -41,6 +41,15 @@ ChartJS.register(CategoryScale, LinearScale, BarElement, Title, Tooltip, Legend,
 
 
 const Stats = ({products}) => {
+    
+
+            const [commands , setCommands] = useState([])
+
+       useEffect(()=>{
+        axios.get("/commands").then(res=>{
+            setCommands(res.data.commands)
+          })
+       },[])
 
     const monthNames = [
         "January", "February", "March", "April", "May", "June",
@@ -48,29 +57,20 @@ const Stats = ({products}) => {
       ];
 
 
-    const [commands , setCommands] = useState([])
-  // Process data
-  const cities = commands.map(item => item.city);
-  const cityCount = {};
-  cities.forEach(city => {
-    cityCount[city] = (cityCount[city] || 0) + 1;
-  });
+      // Process data
+      const cities = commands.map(item => item.city);
+      const cityCount = {};
+      cities.forEach(city => {
+          cityCount[city] = (cityCount[city] || 0) + 1;
+        });
 
-  const statuses = commands.map(item => item.status);
-  const statusCount = {};
-  statuses.forEach(status => {
-    statusCount[status] = (statusCount[status] || 0) + 1;
-  });
+        const statuses = commands.map(item => item.status);
+        const statusCount = {};
+        statuses.forEach(status => {
+            statusCount[status] = (statusCount[status] || 0) + 1;
+        });
 
-  const totalPrices = commands.map(item => item.total_price);
-
-
-
-   useEffect(()=>{
-    axios.get("/commands").then(res=>{
-        setCommands(res.data.commands)
-      })
-   },[])
+        const totalPrices = commands.map(item => item.total_price);
 
 
 
@@ -193,6 +193,8 @@ const Stats = ({products}) => {
       },
     ],
   };
+
+  console.log("commands: ",commands)
 
 
 
