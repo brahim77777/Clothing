@@ -24,4 +24,4 @@ Route::post('/simplex', [SimplexController::class, 'simplex'])->name('api.simple
 // });
 
 Route::post('/products', [ProductController::class, 'store'])->name('api.products.store');
-
+Route::post('/command', [ProductController::class, 'command'])->name('api.products.command');

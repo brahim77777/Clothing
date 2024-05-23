@@ -134,7 +134,7 @@ Route::get('/dashboard/products', function () {
         'pageCount' => $pageCount,
         'total' => $products->total(),
     ]);
-})->middleware('auth')->name('products');
+})->name('products');
 
 
 //Users
@@ -154,13 +154,11 @@ Route::get('/dashboard/product/{product:slug}', function () {
 });
 Route::delete('/users/{user:email}', [UserController::class, 'destroy']);
 
-Route::middleware(['auth'])->group(function () {
-    Route::get('/products/{slug}', [ProductController::class, 'show'])->name('products.show');
-    Route::get('/products/category/{category:title}', [CategoryController::class, 'show'])->name('category.products');
-    Route::get('/view-all', function () {
-        return Inertia::render("ViewAll");
-    })->name('ViewAll');
-});
+Route::get('/products/{slug}', [ProductController::class, 'show'])->name('products.show');
+Route::get('/products/category/{category:title}', [CategoryController::class, 'show'])->name('category.products');
+Route::get('/view-all', function () {
+    return Inertia::render("ViewAll");
+})->name('ViewAll');
 
 Route::post('/categories/store', [CategoryController::class, 'store'])->name('categories.store');
 // Route::get('/categories/{category:title}', [CategoryController::class, 'show'])->name('categories.delete');
@@ -212,7 +210,7 @@ Route::get('/dashboard/add_product', function () {
 
 Route::get('/check_out', function () {
     return Inertia::render("CheckoutPage");
-})->middleware('auth')->name('CheckoutPage');
+})->name('CheckoutPage');
 
 Route::get('/cart', function () {
     return Inertia::render("Cart");
@@ -221,7 +219,7 @@ Route::get('/cart', function () {
 
 Route::get('/favorite', function () {
     return Inertia::render("Favorite");
-})->middleware('auth')->name('Favorite');
+})->name('Favorite');
 
 
 
@@ -273,7 +271,7 @@ Route::get('/dashboard/products/sort', function (Request $request) {
         'pageCount' => $pageCount,
         'total' => $products->total(),
     ]);
-})->middleware('auth')->name('products');
+})->name('products');
 
 
 require __DIR__ . '/auth.php';
