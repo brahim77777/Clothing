@@ -41,7 +41,7 @@ ChartJS.register(CategoryScale, LinearScale, BarElement, Title, Tooltip, Legend,
 
 
 const Stats = ({products}) => {
-    
+
 
             const [commands , setCommands] = useState([])
 
@@ -207,7 +207,7 @@ const Stats = ({products}) => {
         </h1>
 
         <div className="mb-8 p-2 border border-orange-500 rounded-md">
-            <h2 className="text-xl font-semibold mb-2">Number of Orders Per Month</h2>
+            <h2 className="text-xl font-semibold mb-2">Orders Per Month</h2>
             <Bar data={chartData} />
         </div>
 
