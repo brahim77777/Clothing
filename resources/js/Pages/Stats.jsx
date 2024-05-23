@@ -42,6 +42,12 @@ ChartJS.register(CategoryScale, LinearScale, BarElement, Title, Tooltip, Legend,
 
 const Stats = ({products}) => {
 
+    const monthNames = [
+        "January", "February", "March", "April", "May", "June",
+        "July", "August", "September", "October", "November", "December"
+      ];
+
+
     const [commands , setCommands] = useState([])
   // Process data
   const cities = commands.map(item => item.city);
@@ -58,39 +64,6 @@ const Stats = ({products}) => {
 
   const totalPrices = commands.map(item => item.total_price);
 
-  const cityData = {
-    labels: Object.keys(cityCount),
-    datasets: [
-      {
-        label: '# of Orders',
-        data: Object.values(cityCount),
-        backgroundColor: 'rgba(75, 192, 192, 0.6)',
-      },
-    ],
-  };
-
-  const statusData = {
-    labels: Object.keys(statusCount),
-    datasets: [
-      {
-        label: '# of Orders',
-        data: Object.values(statusCount),
-        backgroundColor: ['rgba(255, 99, 132, 0.6)', 'rgba(54, 162, 235, 0.6)', 'rgba(255, 206, 86, 0.6)'],
-      },
-    ],
-  };
-
-  const priceData = {
-    labels: commands.map((_, index) => `Order ${index + 1}`),
-    datasets: [
-      {
-        label: 'Total Price',
-        data: totalPrices,
-        backgroundColor: 'rgba(153, 102, 255, 0.6)',
-      },
-    ],
-  };
-
 
 
    useEffect(()=>{
@@ -98,40 +71,6 @@ const Stats = ({products}) => {
         setCommands(res.data.commands)
       })
    },[])
-
-
-  console.log("commands from stats:",commands)
-  // Prepare data for each chart
-
-  // Bar chart data for product quantities
-  let countProducts = 0
-  let days = []
-  let years = []
-
-
-  let qntMonth1 = 0
-
-  commands.map(e=>{
-    const date = new Date(e.created_at);
-    if(date.getMonth().toLocaleString() == 1){
-         qntMonth1+=e.products.split(" ").length
-    }
-  })
-
-  console.log("month 1: ",qntMonth1)
-
-  commands.map(e=>{
-    // e.products.split(" ").map(e=>{
-        countProducts +=e.products.split(" ").length
-        const date = new Date(e.created_at)
-        years.push(date.getFullYear())
-        days.push(date.getDay()+1)
-    // })
-  })
-
-  console.log(countProducts)
-  console.log(years)
-  console.log(days)
 
 
 
@@ -172,26 +111,23 @@ const Stats = ({products}) => {
     ],
   };
 
-  // Line chart data for product ratings
-  const productRatings = {};
-  data.Reviews.forEach(review => {
-    if (productRatings[review.product_id]) {
-      productRatings[review.product_id].push(review.rating);
-    } else {
-      productRatings[review.product_id] = [review.rating];
-    }
-  });
 
-
-
-  const orderCounts = commands.reduce((acc, order) => {
+ // Process data for the bar chart (Number of Orders Per Month)
+ const orderCounts = commands.reduce((acc, order) => {
     const month = dayjs(order.created_at).format('MMMM');
     acc[month] = (acc[month] || 0) + 1;
     return acc;
   }, {});
 
-  const months = Object.keys(orderCounts);
-  const orderNumbers = Object.values(orderCounts);
+  const sortedOrderCounts = monthNames.reduce((acc, month) => {
+    if (orderCounts[month]) {
+      acc[month] = orderCounts[month];
+    }
+    return acc;
+  }, {});
+
+  const months = Object.keys(sortedOrderCounts);
+  const orderNumbers = Object.values(sortedOrderCounts);
 
   const chartData = {
     labels: months,
@@ -204,27 +140,93 @@ const Stats = ({products}) => {
     ],
   };
 
+  // Process data for the line chart (Total Prices over Time)
+  const priceTrends = commands.reduce((acc, order) => {
+    const month = dayjs(order.created_at).format('MMMM');
+    if (!acc[month]) {
+      acc[month] = 0;
+    }
+    acc[month] += order.total_price;
+    return acc;
+  }, {});
+
+  const sortedPriceTrends = monthNames.reduce((acc, month) => {
+    if (priceTrends[month]) {
+      acc[month] = priceTrends[month];
+    }
+    return acc;
+  }, {});
+
+  const monthsForPrices = Object.keys(sortedPriceTrends);
+  const totalPricesPerMonth = Object.values(sortedPriceTrends);
+
+  const lineChartData = {
+    labels: monthsForPrices,
+    datasets: [
+      {
+        label: 'Total Prices',
+        data: totalPricesPerMonth,
+        borderColor: 'rgba(75, 192, 192, 1)',
+        backgroundColor: 'rgba(75, 192, 192, 0.2)',
+        fill: true,
+      },
+    ],
+  };
+
+  // Process data for the pie chart (Free Shipping vs Paid Shipping)
+  const shippingData = commands.reduce((acc, order) => {
+    if (order.free_shipping) {
+      acc.free++;
+    } else {
+      acc.paid++;
+    }
+    return acc;
+  }, { free: 0, paid: 0 });
+
+  const pieShippingData = {
+    labels: ['Free Shipping', 'Paid Shipping'],
+    datasets: [
+      {
+        data: [shippingData.free, shippingData.paid],
+        backgroundColor: ['rgba(0, 223, 118, 0.5)', 'rgba(241, 123, 57, 0.5)'],
+        borderWidth: 1,
+      },
+    ],
+  };
 
 
 
   return (
 
     <Dashboard>
+
       <h1 className="text-2xl font-bold mb-4 border shadow mt-4 p-2 border-orange-500 text-orange-600 flex justify-between items-center bg-orange-50 rounded txt-white">Statistiques
-      <FcStatistics className='w-12 h-12 '/></h1>
-      <div className="mb-8 p-2 border border-orange-500 rounded-md">
-        <h2 className="text-xl font-semibold mb-2">Number of Orders Per Month</h2>
-        <Bar data={chartData} />
-      </div>
-      <div className="mb-8 p-2 border border-orange-500 rounded-md">
-        <h2 className="text-xl font-semibold mb-2">Payment Status</h2>
-        <div className=' m-auto flex justify-center lg:max-w-[30rem]'>
-        <Doughnut  data={pieData} />
+            <FcStatistics className='w-12 h-12 '/>
+        </h1>
+
+        <div className="mb-8 p-2 border border-orange-500 rounded-md">
+            <h2 className="text-xl font-semibold mb-2">Number of Orders Per Month</h2>
+            <Bar data={chartData} />
         </div>
-      </div>
-      <div className='p-2 border border-orange-500 rounded-md'>
-        <h2 className="text-xl font-semibold mb-2  ">Product Ratings</h2>
-      </div>
+
+        <div className="mb-8 p-2 border border-orange-500 rounded-md">
+            <h2 className="text-xl font-semibold mb-2">Payment Status</h2>
+            <div className='m-auto flex justify-center lg:max-w-[30rem]'>
+            <Doughnut data={pieData} />
+            </div>
+        </div>
+
+        <div className="mb-8 p-2 border border-orange-500 rounded-md">
+            <h2 className="text-xl font-semibold mb-2">Total Prices Over Time</h2>
+            <Line data={lineChartData} />
+        </div>
+
+        <div className="mb-8 p-2 border border-orange-500 rounded-md">
+            <h2 className="text-xl font-semibold mb-2">Free vs Paid Shipping</h2>
+            <div className='m-auto flex justify-center lg:max-w-[30rem]'>
+            <Pie data={pieShippingData} />
+            </div>
+        </div>
     </Dashboard>
   );
 };
