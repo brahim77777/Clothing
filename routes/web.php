@@ -8,6 +8,7 @@ use App\Http\Controllers\SearchController;
 use App\Http\Controllers\UserController;
 use App\Http\Resources\ProductResource;
 use App\Models\Category;
+use App\Models\Command;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
@@ -271,9 +272,16 @@ Route::get('/dashboard/products/sort', function (Request $request) {
         'pageCount' => $pageCount,
         'total' => $products->total(),
     ]);
+
+
 })->name('products');
 
+Route::get('/commands', function () {
+    return response()->json(
+        ["commands" => Command::all()]
+    );
 
+});
 
 
 require __DIR__ . '/auth.php';
