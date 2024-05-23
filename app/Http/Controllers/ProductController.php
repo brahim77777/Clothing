@@ -188,6 +188,44 @@ class ProductController extends Controller
 
         return Inertia::render("ProductDetails", ["product" => $product]);
     }
+    public function sort(Request $request)
+    {
+        $sort = $request->validate([
+            "order" => 'required',
+            "target" => 'required',
+        ]);
+
+        // return Inertia::render("Products", ["products" => $products = Product::orderBy($sort["target"], $sort["order"])->with("category")->paginate(10)]);
+        return response()->json(
+            ["products" => $products = Product::orderBy($sort["target"], $sort["order"])->with("category")->paginate(10)]
+        );
+
+    }
+
+    public function paginatedSort(Request $request)
+    {
+        $sort = $request->validate([
+            "order" => 'required',
+            "target" => 'required',
+        ]);
+        if ($sort["target"] == "LastUpdate") {
+            $sort["target"] == "updated_at";
+        }
+        if ($sort["target"] == "CreatedAt") {
+            $sort["target"] == "created_at";
+        }
+        $products = Product::orderBy($sort["target"], $sort["order"])->with("category")->paginate(10);
+
+        // Calculate the page count
+        $pageCount = ceil($products->total() / $products->perPage());
+
+        // Pass the products data and page count as props to the Inertia view
+        return Inertia::render('Products', [
+            'products' => ProductResource::collection($products),
+            'pageCount' => $pageCount,
+            'total' => $products->total(),
+        ]);
+    }
 
     public function destroy(Product $product)
     {

@@ -46,6 +46,8 @@ export default  function  Products({pageCount ,products, total,auth})  {
 
         let nextPageUrl = ``
         nextPageUrl = `${mainUrl}?page=${selectedPage.selected + 1}`;
+        console.log("nextPageUrl----<> ", nextPageUrl);
+
         dispatch(setPage(selectedPage.selected));
         router.visit(nextPageUrl);
         selectedPage.preventDefault();
@@ -95,7 +97,19 @@ export default  function  Products({pageCount ,products, total,auth})  {
     const handelSort = (order , target) => {
         console.log("sort target:",target)
         console.log("sort order:",order)
+        axios.get('/dashboard/products/sort?order='+order+'&target='+target+'').then((res)=>{
+
+            // setProductsList(res.data.products)
+            console.log("sorted products:",res)
+        }).catch((error)=>{
+            console.log(error)
+        })
+        // router.post('/products/sort' , {order , target}, {preserveState: true})
     }
+    router.on('success', (event) => {
+
+        console.log('success8888888888888888', event.detail);
+    })
 
 
     useEffect(()=>{handelSort(sortCreatedAt.order , sortCreatedAt.target)},[sortCreatedAt])

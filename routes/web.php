@@ -239,4 +239,32 @@ Route::get('/simplex', function () {
 });
 Route::post("/rating", [RatingController::class, 'store'])->middleware('auth')->name('rating.store');
 
+// Route::post('/products/sort', [ProductController::class, 'sort'])->name('products.sort');
+Route::get('/dashboard/products/sort', function (Request $request) {
+    // Fetch all products
+    $sort = $request->validate([
+        'target' => 'required',
+        'order' => 'required',
+    ]);
+    if ($sort["target"] == "LastUpdated") {
+        $sort["target"] = "updated_at";
+    }
+    if ($sort["target"] == "CreatedAt") {
+        $sort["target"] = "created_at";
+    }
+    $products = Product::orderBy($sort['target'], $sort['order'])->paginate(10);
+    // $products = Product::with(['category'])->paginate(10);
+
+    // Calculate the page count
+    $pageCount = ceil($products->total() / $products->perPage());
+
+    // Pass the products data and page count as props to the Inertia view
+    return Inertia::render('Products', [
+        'products' => ProductResource::collection($products),
+        'pageCount' => $pageCount,
+        'total' => $products->total(),
+    ]);
+})->middleware('auth')->name('products');
+
+
 require __DIR__ . '/auth.php';
