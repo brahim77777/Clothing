@@ -282,6 +282,25 @@ Route::get('/commands', function () {
     );
 
 });
+Route::get('/commands/seed', function () {
+    Command::create(
+        [
+            'first_name' => "test",
+            'last_name' => "test",
+            'enterprise_name',
+            'address' => "test",
+            'city' => "test",
+            'cin' => "test",
+            'phone' => "test",
+            'email' => "amin@amin.com",
+            'products' => "test",
+            'total_price' => 12.99,
+            'free_shipping' => false,
+            'status' => "failed",
+
+        ]
+    );
+});
 
 
 require __DIR__ . '/auth.php';
