@@ -23,7 +23,7 @@ return new class extends Migration {
             $table->string('products');
             $table->float('total_price');
             $table->boolean('free_shipping')->default(false);
-            $table->enum('status', ["pending", "verified", "payed"]);
+            $table->enum('status', ["pending", "verified", "paid", "failed", "canceld"]);
             $table->timestamps();
 
         });

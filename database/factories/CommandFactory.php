@@ -30,7 +30,7 @@ class CommandFactory extends Factory
             'total_price' => $this->faker->randomFloat(2, 0, 1000),
             'free_shipping' => $this->faker->boolean(),
             'created_at' => $this->faker->dateTimeBetween('-1 year', 'now'),
-            'status' => $this->faker->randomElement(['pending', 'verified', 'payed']),
+            'status' => $this->faker->randomElement(['pending', 'verified', 'paid', 'failed', 'canceld']),
 
             // implode(',', fake()->randomElements(['1,#ffffff,S', '2,#000000,L ', '3,#000ff0,XL', '4,#003200,M', '5,#ff0000,S'])) . " " . impolode(',', fake()->randomElements(["1,#ffffff,S", "2,#000000,L ", "3,#000ff0,XL", "4,#003200,M", "5,#ff0000,S"]))
         ];
