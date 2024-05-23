@@ -1,5 +1,7 @@
 import React from 'react';
-import { Bar, Pie, Line } from 'react-chartjs-2';
+import { Bar, Pie, Line, Doughnut } from 'react-chartjs-2';
+import dayjs from 'dayjs';
+
 import {
   Chart as ChartJS,
   CategoryScale,
@@ -27,98 +29,144 @@ ChartJS.register(
 import Dashboard from './Dashboard';
 import data from "../utils/data.json"
 import { FcStatistics } from 'react-icons/fc';
+import { useState } from 'react';
+import { useEffect } from 'react';
 
-const datas = {
-  Demands: [
-    {
-      user_id: 1,
-      cart: [
-        { product_id: 1, quantity: 4 },
-        { product_id: 2, quantity: 1 }
-      ],
-      status: 'pending',
-      payStatus: 'paid'
-    },
-    {
-      user_id: 2,
-      cart: [
-        { product_id: 3, quantity: 2 }
-      ],
-      status: 'completed',
-      payStatus: 'paid'
-    },
-    {
-      user_id: 3,
-      cart: [
-        { product_id: 1, quantity: 1 },
-        { product_id: 2, quantity: 2 },
-        { product_id: 4, quantity: 1 }
-      ],
-      status: 'pending',
-      payStatus: 'unpaid'
-    }
-  ],
-  Favorites: [
-    { user_id: 1, product_id: 1 },
-    { user_id: 2, product_id: 2 },
-    { user_id: 1, product_id: 3 },
-    { user_id: 3, product_id: 1 }
-  ],
-  Reviews: [
-    { user_id: 1, product_id: 1, rating: 5 },
-    { user_id: 2, product_id: 2, rating: 4 },
-    { user_id: 1, product_id: 3, rating: 3 },
-    { user_id: 3, product_id: 1, rating: 2 }
-  ]
-};
+// import { Chart as ChartJS, CategoryScale, LinearScale, BarElement, Title, Tooltip, Legend, ArcElement } from 'chart.js';
+
+ChartJS.register(CategoryScale, LinearScale, BarElement, Title, Tooltip, Legend, ArcElement);
+
+
+
 
 
 const Stats = ({products}) => {
-  console.log("hshshhhsh:",products)
-  // Prepare data for each chart
 
-  // Bar chart data for product quantities
-  const productQuantities = {};
-  data.Demands.forEach(demand => {
-    demand.cart.forEach(item => {
-      if (productQuantities[item.product_id]) {
-        productQuantities[item.product_id] += item.quantity;
-      } else {
-        productQuantities[item.product_id] = item.quantity;
-      }
-    });
+    const [commands , setCommands] = useState([])
+  // Process data
+  const cities = commands.map(item => item.city);
+  const cityCount = {};
+  cities.forEach(city => {
+    cityCount[city] = (cityCount[city] || 0) + 1;
   });
 
-  const barData = {
-    labels: Object.keys(productQuantities).map(id => `Product ${id}`),
+  const statuses = commands.map(item => item.status);
+  const statusCount = {};
+  statuses.forEach(status => {
+    statusCount[status] = (statusCount[status] || 0) + 1;
+  });
+
+  const totalPrices = commands.map(item => item.total_price);
+
+  const cityData = {
+    labels: Object.keys(cityCount),
     datasets: [
       {
-        label: 'Quantity',
-        data: Object.values(productQuantities),
-        backgroundColor: 'rgba(75, 192, 192, 0.2)',
-        borderColor: 'rgba(75, 192, 192, 1)',
-        borderWidth: 1,
+        label: '# of Orders',
+        data: Object.values(cityCount),
+        backgroundColor: 'rgba(75, 192, 192, 0.6)',
       },
     ],
   };
 
-  // Pie chart data for payment status
-  const paymentStatus = { paid: 0, unpaid: 0 };
-  data.Demands.forEach(demand => {
-    if (demand.payStatus === 'paid') {
-      paymentStatus.paid++;
-    } else {
-      paymentStatus.unpaid++;
+  const statusData = {
+    labels: Object.keys(statusCount),
+    datasets: [
+      {
+        label: '# of Orders',
+        data: Object.values(statusCount),
+        backgroundColor: ['rgba(255, 99, 132, 0.6)', 'rgba(54, 162, 235, 0.6)', 'rgba(255, 206, 86, 0.6)'],
+      },
+    ],
+  };
+
+  const priceData = {
+    labels: commands.map((_, index) => `Order ${index + 1}`),
+    datasets: [
+      {
+        label: 'Total Price',
+        data: totalPrices,
+        backgroundColor: 'rgba(153, 102, 255, 0.6)',
+      },
+    ],
+  };
+
+
+
+   useEffect(()=>{
+    axios.get("/commands").then(res=>{
+        setCommands(res.data.commands)
+      })
+   },[])
+
+
+  console.log("commands from stats:",commands)
+  // Prepare data for each chart
+
+  // Bar chart data for product quantities
+  let countProducts = 0
+  let days = []
+  let years = []
+
+
+  let qntMonth1 = 0
+
+  commands.map(e=>{
+    const date = new Date(e.created_at);
+    if(date.getMonth().toLocaleString() == 1){
+         qntMonth1+=e.products.split(" ").length
     }
+  })
+
+  console.log("month 1: ",qntMonth1)
+
+  commands.map(e=>{
+    // e.products.split(" ").map(e=>{
+        countProducts +=e.products.split(" ").length
+        const date = new Date(e.created_at)
+        years.push(date.getFullYear())
+        days.push(date.getDay()+1)
+    // })
+  })
+
+  console.log(countProducts)
+  console.log(years)
+  console.log(days)
+
+
+
+  // Pie chart data for payment status
+  const paymentStatus = { paid: 0, pending: 0, verified:0, canceld:0, failed: 0 };
+  commands.forEach(demand => {
+    switch (demand.status) {
+        case 'paid':
+            paymentStatus.paid++;
+            break;
+        case 'pending':
+            paymentStatus.pending++;
+            break;
+        case 'verified':
+            paymentStatus.verified++;
+            break;
+        case 'canceld':
+            paymentStatus.canceld++;
+        case 'failed':
+            paymentStatus.failed++;
+            break;
+
+        default:
+            break;
+    }
+
   });
 
   const pieData = {
-    labels: ['Paid', 'Unpaid'],
+    labels: ['Paid', 'pending','verified','failed','canceld'],
     datasets: [
       {
-        data: [paymentStatus.paid, paymentStatus.unpaid],
-        backgroundColor: ['rgba(54, 162, 235, 0.2)', 'rgba(255, 99, 132, 0.2)'],
-        borderColor: ['rgba(54, 162, 235, 1)', 'rgba(255, 99, 132, 1)'],
+        data: [paymentStatus.paid, paymentStatus.pending,paymentStatus.verified,paymentStatus.failed, paymentStatus.canceld],
+        backgroundColor: ['rgba(0, 223, 118, 0.5)', 'rgba(241, 123, 57, 0.5)', 'rgba(235, 25, 67,0.5)','rgba(235, 24, 50,0.8)','rgba(25, 25, 170,0.5)'],
+        // borderColor: ['rgba(54, 162, 235, 1)', 'rgba(255, 99, 132, 1)'],
         borderWidth: 1,
       },
     ],
@@ -134,20 +182,29 @@ const Stats = ({products}) => {
     }
   });
 
-  const lineData = {
-    labels: Object.keys(productRatings).map(id => `Product ${id}`),
-    datasets: Object.keys(productRatings).map(productId => ({
-      label: `Product ${productId}`,
-      data: productRatings[productId],
-      fill: false,
-      borderColor: `rgba(${Math.floor(Math.random() * 255)}, ${Math.floor(Math.random() * 255)}, ${Math.floor(Math.random() * 255)}, 1)`,
-      tension: 0.1,
-    })),
+
+
+  const orderCounts = commands.reduce((acc, order) => {
+    const month = dayjs(order.created_at).format('MMMM');
+    acc[month] = (acc[month] || 0) + 1;
+    return acc;
+  }, {});
+
+  const months = Object.keys(orderCounts);
+  const orderNumbers = Object.values(orderCounts);
+
+  const chartData = {
+    labels: months,
+    datasets: [
+      {
+        label: 'Number of Orders',
+        data: orderNumbers,
+        backgroundColor: 'rgba(75, 192, 192, 0.6)',
+      },
+    ],
   };
 
-  axios.get("/commands").then(res=>{
-    console.log("chart: ",res.data)
-  })
+
 
 
   return (
@@ -156,16 +213,17 @@ const Stats = ({products}) => {
       <h1 className="text-2xl font-bold mb-4 border shadow mt-4 p-2 border-orange-500 text-orange-600 flex justify-between items-center bg-orange-50 rounded txt-white">Statistiques
       <FcStatistics className='w-12 h-12 '/></h1>
       <div className="mb-8 p-2 border border-orange-500 rounded-md">
-        <h2 className="text-xl font-semibold mb-2">Product Quantities</h2>
-        <Bar data={barData} />
+        <h2 className="text-xl font-semibold mb-2">Number of Orders Per Month</h2>
+        <Bar data={chartData} />
       </div>
       <div className="mb-8 p-2 border border-orange-500 rounded-md">
         <h2 className="text-xl font-semibold mb-2">Payment Status</h2>
-        <Pie data={pieData} />
+        <div className=' m-auto flex justify-center lg:max-w-[30rem]'>
+        <Doughnut  data={pieData} />
+        </div>
       </div>
       <div className='p-2 border border-orange-500 rounded-md'>
         <h2 className="text-xl font-semibold mb-2  ">Product Ratings</h2>
-        <Line data={lineData} />
       </div>
     </Dashboard>
   );
