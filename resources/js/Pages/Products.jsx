@@ -92,10 +92,19 @@ export default  function  Products({pageCount ,products, total,auth})  {
     },[dataToUpdate])
 
 
-console.log(sortPrice)
-console.log(sortCreatedAt)
-console.log(sortQuantity)
-console.log(sortTitle)
+    const handelSort = (order , target) => {
+        console.log("sort target:",target)
+        console.log("sort order:",order)
+    }
+
+
+    useEffect(()=>{handelSort(sortCreatedAt.order , sortCreatedAt.target)},[sortCreatedAt])
+    useEffect(()=>{handelSort(sortQuantity.order , sortQuantity.target)},[sortQuantity])
+    useEffect(()=>{handelSort(sortPrice.order , sortPrice.target)},[sortPrice])
+    useEffect(()=>{handelSort(sortTitle.order , sortTitle.target)},[sortTitle])
+    useEffect(()=>{handelSort(sortLastUpdate.order , sortLastUpdate.target)},[sortLastUpdate])
+
+
   return (
 <Dashboard>
 

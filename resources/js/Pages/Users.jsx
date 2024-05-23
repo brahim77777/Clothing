@@ -68,7 +68,10 @@ const Users = () => {
 
     const [changeRole, setChangeRole] = useState(false);
 
-    const [sort ,setSort] = useState({"order":"asc","target":"name"})
+    const [sortName ,setSortName] = useState({"order":"asc","target":"name"})
+    const [sortEmail ,setSortEmail] = useState({"order":"asc","target":"email"})
+    const [sortEmailV ,setSortEmailV] = useState({"order":"asc","target":"emailv"})
+    const [sortLastUpdate ,setSortLastUpdate] = useState({"order":"asc","target":"lastUpdate"})
 
     return (
         <Dashboard>
@@ -84,13 +87,28 @@ const Users = () => {
                             <thead className="border-b border-neutral-200 font-medium text-nowrap">
                                 <tr>
                                     <th scope="col" className="px-6 py-4 pr-10">ID</th>
-                                    <th scope="col" class="px-6 py-4 gap-4 flex justify-between items-center">Name
-                                        <BsSortAlphaUp onClick={()=>setSort({"order":"asc","target":"name"})} className={` ${ sort.order == "asc" && `hidden`} size-8  rounded-full hover:border cursor-pointer duration-100 hover:bg-gray-50 p-1`}/>
-                                        <BsSortAlphaDown onClick={()=>setSort({"order":"desc","target":"name"})} className={`${ sort.order == "desc" && `hidden`} size-8 rounded-full hover:border cursor-pointer duration-100 hover:bg-gray-50 p-1`}/>
+                                    <th scope="col" class="px-6 py-4 gap-4 flex justify-between items-center">
+                                    <div className='flex gap-4 justify-between items-center'>
+                                            Name
+                                            <BsSortAlphaUp onClick={()=>setSortName({"order":"asc","target":sortName.target})} className={` ${ sortName.order == "asc" && `hidden`} size-8  rounded-full hover:border cursor-pointer duration-100 hover:bg-gray-50 p-1`}/>
+                                            <BsSortAlphaDown onClick={()=>setSortName({"order":"desc","target":sortName.target})} className={`${ sortName.order == "desc" && `hidden`} size-8 rounded-full hover:border cursor-pointer duration-100 hover:bg-gray-50 p-1`}/>
+                                        </div>
                                     </th>
-                                    <th scope="col" className="px-6 py-4">Email</th>
+                                    <th scope="col" className="px-6 py-4">
+                                    <div className='flex gap-4 justify-between items-center'>
+                                            Email
+                                            <BsSortAlphaUp onClick={()=>setSortEmail({"order":"asc","target":sortEmail.target})} className={` ${ sortEmail.order == "asc" && `hidden`} size-8  rounded-full hover:border cursor-pointer duration-100 hover:bg-gray-50 p-1`}/>
+                                            <BsSortAlphaDown onClick={()=>setSortEmail({"order":"desc","target":sortEmail.target})} className={`${ sortEmail.order == "desc" && `hidden`} size-8 rounded-full hover:border cursor-pointer duration-100 hover:bg-gray-50 p-1`}/>
+                                        </div>
+                                    </th>
 
-                                    <th scope="col" className="px-6 py-4">Email Verification At</th>
+                                    <th scope="col" className="px-6 py-4">
+                                    <div className='flex gap-4 justify-between items-center'>
+                                    Email Verification At
+                                            <BsSortAlphaUp onClick={()=>setSortEmailV({"order":"asc","target":sortEmailV.target})} className={` ${ sortEmailV.order == "asc" && `hidden`} size-8  rounded-full hover:border cursor-pointer duration-100 hover:bg-gray-50 p-1`}/>
+                                            <BsSortAlphaDown onClick={()=>setSortEmailV({"order":"desc","target":sortEmailV.target})} className={`${ sortEmailV.order == "desc" && `hidden`} size-8 rounded-full hover:border cursor-pointer duration-100 hover:bg-gray-50 p-1`}/>
+                                        </div>
+                                    </th>
                                     <th scope="col" className="px-6 py-4">Role</th>
                                     <th scope="col" className="px-6 py-4">Last Update</th>
                                     <th scope="col" className="px-6 py-4">Action</th>
