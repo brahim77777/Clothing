@@ -56,11 +56,6 @@ export default  function  Products({pageCount ,products, total,auth})  {
     const [productsList,setProductsList] = useState(products?.data)
 
 
-    const [sortTitle ,setSortTitle] = useState({"order":"asc","target":"title"})
-    const [sortQuantity ,setSortQuantity] = useState({"order":"asc","target":"quantity"})
-    const [sortPrice ,setSortPrice] = useState({"order":"asc","target":"price"})
-    const [sortLastUpdate ,setSortLastUpdate] = useState({"order":"asc","target":"LastUpdate"})
-    const [sortCreatedAt ,setSortCreatedAt] = useState({"order":"asc","target":"CreatedAt"})
 
 
     const toggleDarkMode = useSelector((state)=>state.changeTheme.value)
@@ -94,6 +89,13 @@ export default  function  Products({pageCount ,products, total,auth})  {
     },[dataToUpdate])
 
 
+    const [sortTitle ,setSortTitle] = useState({"order":"asc","target":"title"})
+    const [sortQuantity ,setSortQuantity] = useState({"order":"asc","target":"quantity"})
+    const [sortPrice ,setSortPrice] = useState({"order":"asc","target":"price"})
+    const [sortLastUpdate ,setSortLastUpdate] = useState({"order":"asc","target":"LastUpdate"})
+    const [sortCreatedAt ,setSortCreatedAt] = useState({"order":"asc","target":"CreatedAt"})
+
+
     const handelSort = (order , target) => {
         console.log("sort target:",target)
         console.log("sort order:",order)
@@ -110,7 +112,6 @@ export default  function  Products({pageCount ,products, total,auth})  {
 
         console.log('success8888888888888888', event.detail);
     })
-
 
     useEffect(()=>{handelSort(sortCreatedAt.order , sortCreatedAt.target)},[sortCreatedAt])
     useEffect(()=>{handelSort(sortQuantity.order , sortQuantity.target)},[sortQuantity])

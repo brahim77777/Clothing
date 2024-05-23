@@ -73,6 +73,15 @@ const Users = () => {
     const [sortEmailV ,setSortEmailV] = useState({"order":"asc","target":"emailv"})
     const [sortLastUpdate ,setSortLastUpdate] = useState({"order":"asc","target":"lastUpdate"})
 
+    const handelSort = (order , target) => {
+        console.log("sort target:",target)
+        console.log("sort order:",order)
+    }
+
+    useEffect(()=>{handelSort(sortEmail.order , sortEmail.target)},[sortEmail])
+    useEffect(()=>{handelSort(sortEmailV.order , sortEmailV.target)},[sortEmailV])
+    useEffect(()=>{handelSort(sortLastUpdate.order , sortLastUpdate.target)},[sortLastUpdate])
+    useEffect(()=>{handelSort(sortName.order , sortName.target)},[sortName])
     return (
         <Dashboard>
             <div className='my-2 overflow-hidden bg-gray-50 font-semibold relative flex font-Nunito justify-between p-4 border rounded-lg text-[1.5rem]'>
@@ -110,7 +119,13 @@ const Users = () => {
                                         </div>
                                     </th>
                                     <th scope="col" className="px-6 py-4">Role</th>
-                                    <th scope="col" className="px-6 py-4">Last Update</th>
+                                    <th scope="col" className="px-6 py-4">
+                                    <div className='flex gap-4 justify-between items-center'>
+                                    Last Update
+                                            <BsSortAlphaUp onClick={()=>setSortLastUpdate({"order":"asc","target":sortLastUpdate.target})} className={` ${ sortLastUpdate.order == "asc" && `hidden`} size-8  rounded-full hover:border cursor-pointer duration-100 hover:bg-gray-50 p-1`}/>
+                                            <BsSortAlphaDown onClick={()=>setSortLastUpdate({"order":"desc","target":sortLastUpdate.target})} className={`${ sortLastUpdate.order == "desc" && `hidden`} size-8 rounded-full hover:border cursor-pointer duration-100 hover:bg-gray-50 p-1`}/>
+                                        </div>
+                                    </th>
                                     <th scope="col" className="px-6 py-4">Action</th>
                                 </tr>
                             </thead>
