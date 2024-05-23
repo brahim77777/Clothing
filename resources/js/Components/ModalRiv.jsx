@@ -49,7 +49,7 @@ export default function BModal({slug}) {
   const [body,setBody] = React.useState("");
   const handleClose = () => setOpen(false);
   router.on('success', (event) => {
-        alert('sended successfuly')
+        // alert('sended successfuly')
   })
   router.on('error', (event) => {
     console.log(`Failed to make a visit to--------------------------------------909098098 `)

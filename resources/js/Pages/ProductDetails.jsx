@@ -58,8 +58,8 @@ export default function ProductDetails({product}){
 
   const[qnt,setQnt] = useState(1)
 
-  const[size , setSize] = useState("")
-  const[color , setColor] = useState("")
+  const[size , setSize] = useState(colors[0])
+  const[color , setColor] = useState(sizes[0])
 
   console.log("sizes: ",product.sizes)
     return(
@@ -155,7 +155,7 @@ export default function ProductDetails({product}){
             Available product colors
                 <div className='flex gap-2 flex-wrap'>
                 {colors.map((e, index) => (
-                    <button onClick={()=>setColor(e)} key={index} className={`p-2  ${color == e && `ring-[2px]`} ring-offset-1 ring-gray-500 shadow  size-6 rounded-full `} style={{ backgroundColor: e}}></button>
+                    <button onClick={()=>setColor(e)} key={index} className={`p-2  ${color == e && `ring-[2px] `} ring-offset-1 ring-gray-500 shadow  size-6 rounded-full `} style={{ backgroundColor: e}}></button>
                 ))}
             </div>
             </div>
