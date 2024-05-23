@@ -202,6 +202,10 @@ Route::get('/dashboard/users', function () {
     return Inertia::render("Users");
 })->middleware('auth')->name('users');
 
+Route::get('/dashboard/statistiques', function () {
+    return Inertia::render("Stats");
+})->middleware('auth')->name('Stats');
+
 Route::get('/dashboard/add_product', function () {
     return Inertia::render("AddProduct");
 })->middleware('auth')->name('AddProduct');

@@ -12,6 +12,7 @@ export default function Calculs ({products}){
 
         const [productsd, setProducts] = useState([
             {
+<<<<<<< Updated upstream
                 id: 1,
                 title: "quo",
                 category: "officia",
@@ -19,11 +20,20 @@ export default function Calculs ({products}){
                 colors: "#bec996,#2b6bc9,#31012b",
                 created_at: "1 day ago",
                 description: "Suscipit culpa non maxime perspiciatis consequuntur.",
+=======
+                category: "officia",
+                colors: "#bec996,#2b6bc9,#31012b",
+                created_at: "1 day ago",
+                description: "Suscipit culpa non maxime perspiciatis consequuntur.",
+                id: 1,
+                main_image: "product4.jpeg",
+>>>>>>> Stashed changes
                 price: "864",
                 quantity: 11,
                 rating: 1,
                 sizes: "XL,S,L,M",
                 slug: "soluta-aut-beatae-laboriosam-id-ut-ut-est",
+<<<<<<< Updated upstream
                 updated_at: "1 day ago"
             }
         ]);
@@ -40,6 +50,25 @@ export default function Calculs ({products}){
     //     // datap = res.data
     //     console.log("Python data: ",res.data)
     // })
+=======
+                title: "quo",
+                updated_at: "1 day ago"
+            },
+            // Add more product objects here
+        ]);
+    console.log("data look: ",data)
+    console.log("products look: ",products.data)
+
+    console.log("products: ",products)
+
+    axios.post(`http://127.0.0.2:8000/api/`,{
+        data:data
+    }).then(res=>{
+        setData(res.data.r)
+        // datap = res.data
+        console.log("Python data: ",res.data)
+    })
+>>>>>>> Stashed changes
 
     // axios.post(`http://127.0.0.2:8000/predict_price/`,{
     //     products:products.data
@@ -48,7 +77,11 @@ export default function Calculs ({products}){
     // })
 
     const handlePredict = () => {
+<<<<<<< Updated upstream
         axios.post('http://127.0.0.2:8000/predict_price', products.data)
+=======
+        axios.post('http://127.0.0.2:8000/predict_price', productsd)
+>>>>>>> Stashed changes
             .then(res => {
                 console.log('Predicted Prices:', res.data.predicted_prices);
             })

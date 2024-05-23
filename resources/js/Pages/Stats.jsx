@@ -144,11 +144,14 @@ const Stats = ({products}) => {
     })),
   };
 
+<<<<<<< Updated upstream
   axios.get("/rating").then(res=>{
     console.log("chart: ",res.data)
   })
 
 
+=======
+>>>>>>> Stashed changes
   return (
 
     <Dashboard>
