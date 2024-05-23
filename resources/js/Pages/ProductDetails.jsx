@@ -6,7 +6,7 @@ import Carousel from "@/Components/Carousel";
 import { TbMinus } from 'react-icons/tb'
 import { TbPlus } from 'react-icons/tb'
 import Modal from "../Components/ModalRiv"
-import { Link } from "@inertiajs/react";
+import { Link,useForm } from "@inertiajs/react";
 // import { router } from '@inertiajs/react'
 
 
@@ -43,6 +43,10 @@ export default function ProductDetails({product}){
     const sizes = product.sizes.split(",")
 
     const cart = useSelector(state=>state.cart.value)
+
+
+
+
 
     console.log("cart data: ",cart)
 
@@ -117,11 +121,12 @@ export default function ProductDetails({product}){
               <button onClick={()=>{
                 dispatch(add(
                     {
+                        'id':product.id,
                         'title' : product.title,
                         'category_id':product.category,
                         'main_image':product.main_image,
-                        'colors':product.colors,
-                        'sizes':product.sizes,
+                        'color':color,
+                        'size':size,
                         'price':product.price,
                         'rating':product.rating,
                         'slug':product.slug,
