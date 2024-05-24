@@ -19,6 +19,9 @@ import FilePondPluginImageTransform from 'filepond-plugin-image-transform';
 import axios from 'axios'; // Import axios
 import Dashboard from './Dashboard';
 import ModalCat from '@/Components/ModalCat';
+import { Toaster, toast } from 'sonner'
+
+
 import '../../css/app.css';
 
 registerPlugin(
@@ -159,22 +162,28 @@ export default function AddProduct() {
             }).then(
                 (response) => {
                     console.log('Form submitted successfully:', response.data);
+                    toast.success('Product added successfully!')
                     // Handle successful form submission
                 },
                 (error) => {
                     console.error('Error submitting form:', error);
+                    toast.error('Error submitting form!')
+
                     // Handle error during form submission
                 }
             );
             // Handle successful form submission
         } catch (error) {
             console.error('Error submitting form:', error);
+            toast.error('Error submitting form!')
+
             // Handle error during form submission
         }
     };
 
     return (
         <Dashboard>
+            <Toaster richColors />
             <div className={`w-full duration-300 ease-in-out min-h-screen ${toggleDarkMode ? 'bg-neutral-700' : 'bg-neutral-100'} h-full p-4 ml-auto`}>
                 <form onSubmit={handleFormSubmit}>
                     <div className='w-full mb-2 flex justify-between '>
