@@ -7,8 +7,9 @@ import { TbMinus } from 'react-icons/tb'
 import { TbPlus } from 'react-icons/tb'
 import Modal from "../Components/ModalRiv"
 import { formatDistanceToNow, parseISO } from 'date-fns';
+import { Toaster, toast } from 'sonner'
 
-import { Link,useForm } from "@inertiajs/react";
+import { Link,router,useForm } from "@inertiajs/react";
 // import { router } from '@inertiajs/react'
 
 
@@ -66,6 +67,7 @@ export default function ProductDetails({product}){
     const [readAll,setReadAll] = useState(false)
     return(
         <div className="font-[sans-serif]  ">
+            <Toaster position="top-right"  richColors />
 
       <div class="p-6 lg:max-w-7xl max-w-2xl max-lg:mx-auto">
 
@@ -117,7 +119,25 @@ export default function ProductDetails({product}){
             {/*MAIN ACTION BUTTONS*/}
             <div class="flex flex-wrap gap-4 mt-2 ">
               <button onClick={
-                ()=>console.log("cart after:",cart)
+                ()=>{
+                  dispatch(add(
+                        {
+                            'id':product.id,
+                            'title' : product.title,
+                            'category_id':product.category,
+                            'main_image':product.main_image,
+                            'color':color,
+                            'size':size,
+                            'price':product.price,
+                            'rating':product.rating,
+                            'slug':product.slug,
+                            'quantity':qnt,
+                          }
+                    ))
+                    router.visit("/check_out")
+
+                }
+
 
               } type="button" class="min-w-[200px] px-4 py-3 bg-[#b38962] text-white hover:bg-[#a77343]  text-sm font-bold rounded">Buy now</button>
               <button onClick={()=>{
@@ -134,8 +154,13 @@ export default function ProductDetails({product}){
                         'slug':product.slug,
                         'quantity':qnt,
                       }
-
                 ))
+                toast.success('added to cart successfully!', {
+                    action: {
+                        label: 'OK',
+                        onClick: () => console.log('OK')
+                    },
+                })
             }
             } type="button" class="min-w-[200px] px-4 py-2.5 border border-neutral-300 bg-transparent text-yellow-30 text-sm font-bold rounded">Add to cart</button>
               {/* <button type="button" class="min-w-[200px] px-4 py-3 border border-neutral-300  bg-transparent  text-sm font-bold rounded">Submit your riview</button> */}
@@ -245,7 +270,6 @@ export default function ProductDetails({product}){
                   <p class="text-xs mt-4 text-whit">{product.reviews[0].body}</p>
                 </div>
               </div>
-
              }
               <button onClick={()=>setReadAll(!readAll)} type="button" class="w-full mt-8 px-4 py-2 bg-transparent border-2 border-yellow-30 text-yellow-30 font-bold rounded">Read all reviews</button>
             </div>

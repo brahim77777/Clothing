@@ -6,8 +6,7 @@ const CheckoutPage = () => {
 
     const cart = useSelector(state => state.cart.value);
     let total = 0;
-    cart?.forEach((e) => total += e.quantity * e.price);
-
+    cart?.forEach((e) => total += e.quantity * parseFloat(e.price));
     const fraiLivr = 49;
 
     const [formData, setFormData] = useState({

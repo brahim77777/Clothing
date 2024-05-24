@@ -2,6 +2,8 @@ import { Fragment, useState } from 'react'
 import { Dialog, Transition } from '@headlessui/react'
 import { XMarkIcon } from '@heroicons/react/24/outline'
 import { useSelector } from 'react-redux'
+import { remove } from "../redux/addToCartSlice";
+import { useDispatch } from 'react-redux';
 import { useEffect } from 'react'
 import { Link } from '@inertiajs/react'
 
@@ -13,11 +15,13 @@ export default function Cart({isOpen,setOpen}) {
     console.log("this cart: ",cart)
 
     const [total,setTotal] = useState(0)
+
     useEffect(()=>{
         setProducts(cart)
         cart?.map(e=>setTotal(total+(e.price*e.quantity)))
-    },[cart])
+    },[])
 
+    const dispatch = useDispatch()
 
 
 
@@ -87,7 +91,7 @@ export default function Cart({isOpen,setOpen}) {
                                       <h3>
                                         <a href={product.href}>{product.title}</a>
                                       </h3>
-                                      <p className="ml-4">{product.price}</p>
+                                      <p className="ml-4">{product.price} DH</p>
                                     </div>
                                     <p className="mt-1 text-sm text-gray-500">{product.colors}</p>
                                   </div>
@@ -97,6 +101,9 @@ export default function Cart({isOpen,setOpen}) {
                                     <div className="flex">
                                       <button
                                         type="button"
+                                        onClick={()=>{
+                                            dispatch(remove(product))
+                                        }}
                                         className="font-medium text-indigo-600 hover:text-indigo-500"
                                       >
                                         Remove
@@ -114,7 +121,7 @@ export default function Cart({isOpen,setOpen}) {
                     <div className="border-t border-gray-200 px-4 py-6 sm:px-6">
                       <div className="flex justify-between text-base font-medium text-gray-900">
                         <p>Subtotal</p>
-                        <p>{total}</p>
+                        <p>{total} DH</p>
                       </div>
                       <p className="mt-0.5 text-sm text-gray-500">Shipping and taxes calculated at checkout.</p>
                       <div className="mt-6">
