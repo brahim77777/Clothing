@@ -12,6 +12,7 @@ export default function Cart({isOpen,setOpen}) {
     const [products,setProducts] = useState([])
 
     const cart = useSelector(state=>state.cart.value)
+
     console.log("this cart: ",cart)
 
     const [total,setTotal] = useState(0)
@@ -19,7 +20,7 @@ export default function Cart({isOpen,setOpen}) {
     useEffect(()=>{
         setProducts(cart)
         cart?.map(e=>setTotal(total+(e.price*e.quantity)))
-    },[])
+    },[cart])
 
     const dispatch = useDispatch()
 

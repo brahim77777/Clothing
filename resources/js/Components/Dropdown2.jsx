@@ -27,7 +27,7 @@ import { TbLogin as Login } from "react-icons/tb";
 import { setAuth } from "@/redux/authSlice";
 
 
-function ProfileMenu({toggleDarkMode }) {
+function ProfileMenu({toggleDarkMode}) {
     const auth = useSelector((state)=>state.auth.value)
     const dispatch = useDispatch()
     console.log("Auth obj: ",auth)
@@ -100,7 +100,7 @@ const [profileMenuItems, setProfileMenuItems] = useState([]);
       <MenuHandler>
       <button className=" bg-[#0095FB]f border p-2 font-light  rounded-full ">
 
-            <UserIcon className=" size-5" />
+            <UserIcon className={"max-sm:size-3 size-5"} />
         </button>
       </MenuHandler>
 

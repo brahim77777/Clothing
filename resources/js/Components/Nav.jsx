@@ -91,13 +91,15 @@ console.log("Current Path: ",currentPath)
         <div className={`${toggleDarkMode ? `bg-[#121212]`:`bg-white`} fixed w-full top-0  border-b border-b-black nav backdrop-filter bg-opacity-75  backdrop-blur-lg `}>
         <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 z-10  ">
           <div className="flex h-16 justify-between  ">
-            <div className="flex justify-between items-center h-full w-full px-6 ">
+            <div className="flex  justify-between items-center h-full w-full max-sm:px-6 ">
             {/* <button onClick={()=>{dispatch(setOpenSide(!sideOpen))}} className={`${sideOpen?` opacity-0 hidden`:` opacity-100 `} duration-500 z-50 fixed flex left-0 mx-2 p-2 hover:bg-gray-200 mt-[3.4px]  rounded cursor-pointer`}>
                 <FaBarsStaggered/>
             </button > */}
               <Link href="/" as="button" className={`flex  rounded  bg-opacity-85    font-roboto text-${color}  font-bold text-3xl flex-shrink-0 items-center `}>
                 <img  className='w-[8rem] object-cover h-12' src={toggleDarkMode ? LogoWhite : Logo}/>
               </Link>
+              <Link href='/cart'>Cart</Link>
+
               <div className={`flex justify-end w-full sm:space-x-4  h-[60%] `}>
                 <div className='hidden  lg:flex mr-12 space-x-6  justify-center'>
                 {menu.map((e, index) => (
@@ -105,17 +107,19 @@ console.log("Current Path: ",currentPath)
                     {e.name}
                   </Link>
                 ))}
+
                 </div>
                 {/* <div className=" h-2 min-h-[1em] w-0.5 m-auto bg-neutral-200 dark:bg-white/10  max-md:hidden">
 
                 </div> */}
                 {/* inline-flex items-center px-1 pt-1 text-sm font-medium text-gray-500 hover:border-gray-300 hover:text-gray-700 max-md:hidden  */}
-                <div className='flex justify-end items-center ml-8  '>
-                  <input onChange={(e)=>{
-                    (e.target.value ==="")&&dispatch(search(null))
-                    setInputValue(e.target.value)
+                <div className='flex justify-end items-center ml-8 mr-4  '>
 
-                  } }
+                  <input onChange={(e)=>{
+                      (e.target.value ==="")&&dispatch(search(null))
+                      setInputValue(e.target.value)
+
+                    } }
                   disabled={!isInputOpen} placeholder={`${(isInputOpen )?`search...`:``}`} type='text' className={` border border-zinc-300 ${(isInputOpen || inputValue !== "")?`w-[30vw]`:`w-[2.4rem] absolute bg-[#AC8C6F]k`} outline-none focus:ring-1 ring-[#AE8D70] px-3 py-[.66rem] rounded-full transition-width duration-300 ease-in-out bg-transparent h-[2.4rem] ${toggleDarkMode&&`bg-black `}`}/>
                {(currentPath !== '/products')? <Link href='/products' onClick={(e)=>{(inputValue === "")&&setInputOpen(!isInputOpen)}} className={`  ${(!isInputOpen)&&` bg-[#AC8C6F]k text-whitek `} duration-200 outline-none  absolute   mr-[.29rem] border-zinc-300  p-1  font-light text- rounded-full`}>
                     <MagnifyingGlassIcon className=" size-5 " />
@@ -124,9 +128,13 @@ console.log("Current Path: ",currentPath)
                     <MagnifyingGlassIcon className=" size-5 " />
                   </button>}
                 </div>
+                <div className=''>
+
+                <div className=' w-[1.25px] ml-2 h-[95%] bg-neutral-200 rounded'/>
+                </div>
 
               </div>
-            <div className="   ml-6 flex items-center space-x-3  h-fit  ">
+            <div className="max-md:hidden  mr-4   ml-6 flex items-center space-x-3  h-fit  ">
             <Badge content={count2 } className={`${(count2  === 0 )? `hidden`:`flex`} bg-red-500 items-center justify-center min-w-4 max-h-4 ml-7 -translate-y-1`}>
 
               <Link href='/favorite' as='button' className=" bg-[#0095FB]f border border-zinc-300  p-2 font-light text- rounded-full">
@@ -139,11 +147,11 @@ console.log("Current Path: ",currentPath)
                 {/* {toggleDarkMode?"true":"false"} */}
 
               <Badge content={count } className={`${(count  === 0 )? `hidden`:`flex`} bg-red-500 items-center justify-center min-w-4 max-h-4 ml-7 -translate-y-1`}>
-              <Button
+              <button
                 onClick={()=>setOpen(!isOpen)}
                 className=" bg-[#0095FB]f border border-zinc-300  p-2 font-light text- rounded-full ">
                 <ShoppingCartIcon className=" size-5" />
-              </Button>
+              </button>
               </Badge>
             </div>
             </div>
