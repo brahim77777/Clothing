@@ -10,6 +10,7 @@ import { formatDistanceToNow, parseISO } from 'date-fns';
 import { Toaster, toast } from 'sonner'
 
 import { Link,router,useForm } from "@inertiajs/react";
+import { FaDiagramSuccessor } from "react-icons/fa6";
 // import { router } from '@inertiajs/react'
 
 
@@ -67,7 +68,15 @@ export default function ProductDetails({product}){
     const [readAll,setReadAll] = useState(false)
     return(
         <div className="font-[sans-serif]  ">
-            <Toaster position="top-right"  richColors />
+            <Toaster  className="mt-[2.5rem] -mr-[4rem]" toastOptions={{
+    unstyled: true,
+    classNames: {
+      toast: 'bg-green-400 flex items-center p-2 gap-2 rounded',
+      title: 'text-white',
+      icon:' text-white',
+
+    },
+  }} position="top-right"   />
 
       <div class="p-6 lg:max-w-7xl max-w-2xl max-lg:mx-auto">
 
@@ -157,12 +166,7 @@ export default function ProductDetails({product}){
                         'quantity':qnt,
                       }
                 ))
-                toast.success('added to cart successfully!', {
-                    action: {
-                        label: 'OK',
-                        onClick: () => console.log('OK')
-                    },
-                })
+                toast.success('added to cart successfully!')
             }
             } type="button" class="min-w-[200px] px-4 py-2.5 border border-neutral-300 bg-transparent text-yellow-30 text-sm font-bold rounded">Add to cart</button>
               {/* <button type="button" class="min-w-[200px] px-4 py-3 border border-neutral-300  bg-transparent  text-sm font-bold rounded">Submit your riview</button> */}

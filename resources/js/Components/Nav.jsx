@@ -28,11 +28,12 @@ function Nav() {
 
 
   useEffect(()=>{
-    cart?.map(e=>{
-        setCount(0)
+      setCount(0)
+    cart.map(e=>{
         setCount(count + e.quantity)
     })
   },[cart])
+
   useEffect(()=>{
     setCount2(favorite.length)
   },[favorite])
