@@ -52,11 +52,11 @@ const CheckoutPage = () => {
 
         try {
             console.log("orderData::::::::::::: ");console.log( orderData)
-            const response = await axios.post('YOUR_API_ENDPOINT', orderData);
+            const response = await axios.post('/commands', orderData);
             console.log('Order response:', response.data);
             // handle success (e.g., show a success message, redirect to another page, etc.)
         } catch (error) {
-            console.error('Error placing order:', error);
+            console.error('Error placing order:', error.response.data);
             // handle error (e.g., show an error message)
         }
     };
