@@ -221,7 +221,10 @@ export default function ProductDetails({product}){
                   </div>
                 </div>
               </div>
-             {  readAll ?
+
+
+             { product.reviews.length > 0 ?
+               readAll ?
                 product.reviews?.map((e,index)=>
                     <div key={index} class="flex items-start mt-8">
                     <div class="ml-3">
@@ -245,6 +248,8 @@ export default function ProductDetails({product}){
                   <p class="text-xs mt-4 text-whit">{product.reviews[0].body}</p>
                 </div>
               </div>
+              :
+              <p class="text-xs mt-4 text-whit">No reviews yet</p>
 
              }
               <button onClick={()=>setReadAll(!readAll)} type="button" class="w-full mt-8 px-4 py-2 bg-transparent border-2 border-yellow-30 text-yellow-30 font-bold rounded">Read all reviews</button>
