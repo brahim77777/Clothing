@@ -162,7 +162,12 @@ export default function AddProduct() {
             }).then(
                 (response) => {
                     console.log('Form submitted successfully:', response.data);
-                    toast.success('Product added successfully!')
+                    toast.success('Product added successfully!', {
+                        action: {
+                            label: 'OK',
+                            onClick: () => console.log('Undo')
+                        },
+})
                     // Handle successful form submission
                 },
                 (error) => {

@@ -5,7 +5,7 @@ export default function Hero() {
     const toggleDarkMode = useSelector((state) => state.changeTheme.value)
 
     return (
-      <div className="relative overflow-hidden ">
+      <div className={`relative overflow-hidden ${toggleDarkMode && `bg-neutral-950` }  `}>
         <div className="pb-80 pt-16 sm:pb-40 sm:pt-24 lg:pb-48 lg:pt-40">
           <div className="relative mx-auto max-w-7xl px-4 sm:static sm:px-6 lg:px-8">
             <div className="sm:max-w-lg">
@@ -29,7 +29,7 @@ export default function Hero() {
                       <div className="grid flex-shrink-0 grid-cols-1 gap-y-6 lg:gap-y-8">
                         <div className="h-64 w-44 overflow-hidden rounded-lg sm:opacity-0 lg:opacity-100">
                           <img
-                            src="https://tailwindui.com/img/ecommerce-images/home-page-03-hero-image-tile-01.jpg"
+                            src="https://images.pexels.com/photos/20300822/pexels-photo-20300822/free-photo-of-a-man-in-a-casual-outfit-sitting-on-a-wall-by-the-pavement.jpeg?auto=compress&cs=tinysrgb&w=400g"
                             alt=""
                             className="h-full w-full object-cover object-center"
                           />
@@ -52,7 +52,7 @@ export default function Hero() {
                         </div>
                         <div className="h-64 w-44 overflow-hidden rounded-lg">
                           <img
-                            src="https://tailwindui.com/img/ecommerce-images/home-page-03-hero-image-tile-04.jpg"
+                            src="https://images.pexels.com/photos/4066288/pexels-photo-4066288.jpeg?auto=compress&cs=tinysrgb&w=400"
                             alt=""
                             className="h-full w-full object-cover object-center"
                           />
@@ -68,7 +68,7 @@ export default function Hero() {
                       <div className="grid flex-shrink-0 grid-cols-1 gap-y-6 lg:gap-y-8">
                         <div className="h-64 w-44 overflow-hidden rounded-lg">
                           <img
-                            src="https://tailwindui.com/img/ecommerce-images/home-page-03-hero-image-tile-06.jpg"
+                            src="https://images.pexels.com/photos/6626903/pexels-photo-6626903.jpeg?auto=compress&cs=tinysrgb&w=600"
                             alt=""
                             className="h-full w-full object-cover object-center"
                           />

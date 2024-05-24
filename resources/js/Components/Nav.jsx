@@ -17,6 +17,7 @@ import axios from 'axios';
 import { search } from '@/redux/searchSlice';
 // import {useSelector, useDispatch} from 'react-redux';
 import Logo from "../../../public/Logo.svg"
+import LogoWhite from "../../../public/LogoWhite.svg"
 <Link href="/">Home</Link>
 
 function Nav() {
@@ -27,7 +28,10 @@ function Nav() {
 
 
   useEffect(()=>{
-    cart?.map(e=>setCount(count + e.quantity))
+    cart?.map(e=>{
+        setCount(0)
+        setCount(count + e.quantity)
+    })
   },[cart])
   useEffect(()=>{
     setCount2(favorite.length)
@@ -91,8 +95,8 @@ console.log("Current Path: ",currentPath)
             {/* <button onClick={()=>{dispatch(setOpenSide(!sideOpen))}} className={`${sideOpen?` opacity-0 hidden`:` opacity-100 `} duration-500 z-50 fixed flex left-0 mx-2 p-2 hover:bg-gray-200 mt-[3.4px]  rounded cursor-pointer`}>
                 <FaBarsStaggered/>
             </button > */}
-              <Link href="/" as="button" className={`flex ${toggleDarkMode &&`bg-white`}  rounded  bg-opacity-85    font-roboto text-${color}  font-bold text-3xl flex-shrink-0 items-center `}>
-                <img  className='w-[8rem] object-cover h-12' src={Logo}/>
+              <Link href="/" as="button" className={`flex  rounded  bg-opacity-85    font-roboto text-${color}  font-bold text-3xl flex-shrink-0 items-center `}>
+                <img  className='w-[8rem] object-cover h-12' src={toggleDarkMode ? LogoWhite : Logo}/>
               </Link>
               <div className={`flex justify-end w-full sm:space-x-4  h-[60%] `}>
                 <div className='hidden  lg:flex mr-12 space-x-6  justify-center'>
@@ -122,7 +126,7 @@ console.log("Current Path: ",currentPath)
                 </div>
 
               </div>
-            <div className="hidden lg:ml-6 lg:flex lg:items-center space-x-3  h-fit  ">
+            <div className="   ml-6 flex items-center space-x-3  h-fit  ">
             <Badge content={count2 } className={`${(count2  === 0 )? `hidden`:`flex`} bg-red-500 items-center justify-center min-w-4 max-h-4 ml-7 -translate-y-1`}>
 
               <Link href='/favorite' as='button' className=" bg-[#0095FB]f border border-zinc-300  p-2 font-light text- rounded-full">
@@ -141,7 +145,6 @@ console.log("Current Path: ",currentPath)
                 <ShoppingCartIcon className=" size-5" />
               </Button>
               </Badge>
-
             </div>
             </div>
             <div className=' flex items-center space-x-5 justify-center my-auto max-lg:hidden'>
@@ -157,7 +160,6 @@ console.log("Current Path: ",currentPath)
                 )}
               </Disclosure.Button>
             </div>
-
             </div>
           </div>
         </div>
