@@ -273,12 +273,9 @@ export default function ProductDetails({product}){
                   <p class="text-xs mt-4 text-whit">{product.reviews[0].body}</p>
                 </div>
               </div>
-<<<<<<< HEAD
               :
               <p class="text-xs mt-4 text-whit">No reviews yet</p>
 
-=======
->>>>>>> 31aacca62a6015f87680b941ea19c91b2039631c
              }
               <button onClick={()=>setReadAll(!readAll)} type="button" class="w-full mt-8 px-4 py-2 bg-transparent border-2 border-yellow-30 text-yellow-30 font-bold rounded">Read all reviews</button>
             </div>
