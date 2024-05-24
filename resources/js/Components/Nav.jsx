@@ -22,10 +22,16 @@ import Logo from "../../../public/Logo.svg"
 function Nav() {
   const cart = useSelector((state)=>state.cart.value)
   const [count,setCount] = useState(0)
+  const [count2,setCount2] = useState(0)
+  const favorite = useSelector(state=>state.favorite.value)
+
 
   useEffect(()=>{
     cart?.map(e=>setCount(count + e.quantity))
   },[cart])
+  useEffect(()=>{
+    setCount2(favorite.length)
+  },[favorite])
 
   const auth = useSelector((state)=>state.auth.value)
   console.log("thisis Nav")
@@ -117,9 +123,12 @@ console.log("Current Path: ",currentPath)
 
               </div>
             <div className="hidden lg:ml-6 lg:flex lg:items-center space-x-3  h-fit  ">
+            <Badge content={count2 } className={`${(count2  === 0 )? `hidden`:`flex`} bg-red-500 items-center justify-center min-w-4 max-h-4 ml-7 -translate-y-1`}>
+
               <Link href='/favorite' as='button' className=" bg-[#0095FB]f border border-zinc-300  p-2 font-light text- rounded-full">
                 <HeartIcon className=" size-5" />
               </Link>
+              </Badge>
                 {/* <UserIcon className=" size-5" /> */}
                 {console.log("auth",useSelector((state)=>state.auth.value))}
                 <UserDropDown toggleDarkMode={toggleDarkMode}  />

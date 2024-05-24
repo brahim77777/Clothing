@@ -15,6 +15,7 @@ import pageReducer from './pageSlice'
 import filtersReducer from './filtersSlice'
 import dataToUpdateReducer from "./updateProductSlice"
 import selectedCategoryReducer from "./selectCategorySlice"
+import addToFavoriteReducer from "./addToFavorite"
 
 export const store = configureStore({
   reducer: {
@@ -33,6 +34,7 @@ export const store = configureStore({
     page:pageReducer,
     filtersList:filtersReducer,
     dataToUpdate:dataToUpdateReducer,
-    selectedCategory:selectedCategoryReducer
+    selectedCategory:selectedCategoryReducer,
+    favorite:addToFavoriteReducer
   }
 })

@@ -31,7 +31,6 @@ const responsive = {
 
 export default function Carousel1({Data,isHome}){
 
-    console.log("src: ",Data)
 
     return(
         <Carousel className=" z-0 mx-5 mt-4 " responsive={responsive}>
@@ -39,11 +38,8 @@ export default function Carousel1({Data,isHome}){
                 Data?.map((e, index) => (
                     // <div key={index} class="bg-gray-800   p-[2px] h-[8rem] w-[7rem] flex-none">
                         <Card
-                        slug={e.slug}
-                        title={e.title}
-                        price={e.price}
+                        product={e}
                         isHome={isHome}
-                        main_image={e.main_image}
                         index={index} key={index}/>
 
                     // </div>

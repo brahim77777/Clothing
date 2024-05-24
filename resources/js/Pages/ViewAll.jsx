@@ -81,10 +81,7 @@ export default function ViewAll() {
                 <div className='m-auto mt-[3rem] gap-6 grid grid-cols-5 max-xl:grid-cols-4 max-lg:grid-cols-3 max-md:grid-cols-2 max-sm:grid-cols-1' style={{ placeItems: 'center' }}>
                     {productsData?.map((e, index) => (
                         <Card
-                            slug={e.slug}
-                            title={e.title}
-                            price={e.price}
-                            main_image={e.main_image}
+                            product={e}
                             index={index}
                             key={index}
                         />
