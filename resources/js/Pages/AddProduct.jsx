@@ -183,7 +183,7 @@ export default function AddProduct() {
 
     return (
         <Dashboard>
-            <Toaster richColors />
+            <Toaster position="top-right"  richColors />
             <div className={`w-full duration-300 ease-in-out min-h-screen ${toggleDarkMode ? 'bg-neutral-700' : 'bg-neutral-100'} h-full p-4 ml-auto`}>
                 <form onSubmit={handleFormSubmit}>
                     <div className='w-full mb-2 flex justify-between '>
