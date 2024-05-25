@@ -194,8 +194,13 @@ Route::get('/dashboard/update_product', function () {
 })->middleware('auth')->name('UpdateProduct');
 
 Route::get('/dashboard/statistiques', function () {
-    return Inertia::render("Stats");
-})->middleware('auth')->name('Stats');
+    $products = Product::all();
+    return Inertia::render("Stats",[
+        'products' => ProductResource::collection($products)
+    ]);
+    })->middleware('auth')->name('Stats');
+
+
 
 
 Route::get('/dashboard/users', function () {
@@ -222,6 +227,41 @@ Route::get('/cart', function () {
 Route::get('/favorite', function () {
     return Inertia::render("Favorite");
 })->name('Favorite');
+
+Route::get('/products_all', function () {
+    $products = Product::with('reviews')->get();
+
+    $formattedData = [];
+    foreach ($products as $product) {
+        $formattedData[] = [
+            'id' => $product->id, // Ensure product ID is included
+            'title' => $product->title,
+            'category_id' => $product->category_id,
+            'description' => $product->description,
+            'main_image' => $product->main_image,
+            'secondary_images' => $product->secondary_images,
+            'colors' => $product->colors,
+            'sizes' => $product->sizes,
+            'price' => $product->price,
+            'slug' => $product->slug,
+            'quantity' => $product->quantity,
+            'reviews' => $product->reviews->map(function ($review) {
+                return [
+                    'user_id' => $review->user_id,
+                    'user_name' => $review->user_name, // Assuming user_name exists in the Review model
+                    'product_id' => $review->product_id,
+                    'body' => $review->body,
+                    'rating' => $review->rating,
+                ];
+            }),
+        ];
+    }
+
+    return Response::json([
+        'products' => $formattedData,
+        'total' => count($products),
+    ]);
+})->name('products.all');
 
 
 
