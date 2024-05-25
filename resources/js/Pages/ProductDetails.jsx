@@ -166,7 +166,12 @@ export default function ProductDetails({product}){
                         'quantity':qnt,
                       }
                 ))
-                toast.success('added to cart successfully!')
+                toast.success('added to cart successfully!',{
+                    className: 'my-classname',
+                    // description: 'My description',
+                    duration: 1000,
+                    // icon: <MyIcon />,
+                  })
             }
             } type="button" class="min-w-[200px] px-4 py-2.5 border border-neutral-300 bg-transparent text-yellow-30 text-sm font-bold rounded">Add to cart</button>
               {/* <button type="button" class="min-w-[200px] px-4 py-3 border border-neutral-300  bg-transparent  text-sm font-bold rounded">Submit your riview</button> */}
