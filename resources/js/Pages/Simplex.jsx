@@ -196,9 +196,16 @@ const SimplexInputs = () => {
             <Table>
               <TableHead>
                 <TableRow>
-                  {Object.keys(result).map((key, index) => (
-                    <TableCell key={index}>{key}</TableCell>
-                  ))}
+                  { Object.keys(result).length == products.length+1 ?
+
+                  products.map((key, index) => (
+                    <TableCell key={index}>{key.name==''? "product "+(index+1): key.name}</TableCell>
+                  )): "Bad Format Error"
+
+
+                }
+                    <TableCell >Profit</TableCell>
+
                 </TableRow>
               </TableHead>
               <TableBody>
