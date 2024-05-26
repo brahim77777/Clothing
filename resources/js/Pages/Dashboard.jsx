@@ -56,7 +56,7 @@ const Dashboard =  ({ children , auth,userName}) => {
     { name: 'Categories', icon: TbCategory2, current: false , href:"/dashboard/categories"},
     { name: 'Users', icon: UsersIcon, current: false ,href:"/dashboard/users"},
     // { name: 'Sales', icon: GiPriceTag, current: false },
-    { name: 'Calculations Space',href:"/calculs", icon: CalculateOutlined, current: false },
+    { name: 'Calculations Space',href:"/dashboard/simplex", icon: CalculateOutlined, current: false },
     { name: 'Statistiques', icon: ChartBarIcon, current: false, href :"/dashboard/statistiques"}
   ]
   const userNavigation = [
