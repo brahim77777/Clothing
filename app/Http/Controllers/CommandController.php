@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Command;
+use App\Models\Product;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\File;
 
@@ -16,6 +17,26 @@ class CommandController extends Controller
             ["commands" => Command::all()]
         );
 
+    }
+
+    public function show(Request $request, Command $command)
+    {
+        $products_list = explode(" ", trim($command->products));
+        $products = [];
+        $counter = 0;
+        foreach ($products_list as $products_string) {
+            $products[] = Product::find(explode(",", $products_string)[0]);
+            $products[$counter]->color = explode(",", $products_string)[1];
+            $products[$counter]->size = explode(",", $products_string)[2];
+            $counter++;
+        }
+        return response()->json(
+            [
+                "products" => [
+                    $products
+                ]
+            ]
+        );
     }
 
     public function store(Request $request)
@@ -63,6 +84,17 @@ class CommandController extends Controller
             "command_id" => $command->id,
         ]);
 
+    }
+
+    public function update(Request $request, Command $command)
+    {
+
+        $data = $request->validate([
+            "status" => "required",
+            "products" => "required",
+            "total_price" => "required",
+        ]);
+        $command->update($data);
     }
     public function storeCsv()
     {

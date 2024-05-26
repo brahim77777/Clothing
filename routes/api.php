@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\CommandController;
 use App\Http\Controllers\RatingController;
 use App\Http\Controllers\SimplexController;
 use Illuminate\Http\Request;
@@ -37,3 +38,6 @@ Route::post('/command', function (Request $request) {
         'shippingMethod' => "required"
     ]);
 })->name('api.products.command');
+
+Route::patch('/command/{command}', [CommandController::class, 'update'])->name('api.products.rating');
+Route::get('/command/{command}', [CommandController::class, 'show'])->name('api.products.rating');
