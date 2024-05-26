@@ -32,6 +32,7 @@ import {
   XMarkIcon,
 } from '@heroicons/react/24/outline'
 import { MagnifyingGlassIcon } from '@heroicons/react/20/solid'
+import { RiSlashCommands } from 'react-icons/ri';
 
 
 
@@ -55,6 +56,7 @@ const Dashboard =  ({ children , auth,userName}) => {
     { name: 'Products', icon: HomeIcon, current: true, href: "/dashboard/products"},
     { name: 'Categories', icon: TbCategory2, current: false , href:"/dashboard/categories"},
     { name: 'Users', icon: UsersIcon, current: false ,href:"/dashboard/users"},
+    { name: 'Commands', icon: RiSlashCommands, current: false ,href:"/dashboard/commands"},
     // { name: 'Sales', icon: GiPriceTag, current: false },
     { name: 'Calculations Space',href:"/dashboard/simplex", icon: CalculateOutlined, current: false },
     { name: 'Statistiques', icon: ChartBarIcon, current: false, href :"/dashboard/statistiques"}
@@ -67,7 +69,6 @@ const Dashboard =  ({ children , auth,userName}) => {
 console.log("userName:",userName)
   return (
     <>
-
       <div className=''>
         <Transition.Root show={sidebarOpen} as={Fragment}>
           <Dialog as="div" className="relative z-40 md:hidden" onClose={setSidebarOpen}>
