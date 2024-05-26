@@ -22,17 +22,20 @@ import LogoWhite from "../../../public/LogoWhite.svg"
 
 function Nav() {
   const cart = useSelector((state)=>state.cart.value)
-  const [count,setCount] = useState(0)
+//   const [count,setCount] = useState(0)
   const [count2,setCount2] = useState(0)
   const favorite = useSelector(state=>state.favorite.value)
 
 
-  useEffect(()=>{
-      setCount(0)
-    cart.map(e=>{
-        setCount(count + e.quantity)
-    })
-  },[cart])
+//   useEffect(()=>{
+//       setCount(0)
+//     cart.map(e=>{
+//         setCount(count + e.quantity)
+//     })
+//   },[cart])
+let count = 0
+
+cart.forEach((e)=>count += e.quantity)
 
   useEffect(()=>{
     setCount2(favorite.length)
@@ -147,7 +150,7 @@ console.log("Current Path: ",currentPath)
                 <UserDropDown toggleDarkMode={toggleDarkMode}  />
                 {/* {toggleDarkMode?"true":"false"} */}
 
-              <Badge content={count } className={`${(count  === 0 )? `hidden`:`flex`} bg-red-500 items-center justify-center min-w-4 max-h-4 ml-7 -translate-y-1`}>
+              <Badge content={count } className={`${(count === 0 )? `hidden`:`flex`} bg-red-500 items-center justify-center min-w-4 max-h-4 ml-7 -translate-y-1`}>
               <button
                 onClick={()=>setOpen(!isOpen)}
                 className=" bg-[#0095FB]f border border-zinc-300  p-2 font-light text- rounded-full ">
