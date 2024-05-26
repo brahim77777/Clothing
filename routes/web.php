@@ -287,7 +287,7 @@ Route::get('/calculs', function () {
     ]);
 });
 
-Route::get('/simplex', function () {
+Route::get('/dashboard/simplex', function () {
     return Inertia::render('Simplex');
 });
 Route::post("/rating", [RatingController::class, 'store'])->middleware('auth')->name('rating.store');
