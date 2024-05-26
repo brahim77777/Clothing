@@ -239,9 +239,9 @@ const Stats = () => {
             <FcStatistics className='w-12 h-12 '/>
         </h1>
 
-        <div className='mb-4 flex flex-wrap  gap-2'>
-            <div className='flex max-lg:w-full flex-shrink-0 w-fit overflow-hidden gap-12 justify-between border font-semibold text-xl rounded border-orange-500 bg-orange-100'>
-                <div className='flex flex-col gap-2 m-4'>
+        <div className='mb-4 grid  grid-cols-3 max-lg:grid-cols-2 max-md:grid-cols-1  gap-2'>
+            <div className='flex max-lg:w-full  min-h-[8rem] overflow-hidden gap-12 justify-between border font-semibold text-xl rounded border-orange-500 bg-orange-100'>
+                <div className='flex flex-col gap-6 m-4'>
                     <div>Products</div>
                     <div className='text-[2.2rem]'>{products?.length}</div>
                 </div>
@@ -250,8 +250,8 @@ const Stats = () => {
                 </div>
             </div>
 
-            <div className='flex max-lg:w-full  max-md:w-fullw-fit flex-shrink-0 overflow-hidden gap-12 justify-between border font-semibold text-xl rounded border-indigo-500 bg-indigo-100'>
-                <div className='flex flex-col gap-2 m-4'>
+            <div className='flex max-lg:w-full  max-md:w-full  min-h-[8rem] overflow-hidden gap-12 justify-between border font-semibold text-xl rounded border-indigo-500 bg-indigo-100'>
+                <div className='flex flex-col  gap-6 m-4'>
                     <div>Orders</div>
                     <div className='text-[2.2rem]'>{commands?.length}</div>
                 </div>
@@ -260,8 +260,8 @@ const Stats = () => {
                 </div>
             </div>
 
-            <div className='flex max-lg:w-full w-fit flex-shrink-0 overflow-hidden gap-12 justify-between border font-semibold text-xl rounded border-green-500 bg-green-100'>
-                <div className='flex flex-col gap-2 m-4'>
+            <div className='flex max-lg:w-full  min-h-[8rem] overflow-hidden gap-12 justify-between border font-semibold text-xl rounded border-green-500 bg-green-100'>
+                <div className='flex flex-col  gap-6 m-4'>
                     <div>Reviews</div>
                     <div className='text-[2.2rem]'>{totalReviews}</div>
                 </div>
@@ -270,18 +270,18 @@ const Stats = () => {
                 </div>
             </div>
 
-            <div className='flex max-lg:w-full w-fit flex-shrink-0 overflow-hidden gap-12 justify-between border font-semibold text-xl rounded  border-yellow-500 bg-yellow-100'>
-                <div className='flex flex-col gap-2 m-4'>
+            {/* <div className='flex max-lg:w-full  min-h-[8rem] overflow-hidden gap-12 justify-between border font-semibold text-xl rounded  border-yellow-500 bg-yellow-100'>
+                <div className='flex flex-col gap-6 m-4'>
                     <div>Customers</div>
                     <div className='text-[2.2rem]'>{totalReviews}</div>
                 </div>
                 <div className=' w-[6rem] relative flex justify-center items-center bg-yellow-500 '>
                     <UsersThree fontSize='' className=' h-full absolute  text-yellow-100  text-[5rem]'/>
                 </div>
-            </div>
+            </div> */}
 
-            <div className='flex max-lg:w-full w-fit flex-shrink-0 overflow-hidden gap-12 justify-between border font-semibold text-xl rounded border-red-500 bg-red-100'>
-                <div className='flex flex-col gap-2 m-4'>
+            <div className='flex max-lg:w-full  min-h-[8rem] overflow-hidden gap-12 justify-between border font-semibold text-xl rounded border-red-500 bg-red-100'>
+                <div className='flex flex-col gap-6 m-4'>
                     <div>Stock</div>
                     <div className='text-[2.2rem]'>{
                     (stock >= 1000) ? <div className='flex flex-col gap-2 '>{stock.toString().split("")[0]+"."+stock.toString().split("").slice(1,2).join("")}k <span className=' text-base font-mono text-neutral-500'>{stock}</span></div> : stock
@@ -291,8 +291,8 @@ const Stats = () => {
                     <PiPackageLight fontSize='' className=' h-full absolute  text-red-100  text-[5rem]'/>
                 </div>
             </div>
-            <div className='flex max-lg:w-full w-fit flex-shrink-0 overflow-hidden gap-12 justify-between border font-semibold text-xl rounded border-sky-500 bg-sky-100'>
-                <div className='flex flex-col gap-2 m-4'>
+            <div className='flex max-lg:w-full   min-h-[8rem] overflow-hidden gap-12 justify-between border font-semibold text-xl rounded border-sky-500 bg-sky-100'>
+                <div className='flex flex-col gap-6 m-4'>
                     <div>Total Revenue</div>
                     <div className='text-[2.2rem]'>{
                     (stock >= 1000) ? <div className='flex flex-col gap-2 '>{revenue.toString().split("")[0]+"."+revenue.toString().split("").slice(1,2).join("")}k DH<span className=' text-base font-mono text-neutral-500'>{revenue} DH</span></div> : <div>{stock} DH</div>

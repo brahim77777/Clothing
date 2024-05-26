@@ -74,10 +74,11 @@ export default function Cart(){
                                 cart.map((product, index) =>(
                         <tr
                         class="border-b border-neutral-200 ">
-                        <td class="whitespace-nowrap px-6 py-4 min-w-[15rem] font-medium">
-                            <div><img className=" sm:size-48 rounded border border-neutral-400 shadow-md " src={"/storage/"+product.main_image}/></div>
+                        <td class="whitespace-nowrap px-6 hover:overflow-visible overflow-clip py-4 min-w-[15rem] font-medium">
+                            <div className="flex items-center gap-2"><img className=" sm:size-48 rounded border border-neutral-400 shadow-md " src={"/storage/"+product.main_image}/>
+                            <div className=" z-0 bg-white ">{product.description}</div></div>
                         </td>
-                        <td class="whitespace-nowrap px-6 py-4">{product.description}</td>
+                        <td class="whitespace-nowrap px-6 py-4">{product.price} DH</td>
                         <td class="whitespace-nowrap px-6 py-4"><input onChange={(e)=>dispatch(updateQuantity([product.slug,parseInt(e.target.value)]))} className="w-fit max-w-[3.5rem] border-neutral-300 border p-2 rounded outline-none" value={product.quantity} type="number"/></td>
                         <td class="whitespace-nowrap px-6 py-4">{product.quantity * parseFloat(product.price)} DH</td>
                         </tr>
