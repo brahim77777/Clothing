@@ -3,7 +3,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { Link,router,useForm } from '@inertiajs/react';
 import { SketchPicker } from 'react-color';
 import { MdColorLens, MdPublish } from 'react-icons/md';
-import { Cancel } from '@mui/icons-material';
+import { Cancel, ClearAll } from '@mui/icons-material';
 import Dropdown from '../Components/DropDownT';
 import CurrencyInput from 'react-currency-input-field';
 import { FilePond, registerPlugin } from 'react-filepond';
@@ -267,15 +267,21 @@ export default function AddProduct() {
                                 </div>
                             </div>
 
-                            <div className="w-full flex flex-col gap-2 mb-4">
+                            <div className="w-full flex flex-col gap-2 mb-4 pb-4">
                                 <label htmlFor="co">Select Color(s)</label>
-                                <div className='relative'>
+                                <div className='relative '>
+
                                     <button
-                                        className={`rounded h-[30px] w-full p-1 border ${toggleDarkMode ? 'bg-neutral-700 text-white' : 'bg-neutral-100 text-black'}`}
+                                        className={`rounded pb-4 h-[30px] w-full  border ${toggleDarkMode ? 'bg-neutral-700 text-white' : 'bg-neutral-100 text-black'}`}
                                         onClick={(e)=>{
                                                 e.preventDefault()
                                                 handleClick()
-                                                }}><MdColorLens className='inline-block align-middle' /><span className='inline-block align-middle'>Choose a Color</span></button>
+                                                }}>
+                                                    <MdColorLens className='inline-block align-middle' /><span className='inline-block align-middle'>Choose a Color</span></button>
+                                                    <button onClick={(e)=>{
+                                                        e.preventDefault()
+                                                        setColors([])
+                                                    }}><ClearAll  className=' border border-neutral-800 rounded'/></button>
                                     {state.displayColorPicker ? (
                                         <div className='absolute z-50'>
                                             <div className='fixed top-0 right-0 bottom-0 left-0' onClick={handleClick} />

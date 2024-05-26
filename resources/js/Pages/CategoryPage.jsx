@@ -64,7 +64,7 @@ export default function CategoryPage() {
                             <BreadcrumbsWithIcon />
                         </div>
                     </div>
-                    <h1 className="text-3xl italic">NEW CLOTHES</h1>
+                    <h1 className="text-3xl italic">{}</h1>
                     <div className="mt-4 flex justify-between items-center">
                         <div className="flex gap-2">
                             <button onClick={()=>fetchProducts()}  className='inline-flex items-center px-1 pt-1 border-b-2 border-b-transparent text-sm font-medium leading-5 transition duration-150 ease-in-out focus:outline-none text-gray-700 hover:border-b-gray-300 '>New Arrivals</button >

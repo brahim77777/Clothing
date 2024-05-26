@@ -116,10 +116,12 @@ Route::get('/dashboard', function () {
     $pageCount = ceil($products->total() / $products->perPage());
 
     // Pass the products data and page count as props to the Inertia view
+    // dd("auth.user.name" , auth()->user()->name);
     return Inertia::render('Dashboard', [
         'products' => ProductResource::collection($products),
         'pageCount' => $pageCount,
         'total' => $products->total(),
+        "userName"=> auth()->user()->name
     ]);
 })->middleware('auth')->name('dashboard');
 
@@ -212,7 +214,9 @@ Route::get('/dashboard/statistiques', function () {
 })->middleware('auth')->name('Stats');
 
 Route::get('/dashboard/add_product', function () {
-    return Inertia::render("AddProduct");
+    return Inertia::render("AddProduct",[
+        "userName" => auth()->user()->name
+    ]);
 })->middleware('auth')->name('AddProduct');
 
 Route::get('/check_out', function () {

@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { TextField, Button, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper, Select, MenuItem } from '@mui/material';
 import axios from 'axios';
+import { Cancel } from '@mui/icons-material';
 
 const SimplexInputs = () => {
   const [products, setProducts] = useState([
@@ -10,7 +11,6 @@ const SimplexInputs = () => {
   const [constraints, setConstraints] = useState([
     { name: 'Atelier 1', capacities: [4], operator: '<=' },
     { name: 'Atelier 2', capacities: [12], operator: '<=' },
-    { name: 'Atelier 3', capacities: [18], operator: '<=' }
   ]);
 
   const [result, setResult] = useState(null);
@@ -48,6 +48,13 @@ const SimplexInputs = () => {
   const addConstraint = () => {
     setConstraints([...constraints, { name: '', capacities: Array(products.length).fill(0), operator: '<=' }]);
   };
+  const removeConstraint = (index) => {
+    if(constraints.length>2)
+    setConstraints(constraints.filter((e,i)=>i != index));
+
+
+  };
+
 
   const handleSubmit = () => {
     const objective = 'max';
@@ -88,9 +95,10 @@ const SimplexInputs = () => {
     });
   };
 
+
   return (
-    <div>
-      <TableContainer component={Paper}>
+    <div className='p-12'>
+      <TableContainer className='m-auto flex ' component={Paper}>
         <Table>
           <TableHead>
             <TableRow>
@@ -140,6 +148,12 @@ const SimplexInputs = () => {
                     onChange={(e) => handleConstraintChange(cIndex, products.length, e.target.value)}
                   />
                 </TableCell>
+                <TableCell>
+                    <button onClick={()=>removeConstraint(cIndex)}>
+                        <Cancel/>
+                    </button>
+                </TableCell>
+
               </TableRow>
             ))}
             <TableRow>
@@ -155,6 +169,7 @@ const SimplexInputs = () => {
                 </TableCell>
               ))}
               <TableCell></TableCell>
+
             </TableRow>
           </TableBody>
         </Table>

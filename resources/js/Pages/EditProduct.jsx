@@ -40,7 +40,7 @@ registerPlugin(
     FilePondPluginFileValidateSize,
     FilePondPluginFileValidateType
 );
-export default function UpdateProduct(){
+export default function EditProduct(){
     // const { dataToUpdate } = usePage().props;
     const dataToUpdate = useSelector(state=>state.dataToUpdate.value)
 

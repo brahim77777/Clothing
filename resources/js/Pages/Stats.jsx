@@ -185,7 +185,7 @@ const Stats = () => {
     labels: monthsForPrices,
     datasets: [
       {
-        label: 'Total Prices',
+        label: 'Total Revenue',
         data: totalPricesPerMonth,
         borderColor: 'rgba(75, 192, 192, 1)',
         backgroundColor: 'rgba(75, 192, 192, 0.2)',
@@ -317,7 +317,7 @@ const Stats = () => {
         </div>
 
         <div className="mb-8 p-2 border border-orange-500 rounded-md">
-            <h2 className="text-xl font-semibold mb-2">Total Prices Over Time</h2>
+            <h2 className="text-xl font-semibold mb-2">Total Revenue Over Time</h2>
             <Line data={lineChartData} />
         </div>
 

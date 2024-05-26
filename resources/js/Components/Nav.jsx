@@ -99,7 +99,7 @@ console.log("Current Path: ",currentPath)
               <Link href="/" as="button" className={`flex  rounded  bg-opacity-85    font-roboto text-${color}  font-bold text-3xl flex-shrink-0 items-center `}>
                 <img  className='w-[8rem] object-cover h-12' src={toggleDarkMode ? LogoWhite : Logo}/>
               </Link>
-              <Link href='/cart'>Cart</Link>
+              {/* <Link href='/cart'>Cart</Link> */}
 
               <div className={`flex justify-end w-full sm:space-x-4  h-[60%] `}>
                 <div className='hidden  lg:flex mr-12 space-x-6  justify-center'>

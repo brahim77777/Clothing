@@ -39,14 +39,12 @@ function classNames(...classes) {
   return classes.filter(Boolean).join(' ')
 }
 
-const Dashboard =  ({ children , auth}) => {
+const Dashboard =  ({ children , auth,userName}) => {
     // const { products } = usePage().props;
 
     // const [page, setPage] = useState(0);
 
-    console.log("this is auth:",auth)
-
-
+    console.log("this is auth:",children)
 
 
     const [sidebarOpen, setSidebarOpen] = useState(false)
@@ -66,7 +64,7 @@ const Dashboard =  ({ children , auth}) => {
     { name: 'Sign out', href: '/signout' },
   ]
 
-
+console.log("userName:",userName)
   return (
     <>
 
@@ -281,7 +279,7 @@ const Dashboard =  ({ children , auth}) => {
             <Head  title="Dashboard" />
             <div className='flex flex-col bg-white'>
                     <div className=' '>
-                        <WelcomeBanner />
+                        <WelcomeBanner name={userName} />
                     </div>
 
             { children }
