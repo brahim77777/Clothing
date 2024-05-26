@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { TextField, Button, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper, Select, MenuItem } from '@mui/material';
 import axios from 'axios';
 import { Cancel } from '@mui/icons-material';
+import Dashboard from './Dashboard';
 
 const SimplexInputs = () => {
   const [products, setProducts] = useState([
@@ -97,7 +98,8 @@ const SimplexInputs = () => {
 
 
   return (
-    <div className='p-12'>
+    <Dashboard>
+    <div className='mt-4'>
       <TableContainer className='m-auto flex ' component={Paper}>
         <Table>
           <TableHead>
@@ -209,8 +211,9 @@ const SimplexInputs = () => {
             </Table>
           </TableContainer>
         </div>
-      )}
-    </div>
+       )}
+        </div>
+    </Dashboard>
   );
 };
 
