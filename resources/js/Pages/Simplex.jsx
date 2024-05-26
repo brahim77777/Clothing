@@ -102,7 +102,7 @@ const SimplexInputs = () => {
         <Table>
           <TableHead>
             <TableRow>
-              <TableCell>Ateliers</TableCell>
+              <TableCell>Constraints</TableCell>
               {products.map((product, index) => (
                 <TableCell key={index}>
                   <TextField

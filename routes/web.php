@@ -121,7 +121,7 @@ Route::get('/dashboard', function () {
         'products' => ProductResource::collection($products),
         'pageCount' => $pageCount,
         'total' => $products->total(),
-        "userName"=> auth()->user()->name
+        "userName" => auth()->user()->name
     ]);
 })->middleware('auth')->name('dashboard');
 
@@ -197,10 +197,10 @@ Route::get('/dashboard/update_product', function () {
 
 Route::get('/dashboard/statistiques', function () {
     $products = Product::all();
-    return Inertia::render("Stats",[
+    return Inertia::render("Stats", [
         'products' => ProductResource::collection($products)
     ]);
-    })->middleware('auth')->name('Stats');
+})->middleware('auth')->name('Stats');
 
 
 
@@ -214,7 +214,7 @@ Route::get('/dashboard/statistiques', function () {
 })->middleware('auth')->name('Stats');
 
 Route::get('/dashboard/add_product', function () {
-    return Inertia::render("AddProduct",[
+    return Inertia::render("AddProduct", [
         "userName" => auth()->user()->name
     ]);
 })->middleware('auth')->name('AddProduct');
