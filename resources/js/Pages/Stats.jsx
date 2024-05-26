@@ -317,7 +317,7 @@ const Stats = () => {
         </div>
 
         <div className="mb-8 p-2 border border-orange-500 rounded-md">
-            <h2 className="text-xl font-semibold mb-2">Total Revenue Over Time</h2>
+            <h2 className="text-xl font-semibold mb-2">Sales per month</h2>
             <Line data={lineChartData} />
         </div>
 
