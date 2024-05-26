@@ -9,8 +9,8 @@ const SimplexInputs = () => {
   ]);
 
   const [constraints, setConstraints] = useState([
-    { name: 'Atelier 1', capacities: [4], operator: '<=' },
-    { name: 'Atelier 2', capacities: [12], operator: '<=' },
+    { name: 'Constraint 1', capacities: [4], operator: '<=' },
+    { name: 'Constraint 2', capacities: [12], operator: '<=' },
   ]);
 
   const [result, setResult] = useState(null);
@@ -120,7 +120,7 @@ const SimplexInputs = () => {
               <TableRow key={cIndex}>
                 <TableCell>
                   <TextField
-                    label={`Atelier ${cIndex + 1}`}
+                    label={`Constraint ${cIndex + 1}`}
                     value={constraint.name}
                     onChange={(e) => handleConstraintChange(cIndex, 'name', e.target.value)}
                   />
