@@ -34,7 +34,7 @@ const CheckoutPage = () => {
     const miniCart = []
 
     cart.map(e=>{
-        miniCart.push({'product_id': e.id, "color":e.color, "size":e.size})
+        miniCart.push({'product_id': e.id, "color":e.color, "size":e.size,"quantity":e.quantity})
     })
 
     console.log("mini Cart:", miniCart)

@@ -27,7 +27,9 @@ for (let i = 1; i <= maxQuantity; i++) {
 export default function Cart(){
     const cart = useSelector(state=>state.cart.value)
     let total = 0;
+    let itemsTotal = 0;
     cart?.forEach((e) => total += e.quantity * parseFloat(e.price));
+    cart?.forEach((e) => itemsTotal += e.quantity);
     const fraiLivr = 49;
 
     const dispatch = useDispatch()
@@ -50,7 +52,7 @@ export default function Cart(){
             <div>
                    <div className="py-4 m-2 ">
                 <h1 className="mb-2 font-bold text-xl">YOUR BAG</h1>
-                <div>TOTAL: ({14} items) <sapn className="font-semibold">$1028.00</sapn></div>
+                <div>TOTAL: ({itemsTotal} items) <sapn className="font-semibold">{total} DH</sapn></div>
                 <p>Items in your bag are note reserved - check out now to make them yours.</p>
             </div>
             <div className="flex gap-8 justify-between  max-xl:flex-col">
@@ -79,7 +81,7 @@ export default function Cart(){
                             <div className=" z-0 bg-white ">{product.description}</div></div>
                         </td>
                         <td class="whitespace-nowrap px-6 py-4">{product.price} DH</td>
-                        <td class="whitespace-nowrap px-6 py-4"><input onChange={(e)=>dispatch(updateQuantity([product.slug,parseInt(e.target.value)]))} className="w-fit max-w-[3.5rem] border-neutral-300 border p-2 rounded outline-none" value={product.quantity} type="number"/></td>
+                        <td class="whitespace-nowrap px-6 py-4"><input max={13} min={1} onChange={(e)=>dispatch(updateQuantity([product.slug,parseInt(e.target.value)]))} className="w-fit max-w-[3.5rem] border-neutral-300 border p-2 rounded outline-none" value={product.quantity} type="number"/></td>
                         <td class="whitespace-nowrap px-6 py-4">{product.quantity * parseFloat(product.price)} DH</td>
                         </tr>
 
