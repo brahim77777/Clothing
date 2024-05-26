@@ -290,6 +290,9 @@ Route::get('/calculs', function () {
 Route::get('/dashboard/simplex', function () {
     return Inertia::render('Simplex');
 });
+Route::get('/dashboard/commands', function () {
+    return Inertia::render('Commands');
+});
 Route::post("/rating", [RatingController::class, 'store'])->middleware('auth')->name('rating.store');
 
 // Route::post('/products/sort', [ProductController::class, 'sort'])->name('products.sort');
