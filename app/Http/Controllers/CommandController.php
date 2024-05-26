@@ -28,13 +28,13 @@ class CommandController extends Controller
             $products[] = Product::find(explode(",", $products_string)[0]);
             $products[$counter]->color = explode(",", $products_string)[1];
             $products[$counter]->size = explode(",", $products_string)[2];
+            $products[$counter]->quantity = explode(",", $products_string)[3];
             $counter++;
         }
         return response()->json(
             [
-                "products" => [
-                    $products
-                ]
+                "products" => $products,
+                "command" => $command
             ]
         );
     }
@@ -59,7 +59,7 @@ class CommandController extends Controller
         $command = [];
         $command["products"] = "";
         foreach ($data["miniCart"] as $item) {
-            $command["products"] .= $item["product_id"] . "," . $item["color"] . "," . $item["size"] . " ";
+            $command["products"] .= $item["product_id"] . "," . $item["color"] . "," . $item["size"] . "," . $item["quantity"] . " ";
         }
 
         $data["address"] ? $command["address"] = $data["address"] : $command["address"] = "";

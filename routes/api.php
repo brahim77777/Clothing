@@ -24,6 +24,7 @@ Route::post('/simplex', [SimplexController::class, 'simplex'])->name('api.simple
 //     return response()->json(['success' => $request->all()]);
 // });
 
+
 Route::post('/products', [ProductController::class, 'store'])->name('api.products.store');
 Route::post('/command', function (Request $request) {
     $request->validate([
