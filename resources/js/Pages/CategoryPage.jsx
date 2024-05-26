@@ -9,7 +9,7 @@ import Card from "../Components/Card";
 import { useSelector } from "react-redux";
 import { Link, router } from "@inertiajs/react";
 
-export default function CategoriePage() {
+export default function CategoryPage() {
     const products = useSelector(state=>state.products.value)
     console.log("here is products ::", products)
     const [productsData, setProductsData] = useState([]);
