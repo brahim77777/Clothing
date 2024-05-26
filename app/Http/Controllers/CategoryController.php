@@ -24,7 +24,7 @@ class CategoryController extends Controller
     public function show(Category $category)
     {
         $products = $category->products()->with("category")->get();
-        return Inertia::render("ViewAll", ["products" => ProductResource::collection($products)]);
+        return Inertia::render("CategoryPage", ["products" => ProductResource::collection($products)]);
     }
 
     public function store(Request $request)
