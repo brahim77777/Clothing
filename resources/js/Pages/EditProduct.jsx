@@ -34,6 +34,9 @@ registerPlugin(
 );
 
 export default function EditProduct({ product }) {
+    console.log("products: ",product)
+
+
     const dispatch = useDispatch();
     const selectedCategory = useSelector(state => state.selectedCategory.value);
     const [selectedSizes, setSelectedSizes] = useState([]);
@@ -80,6 +83,20 @@ export default function EditProduct({ product }) {
         });
     }
 
+    let secImages = []
+     product.secondary_images.split(",")?.map((e,index)=>{
+        console.log("blob : ",e)
+         secImages.push(new File([e], e, {
+            type: e.type,
+        }))
+     })
+
+     console.log("secImages: ",secImages)
+
+
+
+
+
     const { data, setData, post, progress, reset } = useForm({
         title: product.title,
         slug: product.slug,
@@ -87,11 +104,13 @@ export default function EditProduct({ product }) {
         price: product.price,
         quantity: product.quantity,
         category_id: product.category_id,
-        secondary_images: product.secondary_images,
+        secondary_images: secImages,
         sizes: product.sizes,
         colors: product.colors,
         main_image: product.main_image,
     });
+
+    console.log("data ::", data)
 
     useEffect(() => {
         console.log("product: kk",product)
@@ -149,8 +168,17 @@ export default function EditProduct({ product }) {
     const handleUpdateFiles = (fileItems) => {
         setFiles(fileItems.map(fileItem => fileItem.file));
         const avatarFiles = fileItems.map(fileItem => fileItem.file);
-        setData('main_image', avatarFiles[0]);
-        setData('secondary_images', avatarFiles);
+        let secImages = []
+        avatarFiles.map((e,index)=>{
+            console.log("blob : ",e)
+             secImages.push(new File([e], e, {
+                type: e.type,
+            }))
+         })
+        setData('main_image', secImages[0]);
+        setData('secondary_images', secImages);
+        console.log("avatars: ",secImages)
+
     };
 
     const handleFormSubmit = async (e) => {
