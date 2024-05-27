@@ -40,6 +40,8 @@ export default function EditProduct({ productId }) {
     const [categories, setCategories] = useState([]);
     const [colors, setColors] = useState([]);
     const [files, setFiles] = useState([]);
+
+    const toggleDarkMode = useSelector((state) => state.changeTheme.value)
     const [state, setState] = useState({
         displayColorPicker: false,
         color: [{
