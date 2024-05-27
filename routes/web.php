@@ -349,5 +349,7 @@ Route::get('/commands/seed', function () {
     );
 });
 
+Route::get('/dashboard/command/{command}', [CommandController::class, 'show'])->name('api.products.rating');
+
 
 require __DIR__ . '/auth.php';

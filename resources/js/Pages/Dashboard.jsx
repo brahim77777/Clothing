@@ -10,7 +10,7 @@ import { useSelector,useDispatch } from 'react-redux';
 import { CalculateOutlined, CategoryOutlined, Shop2, ThreePOutlined } from '@mui/icons-material';
 import { TbBrandProducthunt, TbCategory2 } from 'react-icons/tb';
 import { HiOutlineShoppingBag } from "react-icons/hi2";
-import { PiDotsThreeOutlineVerticalFill } from "react-icons/pi";
+import { PiDotsThreeOutlineVerticalFill, PiShoppingBagLight } from "react-icons/pi";
 
 import { useEffect } from 'react';
 import {Link} from '@inertiajs/react';
@@ -56,7 +56,7 @@ const Dashboard =  ({ children , auth,userName}) => {
     { name: 'Products', icon: HomeIcon, current: true, href: "/dashboard/products"},
     { name: 'Categories', icon: TbCategory2, current: false , href:"/dashboard/categories"},
     { name: 'Users', icon: UsersIcon, current: false ,href:"/dashboard/users"},
-    { name: 'Commands', icon: RiSlashCommands, current: false ,href:"/dashboard/commands"},
+    { name: 'Orders', icon: PiShoppingBagLight, current: false ,href:"/dashboard/commands"},
     // { name: 'Sales', icon: GiPriceTag, current: false },
     { name: 'Calculations Space',href:"/dashboard/simplex", icon: CalculateOutlined, current: false },
     { name: 'Statistiques', icon: ChartBarIcon, current: false, href :"/dashboard/statistiques"}

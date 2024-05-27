@@ -14,7 +14,7 @@ class CommandController extends Controller
     public function index()
     {
         return response()->json(
-            ["commands" => Command::all()]
+            ["commands" => Command::paginate(10)]
         );
 
     }
