@@ -23,7 +23,7 @@ export default function CommandDetails({ command, products }) {
               </div>
               <div className='flex justify-between'>Free Shipping: <span className="font-medium text-gray-700">{command.freeShipping === 1 ? 'Yes' : 'No'}</span></div>
               <div className='flex justify-between'>Status: <span className="font-medium text-gray-700">{command.status}</span></div>
-              <div className='flex justify-between'>Total Price: <span className="font-medium text-gray-700">{command.total_price}</span></div>
+              <div className='flex justify-between'>Total Price: <span className="font-medium text-gray-700">{command.total_price} MAD</span></div>
             </div>
           </div>
 
