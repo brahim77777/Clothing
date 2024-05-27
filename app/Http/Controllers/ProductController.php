@@ -87,6 +87,7 @@ use App\Http\Resources\ProductResource;
 use App\Models\Product;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Response;
+use Illuminate\Support\Facades\Storage;
 use Inertia\Inertia;
 use Illuminate\Support\Str;
 
@@ -95,13 +96,50 @@ class ProductController extends Controller
 
     public function update(Request $request, Product $product)
     {
+        $data = $request->validate([
+            'title' => 'required',
+            'description' => 'required',
+            'price' => 'required',
+            'quantity' => 'required',
+            'colors' => 'required',
+            'sizes' => 'required',
+            'category_id' => 'required',
+            'secondary_images.*' => 'required|image',
+        ]);
+        $secondaryImages = $request->file('secondary_images');
+
+        //Store the first image
+        $imagePath = $secondaryImages[0]->store('', 'public');
+        $data["main_image"] = $imagePath;
+        // Store the secondary images
+        $counter = 0;
+        $secondaryImagePaths = [];
+        foreach ($secondaryImages as $image) {
+            if ($counter++ == 0)
+                continue;
+            // $imagePath = $image->store('images', 'public');
+            $imagePath = $image->store('', 'public');
+            $secondaryImagePaths[] = $imagePath;
+        }
+        $data["secondary_images"] = implode(',', $secondaryImagePaths);
+        $data["colors"];
+        $data["sizes"];
+        // delete old images
+        $path = Storage::path($product->main_image);
+        Storage::delete($path);
+
+        $product->secondary_images = implode(',', $secondaryImagePaths);
+        foreach ($product->secondary_images as $image) {
+            $path = Storage::path($product->main_image);
+            Storage::delete($path);
+
+        }
 
 
-        $product->update($request->all());
         return response()->json(
             [
-                "success" => true,
-                "product" => new ProductResource($product),
+                "success" => $product->update($data),
+                "product" => Product::find($product->id),
             ]
         );
     }

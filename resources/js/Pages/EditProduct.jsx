@@ -155,15 +155,26 @@ export default function EditProduct({ product }) {
 
     const handleFormSubmit = async (e) => {
         e.preventDefault();
-        console.log("data transfer: ", data);
 
-        setData('slug', `idnumber${data?.quantity}`);
-        console.log("form data: ", data);
+        const payload = {
+            title: data.title,
+            slug: `idnumber${data.quantity}`,
+            description: data.description,
+            price: data.price,
+            quantity: data.quantity,
+            category_id: data.category_id,
+            colors: rgbToHex(colors),
+            sizes: selectedSizes,
+            main_image: data.main_image,
+            secondary_images: data.secondary_images
+        };
+
+        console.log("data transfer: ", payload);
 
         try {
-            await axios.put(`/api/products/${productId}`, data, {
+            await axios.put(`/api/products/${product.id}`, payload, {
                 headers: {
-                    'Content-Type': 'multipart/form-data'
+                    'Content-Type': 'application/json'
                 }
             }).then(
                 (response) => {
@@ -185,7 +196,6 @@ export default function EditProduct({ product }) {
             toast.error('Error submitting form!');
         }
     };
-
     return (
         <Dashboard>
             <Toaster position="top-right" richColors />
