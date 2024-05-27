@@ -77,8 +77,9 @@ const Stats = () => {
 
        useEffect(() => {
          axios.get("/commands").then(res => {
-           const commands = res.data.commands.data;
+           const commands = res.data.commands;
            setCommands(commands);
+           console.log("commands fd: ",res.data.commands)
 
            // Find the oldest and newest years from commands
            const years = commands.map(order => new Date(order.created_at).getFullYear());
@@ -337,9 +338,19 @@ const orderCounts = commands.reduce((acc, order) => {
             </div>
         </div>
 
-        <div className="mb-8 p-2 border border-orange-500 rounded-md">
-            <h2 className="text-xl font-semibold mb-2">Orders Per Month</h2>
-            <Bar data={chartData} />
+        <div className="mb-8 p-2  relative border border-orange-500 rounded-md">
+            <div className=" absolute right-0 mr-4">
+                <select value={selectedYear} onChange={handleYearChange}>
+                {/* Generate options for all years between oldest and newest */}
+                {Array.from({ length: newestYear - oldestYear + 1 }, (_, i) => oldestYear + i).map(year => (
+                    <option key={year} value={year}>{year}</option>
+                ))}
+                </select>
+            </div>
+            <div>
+                <h2 className="text-xl font-semibold mb-2">Orders Per Month - {selectedYear || oldestYear}</h2>
+                <Bar data={chartData} />
+            </div>
         </div>
 
         <div className="mb-8 p-2 border border-orange-500 rounded-md">
@@ -350,14 +361,6 @@ const orderCounts = commands.reduce((acc, order) => {
         </div>
 
 
-      <div className="mb-4">
-        <select value={selectedYear} onChange={handleYearChange}>
-          {/* Generate options for all years between oldest and newest */}
-          {Array.from({ length: newestYear - oldestYear + 1 }, (_, i) => oldestYear + i).map(year => (
-            <option key={year} value={year}>{year}</option>
-          ))}
-        </select>
-      </div>
 
       <div className="mb-8 p-2 border border-orange-500 rounded-md">
         <h2 className="text-xl font-semibold mb-2">Sales per month - {selectedYear}</h2>
