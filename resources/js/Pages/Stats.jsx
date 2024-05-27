@@ -66,12 +66,30 @@ const Stats = () => {
 
     const [commands , setCommands] = useState([])
 
-       useEffect(()=>{
-        axios.get("/commands").then(res=>{
-            setCommands(res.data.commands.data)
-          })
-       },[])
 
+
+       const [selectedYear, setSelectedYear] = useState(null);
+       const [newestYear, setnewestYear] = useState(null);
+       const [oldestYear, setoldestYear] = useState(null);
+
+       // ... other useEffect functions
+
+
+       useEffect(() => {
+         axios.get("/commands").then(res => {
+           const commands = res.data.commands.data;
+           setCommands(commands);
+
+           // Find the oldest and newest years from commands
+           const years = commands.map(order => new Date(order.created_at).getFullYear());
+           setoldestYear(Math.min(...years));
+           setnewestYear(Math.max(...years));
+           console.log("newst year",newestYear)
+
+           // Set initial selected year (e.g., newest year)
+           setSelectedYear(newestYear);
+         });
+       }, []);
     const monthNames = [
         "January", "February", "March", "April", "May", "June",
         "July", "August", "September", "October", "November", "December"
@@ -134,9 +152,17 @@ const Stats = () => {
 
 
  // Process data for the bar chart (Number of Orders Per Month)
- const orderCounts = commands.reduce((acc, order) => {
-    const month = dayjs(order.created_at).format('MMMM');
-    acc[month] = (acc[month] || 0) + 1;
+//  const orderCounts = commands.reduce((acc, order) => {
+//     const month = dayjs(order.created_at).format('MMMM');
+//     acc[month] = (acc[month] || 0) + 1;
+//     return acc;
+//   }, {});
+const orderCounts = commands.reduce((acc, order) => {
+    const year = new Date(order.created_at).getFullYear();
+    if (year === selectedYear) {
+      const month = dayjs(order.created_at).format('MMMM');
+      acc[month] = (acc[month] || 0) + 1;
+    }
     return acc;
   }, {});
 
@@ -229,6 +255,13 @@ const Stats = () => {
   console.log(revenue)
 
 
+  // Function to handle year selection change
+  const handleYearChange = (event) => {
+    setSelectedYear(parseInt(event.target.value));
+  };
+
+  // ... data processing functions for charts (considering selectedYear)
+
 
 
   return (
@@ -316,10 +349,20 @@ const Stats = () => {
             </div>
         </div>
 
-        <div className="mb-8 p-2 border border-orange-500 rounded-md">
-            <h2 className="text-xl font-semibold mb-2">Sales per month</h2>
-            <Line data={lineChartData} />
-        </div>
+
+      <div className="mb-4">
+        <select value={selectedYear} onChange={handleYearChange}>
+          {/* Generate options for all years between oldest and newest */}
+          {Array.from({ length: newestYear - oldestYear + 1 }, (_, i) => oldestYear + i).map(year => (
+            <option key={year} value={year}>{year}</option>
+          ))}
+        </select>
+      </div>
+
+      <div className="mb-8 p-2 border border-orange-500 rounded-md">
+        <h2 className="text-xl font-semibold mb-2">Sales per month - {selectedYear}</h2>
+        <Line data={lineChartData} />
+      </div>
 
         <div className="mb-8 p-2 border border-orange-500 rounded-md">
             <h2 className="text-xl font-semibold mb-2">Free vs Paid Shipping</h2>
