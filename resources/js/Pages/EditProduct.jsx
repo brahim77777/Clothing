@@ -124,8 +124,8 @@ export default function EditProduct({ product }) {
         e.preventDefault();
         const size = e.currentTarget.value;
         setSelectedSizes((prevSizes) => {
-            if (prevSizes.includes(size)) {
-                return prevSizes.filter((s) => s !== size);
+            if (prevSizes?.includes(size)) {
+                return prevSizes && prevSizes?.filter((s) => s !== size);
             } else {
                 return [...prevSizes, size];
             }

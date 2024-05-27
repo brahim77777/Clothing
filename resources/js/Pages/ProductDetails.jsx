@@ -75,7 +75,7 @@ export default function ProductDetails({product}){
     let arrImages = product.secondary_images.split(',')
     arrImages.unshift(product.main_image)
     const productImageR = useSelector((state)=>state.productImage.value)
-    const [productImage,setProductImage] = useState(arrImages[0])
+    const [productImage,setProductImage] = useState('/storage/'+arrImages[0])
     useEffect(()=>{
         setProductImage(productImageR)
     },[productImageR])
