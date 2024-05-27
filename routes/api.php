@@ -41,4 +41,3 @@ Route::post('/command', function (Request $request) {
 })->name('api.products.command');
 
 Route::patch('/command/{command}', [CommandController::class, 'update'])->name('api.products.rating');
-Route::get('/command/{command}', [CommandController::class, 'show'])->name('api.products.rating');
