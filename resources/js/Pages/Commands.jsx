@@ -12,7 +12,7 @@ const Commands = () => {
     const [currentPage, setCurrentPage] = useState(1);
 
     const fetchCommands = (page = 1) => {
-        axios.get(`/commands?page=${page}`)
+        axios.get(`/api/commands?page=${page}`)
             .then((res) => {
                 console.log("commands: ",res.data.commands.data)
                 setCommands(res.data.commands.data);
