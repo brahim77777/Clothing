@@ -63,7 +63,6 @@ export default function EditProduct({ product }) {
         colors: product.colors.split(',').map(hexToRgba),
         main_image: null,
         secondary_images: []
-
     });
 
     function hexToRgba(hex, alpha = 1) {
@@ -72,12 +71,10 @@ export default function EditProduct({ product }) {
         if (hex.length === 3) {
             hex = hex.split('').map(char => char + char).join('');
         }
-
         const bigint = parseInt(hex, 16);
         const r = (bigint >> 16) & 255;
         const g = (bigint >> 8) & 255;
         const b = bigint & 255;
-
         return { r, g, b, a: alpha };
     }
 
@@ -139,9 +136,7 @@ export default function EditProduct({ product }) {
 
 
     const handleFileChange = (e) => {
-
         const files = Array.from(e.target.files);
-
         setData('main_image', files[0]);
         setData('secondary_images', files);
         console.log("files::",files)
@@ -149,7 +144,6 @@ export default function EditProduct({ product }) {
 
     const handleFormSubmit = async (e) => {
         e.preventDefault();
-
         const payload = {
             title: data.title,
             slug: data.slug,
@@ -207,7 +201,7 @@ export default function EditProduct({ product }) {
                     <div className='flex max-lg:flex-col left-full gap-4'>
                         <div className='w-full bg-white p-4 rounded-md'>
                             <h2 className="mb-2 text-lg">General Information</h2>
-                           
+
                             <div className="grid grid-cols-3 max-md:grid-cols-2 gap-4 mb-4 flex-wrap">
                                 <div className="flex flex-col gap-2">
                                     <label htmlFor="pn">Product Name</label>

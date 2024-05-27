@@ -1,6 +1,8 @@
 import React, { useState } from 'react';
 import { useSelector } from 'react-redux';
 import axios from 'axios';
+import { Toaster, toast } from 'sonner';
+
 
 const CheckoutPage = () => {
 
@@ -54,10 +56,14 @@ const CheckoutPage = () => {
             console.log("orderData::::::::::::: ");console.log( orderData)
             const response = await axios.post('/commands', orderData);
             console.log('Order response:', response.data);
+            toast.success('Order submitted successfully!');
+
             // handle success (e.g., show a success message, redirect to another page, etc.)
         } catch (error) {
             console.error('Error placing order:', error.response.data);
             // handle error (e.g., show an error message)
+            toast.error('Error submitting Order!');
+
         }
     };
 
