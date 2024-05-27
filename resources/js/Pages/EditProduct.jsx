@@ -207,18 +207,7 @@ export default function EditProduct({ product }) {
                     <div className='flex max-lg:flex-col left-full gap-4'>
                         <div className='w-full bg-white p-4 rounded-md'>
                             <h2 className="mb-2 text-lg">General Information</h2>
-                            <div className='w-full flex flex-col gap-2 mb-4'>
-                                <label>Upload product Image(s)</label>
-                                <div className='w-full flex flex-col gap-2 mb-4'>
-                                <label>Upload product Image(s)</label>
-                                <input
-                                    type="file"
-                                    multiple
-                                    onChange={handleFileChange}
-                                    className="p-2 border border-neutral-300 rounded"
-                                />
-                            </div>
-                            </div>
+                           
                             <div className="grid grid-cols-3 max-md:grid-cols-2 gap-4 mb-4 flex-wrap">
                                 <div className="flex flex-col gap-2">
                                     <label htmlFor="pn">Product Name</label>
