@@ -13,19 +13,8 @@ class CommandController extends Controller
     //
     public function index()
     {
-
-        $commands = Command::whereIn('status', ['pending', 'verified', 'failed', 'canceld'])
-            ->orderByRaw("CASE
-                    WHEN status = 'pending' THEN 1
-                    WHEN status = 'verified' THEN 2
-                    WHEN status = 'failed' THEN 3
-                    WHEN status = 'canceld' THEN 4
-                  END")
-            ->paginate(10);
-
-
         return response()->json(
-            ["commands" => $commands]
+            ["commands" => Command::all()]
         );
 
     }
