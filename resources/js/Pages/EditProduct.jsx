@@ -1,21 +1,11 @@
-import CurrencyInput from 'react-currency-input-field';
-import '../../css/app.css';
-
-import { SketchPicker } from 'react-color';
-// import Sketch from './Sketch';
-import React, { useEffect, useState, useCallback,useRef } from 'react';
-import { MdCategory, MdColorLens, MdPublish } from 'react-icons/md';
-import { Cancel, ClearAll, Create, Publish } from '@mui/icons-material';
-import { TbCategoryPlus, TbClearAll, TbDragDrop } from 'react-icons/tb';
-import { useDropzone } from "react-dropzone";
-// import Dropdown from 'DropDownT';
-import Dropdown from '../Components/DropDownT';
-import Modal from '../Components/Modal';
-import ModalCat from "../Components/ModalCat"
+import React, { useEffect, useState, useCallback } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { openProducts } from '@/redux/openProductsSlice';
-//file pond imports
-import { Link, useForm } from '@inertiajs/react';
+import { Link, useForm, usePage } from '@inertiajs/react';
+import { SketchPicker } from 'react-color';
+import { MdColorLens, MdPublish } from 'react-icons/md';
+import { Cancel, ClearAll } from '@mui/icons-material';
+import Dropdown from '../Components/DropDownT';
+import CurrencyInput from 'react-currency-input-field';
 import { FilePond, registerPlugin } from 'react-filepond';
 import 'filepond/dist/filepond.min.css';
 import 'filepond-plugin-image-preview/dist/filepond-plugin-image-preview.min.css';
@@ -24,12 +14,14 @@ import FilePondPluginImageExifOrientation from 'filepond-plugin-image-exif-orien
 import FilePondPluginImageEdit from 'filepond-plugin-image-edit';
 import FilePondPluginFileValidateSize from 'filepond-plugin-file-validate-size';
 import FilePondPluginFileValidateType from 'filepond-plugin-file-validate-type';
-import 'filepond-plugin-image-preview/dist/filepond-plugin-image-preview.css';
-import 'filepond-plugin-image-edit/dist/filepond-plugin-image-edit.css';
 import FilePondPluginImageResize from 'filepond-plugin-image-resize';
 import FilePondPluginImageTransform from 'filepond-plugin-image-transform';
+import axios from 'axios'; // Import axios
 import Dashboard from './Dashboard';
-import { usePage } from '@inertiajs/react';
+import ModalCat from '@/Components/ModalCat';
+import { Toaster, toast } from 'sonner'
+
+import '../../css/app.css';
 
 registerPlugin(
     FilePondPluginImagePreview,
@@ -40,339 +32,256 @@ registerPlugin(
     FilePondPluginFileValidateSize,
     FilePondPluginFileValidateType
 );
-export default function EditProduct(){
-    // const { dataToUpdate } = usePage().props;
-    const dataToUpdate = useSelector(state=>state.dataToUpdate.value)
 
-    console.log("data to up:",dataToUpdate)
-    const dispatch = useDispatch()
-    const[selectedSizes,setSelectedSizes] = useState(dataToUpdate?.sizes || [])
-    const[categories, setCategories] = useState([])
-
-    console.log("selected categss:",categories)
+export default function EditProduct({ productId }) {
+    const dispatch = useDispatch();
+    const selectedCategory = useSelector(state => state.selectedCategory.value);
+    const [selectedSizes, setSelectedSizes] = useState([]);
+    const [categories, setCategories] = useState([]);
+    const [colors, setColors] = useState([]);
     const [files, setFiles] = useState([]);
-    const onDrop = useCallback((acceptedFiles) => {
-        setFiles((prevFiles) => [
-          ...prevFiles,
-          ...acceptedFiles.map((file) => ({
-            ...file,
-            preview: URL.createObjectURL(file),
-          })),
-        ]);
-    }, []);
-
-//------- rest -- form data -------//
-const selectedCategories = useSelector(state=>state.selectedCategories.value)
-//selectedSizes up line 49
-//colors down line 110
-
-//------- rest -- form data -------//
-
-
-
-
-
     const [state, setState] = useState({
         displayColorPicker: false,
-        color: {
+        color: [{
             r: '255',
             g: '255',
             b: '255',
             a: '1',
-        },
+        }]
     });
-    function hexToRgba(hex, alpha = 1) {
-        hex = hex.replace(/^#/, '');
 
-        if (hex.length === 3) {
-            hex = hex.split('').map(char => char + char).join('');
-        }
+    const { data, setData, post, progress, reset } = useForm({
+        title: '',
+        slug: '',
+        description: '',
+        price: '',
+        quantity: '',
+        category_id: '',
+        secondary_images: [],
+        sizes: [],
+        colors: [],
+        main_image: '',
+    });
 
-        const bigint = parseInt(hex, 16);
-        const r = (bigint >> 16) & 255;
-        const g = (bigint >> 8) & 255;
-        const b = bigint & 255;
+    useEffect(() => {
+        // Fetch existing product data by ID and populate the form fields
+        axios.get(`/api/products/${productId}`).then((response) => {
+            const product = response.data.product;
+            setData({
+                title: product.title,
+                slug: product.slug,
+                description: product.description,
+                price: product.price,
+                quantity: product.quantity,
+                category_id: product.category_id,
+                secondary_images: product.secondary_images,
+                sizes: product.sizes,
+                colors: product.colors,
+                main_image: product.main_image,
+            });
+            setSelectedSizes(product.sizes);
+            setColors(product.colors.map(color => ({
+                r: parseInt(color.slice(1, 3), 16),
+                g: parseInt(color.slice(3, 5), 16),
+                b: parseInt(color.slice(5, 7), 16),
+                a: parseInt(color.slice(7, 9), 16) / 255,
+            })));
+            setFiles(product.secondary_images.map(image => ({
+                source: image,
+                options: {
+                    type: 'local',
+                }
+            })));
+        });
+    }, [productId]);
 
-        return {r: r,g: g,b: b,a: alpha}
-    }
-
-    const colorsArr = (str) =>{
-        return str?.split("#")?.filter((e)=>e!="")
-    }
-
-    const colorsToUpdateTorgba = (arr) =>{
-        arr = colorsArr(arr)
-        let res = []
-        arr?.map(e=>{
-            res.push(hexToRgba(e))
-        })
-        return res
-    }
-    const [colors,setColors] = useState(colorsToUpdateTorgba(dataToUpdate?.colors))
-    console.log("colors: ",colors)
-    console.log("colors: ",colorsToUpdateTorgba(dataToUpdate?.colors))
-
-
-
+    useEffect(() => {
+        axios.get('/categories').then((res) => {
+            setCategories(res.data.categories);
+        });
+    }, []);
 
     const handleClick = () => {
         setState({ ...state, displayColorPicker: !state.displayColorPicker });
-        if (!colors.some(c => c === state.color)&&state.displayColorPicker) {
-            handleClose()
+        if (!colors.some(c => c === state.color) && state.displayColorPicker) {
+            handleClose();
         }
     };
 
     const handleClose = () => {
         setColors([...colors, state.color]);
+        setData('colors', rgbToHex(colors));
     };
 
     const handleChange = (color) => {
         setState({ ...state, color: color.rgb });
-
-
     };
 
+    const handleSizeSelection = (e) => {
+        e.preventDefault();
+        const size = e.currentTarget.value;
+        setSelectedSizes((prevSizes) => {
+            if (prevSizes.includes(size)) {
+                return prevSizes.filter((s) => s !== size);
+            } else {
+                return [...prevSizes, size];
+            }
+        });
+        setData('sizes', selectedSizes);
+    };
 
-      const color = colors.map((e,index)=>(<div key={index}>
-        <div style={{border: '1px solid #ccc',backgroundColor: `rgba(${e.r}, ${e.g}, ${e.b}, ${e.a})`,borderRadius: '5px'}} className={`size-6`} >
-
-        <div />
-      </div>
-
-      </div>))
-
-        const [inputValue, setInputValue] = useState('');
-
-
-        const handleSizeSelection = (e) => {
-            e.preventDefault()
-            const size = e.currentTarget.value;
-            setSelectedSizes((prevSizes) => {
-                if (prevSizes?.includes(size)) {
-                    return prevSizes?.filter((s) => s !== size);
-                } else {
-                    return [...prevSizes, size];
-                }
-            });
-        };
-    const toggleDarkMode = useSelector((state)=>state.changeTheme.value)
-
-
-    const refreshCategoriesState = useSelector(state=>state.refreshCategoriesState.value)
-    console.log("RefreshCateg: ",refreshCategoriesState)
-    useEffect(() => {
-        axios.get('/categories').then((res)=>{
-            setCategories(res.data.categories)
-            console.log("categ data: ",res.data)
-
-        },[])
-
-    }, [refreshCategoriesState]);
-
-    //-----------------------Post Process-----------------------------------
-
-    const { data, setData, post, progress } = useForm({
-        name: '',
-        avatars: [],
-    });
-
-    const srcList = [];
-
-    const handleFileProcess = (error, file) => {
-        if (!error) {
-            console.log('File processed:', file);
-        }
+    const handleFileProcess = (file) => {
+        console.log('File processed:', file);
     };
 
     const handleUpdateFiles = (fileItems) => {
-        setData('avatars', fileItems.map(fileItem => fileItem.file));
+        setFiles(fileItems.map(fileItem => fileItem.file));
+        const avatarFiles = fileItems.map(fileItem => fileItem.file);
+        setData('main_image', avatarFiles[0]);
+        setData('secondary_images', avatarFiles);
     };
 
-    const handleFormSubmit = (e) => {
+    const handleFormSubmit = async (e) => {
         e.preventDefault();
-        const formData = new FormData();
-        formData.append('name', data.name);
-        data.avatars.forEach((file, index) => {
-            formData.append(`avatar_${index}`, file);
-        });
+        console.log("data transfer: ", data);
 
-        post('/dashboard', formData);
-    };
+        setData('slug', `idnumber${data?.quantity}`);
+        console.log("form data: ", data);
 
-    console.log("DTU",dataToUpdate)
-
-    const handleFileRemove = (file) => {
-        const index = srcList.findIndex(item => item.id === file.id);
-
-        if (index !== -1) {
-            srcList.splice(index, 1);
-            document.getElementById('con').children[index].remove();
+        try {
+            await axios.put(`/api/products/${productId}`, data, {
+                headers: {
+                    'Content-Type': 'multipart/form-data'
+                }
+            }).then(
+                (response) => {
+                    console.log('Form submitted successfully:', response.data);
+                    toast.success('Product updated successfully!', {
+                        action: {
+                            label: 'OK',
+                            onClick: () => console.log('Undo')
+                        },
+                    });
+                },
+                (error) => {
+                    console.error('Error submitting form:', error);
+                    toast.error('Error submitting form!');
+                }
+            );
+        } catch (error) {
+            console.error('Error submitting form:', error);
+            toast.error('Error submitting form!');
         }
-        console.log(srcList);
     };
-    return(
+
+    return (
         <Dashboard>
-        <div className={`w-full duration-300 ease-in-out min-h-screen ${toggleDarkMode ? 'bg-neutral-700' : 'bg-neutral-100'} h-full p-4 ml-auto `}>
+            <Toaster position="top-right" richColors />
+            <div className={`w-full duration-300 ease-in-out min-h-screen ${toggleDarkMode ? 'bg-neutral-700' : 'bg-neutral-100'} h-full p-4 ml-auto`}>
                 <form onSubmit={handleFormSubmit}>
-        <div className='w-full mb-2 flex justify-between '>
-            <h1 className="text-[1.4rem] font-semibold mb-4">Update Product : {dataToUpdate.title}</h1>
-            <div className='flex gap-2'>
-                <Link href="/dashboard/products" className=' py-2 pl-1 pr-2 border border-[#1C2434] h-fit rounded-md flex text-[#1C2434] items-center gap-1'><Cancel className='size-5 '/>Cancel</Link>
-                <button className=' py-2 pl-1 pr-2 bg-[#1C2434] h-fit rounded-md flex text-white items-center gap-1'><MdPublish className='size-5 '/>Publish</button>
-            </div>
-        </div>
-
-        <div className=' '>
-
-        <div className=' flex max-lg:flex-col left-full   gap-4 '>
-           <div className=' w-full bg-white p-4 rounded-md'>
-                    <h2 className="mb-2  text-lg">General Information</h2>
-                <div className="grid grid-cols-3 max-md:grid-cols-2 gap-4 mb-4  flex-wrap ">
-                        <div className="flex flex-col gap-2 ">
-                            <label htmlFor="pn">Product Name</label>
-                            <input required name='name' id="pn" defaultValue={dataToUpdate ? dataToUpdate.title:``} className="p-2 border  border-neutral-300 rounded" type="text" placeholder="type cloth name"/>
+                    <div className='w-full mb-2 flex justify-between '>
+                        <h1 className="text-[1.4rem] font-semibold mb-4">Edit Product</h1>
+                        <div className='flex gap-2'>
+                            <Link href="/dashboard/products" className='py-2 pl-1 pr-2 border border-[#1C2434] h-fit rounded-md flex text-[#1C2434] items-center gap-1'><Cancel className='size-5' />Cancel</Link>
+                            <button className='py-2 pl-1 pr-2 bg-[#1C2434] h-fit rounded-md flex text-white items-center gap-1'><MdPublish className='size-5' />Update</button>
                         </div>
-                        <div className="flex flex-col gap-2 ">
-                            <label>Categories</label>
-                            {console.log("categ [0]:",categories[0]?.title)}
-                            <Dropdown Items={categories} />
-
-
-                        </div>
-                        <div className="flex flex-col justify-end gap-2 w-fit text-nowrap mb-[2.5px]">
-                            <ModalCat/>
-                        </div>
-                </div>
-
-                <div className="flex flex-col gap-2">
-                        <label>Descreption</label>
-                        <textarea className="p-2 border  border-neutral-300 rounded" defaultValue={dataToUpdate ? dataToUpdate.description:``}  name="description" id="" cols={30} rows={5}/>
-                </div>
-
-                <div className="grid grid-cols-2 gap-2 mt-4 mb-4">
-                    <div className="flex flex-col gap-2 ">
-                        <label htmlFor="sl">Sale Price</label>
-                        <CurrencyInput id='sl' defaultValue={dataToUpdate ? dataToUpdate.price:``} placeholder='220DH' className="p-2 border border-neutral-300 rounded" suffix="DH"  />
-                    </div>
-                    <div className="flex flex-col gap-2">
-                        <label htmlFor="qn">Quantity </label>
-                        <input id='qn' type='number' defaultValue={dataToUpdate ? dataToUpdate.quantity:``} placeholder='20' className="p-2 border border-neutral-300 rounded"   />
-                    </div>
-                </div>
-
-                <div className="flex flex-col gap-2 w-full mb-4">
-                    <label htmlFor="sl">select size(s)</label>
-                    <div className='flex gap-2'>
-                        <button onClick={(e) => { handleSizeSelection(e) }} value="XS" className={`${selectedSizes?.includes("XS") ? `border-gray-800 text-black border-2`:`text-zinc-400 bg-gray-100 `}   p-1 border rounded min-w-8 text-center border-neutral-400`}>XS</button>
-                        <button onClick={(e) => { handleSizeSelection(e) }} value="S" className={`${selectedSizes?.includes("S") ? `border-gray-800 text-black border-2`:`text-zinc-400 bg-gray-100 `}   p-1 border rounded min-w-8 text-center border-neutral-400`}>S</button>
-                        <button onClick={(e) => { handleSizeSelection(e) }} value="M" className={`${selectedSizes?.includes("M") ? `border-gray-800 text-black border-2`:`text-zinc-400 bg-gray-100 `}   p-1 border rounded min-w-8 text-center border-neutral-400`}>M</button>
-                        <button onClick={(e) => { handleSizeSelection(e) }} value="L" className={`${selectedSizes?.includes("L") ? `border-gray-800 text-black border-2`:`text-zinc-400 bg-gray-100 `}   p-1 border rounded min-w-8 text-center border-neutral-400`}>L</button>
-                        <button onClick={(e) => { handleSizeSelection(e) }} value="XL" className={`${selectedSizes?.includes("XL") ? `border-gray-800 text-black border-2`:`text-zinc-400 bg-gray-100 `}   p-1 border rounded min-w-8 text-center border-neutral-400`}>XL</button>
-                        <button onClick={(e) => { handleSizeSelection(e) }} value="XXL" className={`${selectedSizes?.includes("XXL") ? `border-gray-800 text-black border-2`:`text-zinc-400 bg-gray-100 `}   p-1 border rounded min-w-8 text-center border-neutral-400`}>XXL</button>
-                        <button onClick={(e) => { handleSizeSelection(e) }} value="XXXL" className={`${selectedSizes?.includes("XXXL") ? `border-gray-800 text-black border-2`:`text-zinc-400 bg-gray-100 `}   p-1 border rounded min-w-8 text-center border-neutral-400`}>XXXL</button>
                     </div>
 
-                </div>
-                <div className="flex flex-col gap-2 mb-4 w-full">
-                    <div className='flex justify-between'>
-                    <label htmlFor="sl">Add color(s)</label>
-                    {colors.length!==0&&<div className='text-green-400 size-5'>{colors.length}</div>}
-                    </div>
-
-                    <div className='flex gap-2 duration-300 w-full z-10 flex-wrap' >
-                        {color}
-                       <div className='relative' >
-                       <div className={`size-6 border cursor-pointer border-neutral-400 flex items-center  justify-center rounded bg-white`} onClick={handleClick}>
-                            <MdColorLens/>
-                        </div>
-
-                        {state.displayColorPicker ? (
-                            <div className='mt-2 absolute '>
-                                <SketchPicker className=' static' color={state.color} onChange={handleChange} />
+                    <div className='flex max-lg:flex-col left-full gap-4 '>
+                        <div className='w-full bg-white p-4 rounded-md'>
+                            <h2 className="mb-2 text-lg">General Information</h2>
+                            <div className='w-full flex flex-col gap-2 mb-4'>
+                                <label>Upload product Image(s)</label>
+                                <FilePond
+                                    files={files}
+                                    allowMultiple={true}
+                                    maxFiles={6}
+                                    onupdatefiles={handleUpdateFiles}
+                                    server={{
+                                        process: {
+                                            url: '/upload', // Update the process URL to the correct route
+                                            method: 'POST',
+                                            withCredentials: true,
+                                            headers: {
+                                                'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
+                                            }
+                                        }
+                                    }}
+                                    onprocessfile={handleFileProcess}
+                                    name="main_image"
+                                    labelIdle='Drag & Drop your files or <span class="filepond--label-action">Browse</span>'
+                                />
                             </div>
-                        ) : null}
-                       </div>
-                       {(colors?.length !== 0)&&
-                            <div onClick={()=>setColors([])} className={`size-6 border cursor-pointer border-neutral-400 flex items-center  justify-center rounded bg-white`} >
-                                <TbClearAll/>
-                            </div>}
-                </div>
+                            <div className="grid grid-cols-3 max-md:grid-cols-2 gap-4 mb-4 flex-wrap">
+                                <div className="flex flex-col gap-2 ">
+                                    <label htmlFor="pn">Product Name</label>
+                                    <input required name='title' id="pn" className="p-2 border border-neutral-300 rounded" type="text" placeholder="type cloth name" value={data.title} onChange={(e) => setData('title', e.target.value)} />
+                                </div>
+                                <div className="flex flex-col gap-2 ">
+                                    <label>Categories</label>
+                                    <Dropdown Items={categories} selectedItem={data.category_id} />
+                                </div>
+                                <div className="flex flex-col justify-end gap-2 w-fit text-nowrap mb-[2.5px]">
+                                    <ModalCat />
+                                </div>
+                            </div>
 
+                            <div className="flex flex-col gap-2">
+                                <label>Description</label>
+                                <textarea className="p-2 border border-neutral-300 rounded" name="description" cols={30} rows={5} value={data.description} onChange={(e) => setData('description', e.target.value)} />
+                            </div>
 
-            </div>
+                            <div className="grid grid-cols-2 gap-2 mt-4 mb-4">
+                                <div className="flex flex-col gap-2 ">
+                                    <label htmlFor="sl">Sale Price</label>
+                                    <CurrencyInput id='sl' placeholder='220DH' className="p-2 border border-neutral-300 rounded" suffix="DH" value={data.price} onValueChange={(value, name, values) => setData('price', value)} />
+                                </div>
+                                <div className="flex flex-col gap-2">
+                                    <label htmlFor="qn">Quantity </label>
+                                    <input id='qn' type='number' placeholder='20' className="p-2 border border-neutral-300 rounded" value={data.quantity} onChange={(e) => setData('quantity', e.target.value)} />
+                                </div>
+                            </div>
 
-            <div className='flex flex-col gap-2 w-full '>
+                            <div className="flex flex-col gap-2 w-full mb-4">
+                                <label htmlFor="sl">Select size(s)</label>
+                                <div className='flex gap-2'>
+                                    {['XS', 'S', 'M', 'L', 'XL', 'XXL'].map((size) => (
+                                        <button key={size} onClick={(e) => handleSizeSelection(e)} value={size} className={`${selectedSizes.includes(size) ? 'border-gray-800 text-black border-2' : 'text-zinc-400 bg-gray-100'} p-1 border rounded min-w-8 text-center border-neutral-400`}>{size}</button>
+                                    ))}
+                                </div>
+                            </div>
 
-
-                <fieldset className="flex flex-col gap-2 borderl  rounded-md  border-[#1C2434]k  ">
-                    <legend className='mb-2 borderl border-[#1C2434]k rounded-full px-2k pb-0.5' >Product Images </legend>
-{/*//////////////// Drag and Drop Part /////////////////////////////////////////////////*/}
-                    <div>
-                    <FilePond
-                    files={data.avatars}
-                    allowMultiple={true}
-                    allowReorder
-                    allowImageEdit={true}
-                    onpreparefile={(file, output) => {
-                        const img = document.createElement("img");
-                        img.src = URL.createObjectURL(output);
-                        img.className = "rounded-md ring shadow size-[8rem] object-cover hover:object-contain";
-                        document.getElementById('con').appendChild(img);
-
-                        const index = srcList.findIndex(item => item.id === file.id);
-
-                        if (index !== -1) {
-                            srcList.splice(index, 1);
-                            document.getElementById('con').children[index].remove();
-                        }
-
-                        srcList.push({ src: img.src, id: file.id, time: Date.now() });
-                        console.log(srcList);
-                    }}
-                    onupdatefiles={handleUpdateFiles}
-                    onprocessfile={handleFileProcess}
-                    onremovefile={handleFileRemove}
-                    server={{
-                        url: '/dashboard',
-                        process: {
-                            method: 'POST',
-                            withCredentials: true,
-                            headers: {
-                                'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
-                            },
-                            onload: (response) => {
-                                if (Array.isArray(response)) {
-                                    setData('avatars', response);
-                                } else {
-                                    console.error('Unexpected response format:', response);
-                                }
-                            }
-                        }
-                    }}
-                    acceptedFileTypes={['image/*']}
-                    maxFileSize="5MB"
-                    beforeRemoveFile={handleFileRemove}
-                    labelIdle='Drag & Drop your picture or <span class="filepond--label-action">Browse</span>'
-                    imageResizeTargetWidth={200}
-                    imageResizeTargetHeight={144}
-                    imageResizeUpscale={false}
-                    imageResizeMode={"contain"}
-                    />
-                {progress && (
-                    <progress className='rounded' value={progress.percentage} max="100">
-                        {progress.percentage}%
-                    </progress>
-                )}
-                <div className='flex gap-6 flex-wrap mt-4' id='con'></div>                    </div>
-{/*//////////////// Drag and Drop Part /////////////////////////////////////////////////*/}
-
-                </fieldset>
-            </div>
+                            <div className="w-full flex flex-col gap-2 mb-4 pb-4">
+                                <label htmlFor="co">Select Color(s)</label>
+                                <div className='relative '>
+                                    <button
+                                        className={`rounded pb-4 h-[30px] w-full  border ${toggleDarkMode ? 'bg-neutral-700 text-white' : 'bg-neutral-100 text-black'}`}
+                                        onClick={(e) => {
+                                            e.preventDefault();
+                                            handleClick();
+                                        }}>
+                                        <MdColorLens className='inline-block align-middle' /><span className='inline-block align-middle'>Choose a Color</span></button>
+                                    <button onClick={(e) => {
+                                        e.preventDefault();
+                                        setColors([]);
+                                    }}><ClearAll className=' border border-neutral-800 rounded' /></button>
+                                    {state.displayColorPicker ? (
+                                        <div className='absolute z-50'>
+                                            <div className='fixed top-0 right-0 bottom-0 left-0' onClick={handleClick} />
+                                            <SketchPicker color={state.color} onChange={handleChange} />
+                                        </div>
+                                    ) : null}
+                                </div>
+                                <div className='flex gap-2 flex-wrap'>
+                                    {colors.map((color, index) => (
+                                        <div key={index} className="p-2 border rounded" style={{ backgroundColor: `rgba(${color.r},${color.g},${color.b},${color.a})` }}></div>
+                                    ))}
+                                </div>
+                            </div>
                         </div>
+                    </div>
+                </form>
             </div>
-        </div>
-        </form>
-    </div>
-    </Dashboard>
-    )
+        </Dashboard>
+    );
 }

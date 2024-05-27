@@ -96,7 +96,7 @@ export default function ProductDetails({product}){
                className="blur-md z-0 scale-110   object-cover hover:object-contain h-full w-full" />
                 </div>
             </div>
-            {!product.secondary_images.split(',')&&<div className="Parent mt-1 flex items-center relative h-[8rem]   " >
+            {product.secondary_images.split(',').length > 0&&<div className="Parent mt-1 flex items-center relative h-[8rem]   " >
             <Carousel secondary_images={product.secondary_images.split(',')}/>
             </div>}
           </div>
@@ -301,7 +301,7 @@ export default function ProductDetails({product}){
                     <h2 className="text-2xl font-bold mb-4">Related Products</h2>
                     <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-4 gap-6">
                         {relatedProducts.map((relatedProduct) => (
-                            <div key={relatedProduct.id} className="border rounded p-4">
+                            <div key={relatedProduct.id} className="border border-neutral-400 rounded p-4 shadow-lg">
                                 <img src={`/storage/${relatedProduct.main_image}`} alt={relatedProduct.title} className="w-full h-48 object-cover mb-2" />
                                 <h3 className="text-lg font-bold">{relatedProduct.title}</h3>
                                 <p className="text-sm">{relatedProduct.price} MAD</p>

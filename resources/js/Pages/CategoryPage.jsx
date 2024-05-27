@@ -9,45 +9,31 @@ import Card from "../Components/Card";
 import { useSelector } from "react-redux";
 import { Link, router } from "@inertiajs/react";
 
-export default function CategoryPage() {
+export default function CategoryPage({category}) {
     const products = useSelector(state=>state.products.value)
     console.log("here is products ::", products)
     const [productsData, setProductsData] = useState([]);
     const [pageCount, setPageCount] = useState(0);
     const [currentPage, setCurrentPage] = useState(1);
-    const [currentUrl, setCurrentUrl] = useState("/api/products?page=1");
-    const [ViewFilter, setViewFilter] = useState("");
-    const filtersR = useSelector(state=>state.filtersList.value)
-
-    console.log("Filter Redux:",filtersR)
-    useEffect(() => {
-        (products )?setProductsData(products.products):fetchProducts(ViewFilter,currentPage);
 
 
-    }, [currentPage,products]);
     useEffect(() => {
         fetchProducts();
     }, [])
-    const fetchProducts = (ViewFilter,page = 1) => {
-        router.cancel();
-        let url = "/api/products?page=" + page;
-        if (ViewFilter) {
-            url = '/api/products/'+ViewFilter+'?page='+page
-        }
-        if(ViewFilter)
-            setViewFilter(ViewFilter)
-        else setViewFilter("")
 
-        console.log("url", url)
-
-        axios.get(url).then((res) => {
-            setProductsData(res.data.products);
-            setPageCount(res.data.last_page);
-            setCurrentPage(res.data.current_page);
-        }).catch((error) => {
-            console.error("Error fetching products:", error);
-        });
+    const fetchProducts = (page = 1) => {
+        axios.get(`/products/category?page=${page}`)
+            .then((res) => {
+                console.log("commands: ",res.data.commands.data)
+                setProductsData(res.data.commands.data);
+                setPageCount(res.data.commands.last_page); // Assuming 'last_page' is correct
+                setCurrentPage(res.data.commands.current_page); // Set the current page
+            })
+            .catch((error) => {
+                console.error("Error fetching products:", error);
+            });
     };
+
 
 
     const handlePageClick = (data) => {
@@ -61,17 +47,12 @@ export default function CategoryPage() {
                 <div className="py-2 border-b w-[90vw] lg:w-[84.5vw]">
                     <div className="w-full mb-1">
                         <div className="border bg-gray-50 w-fit rounded-lg border-gray-400">
-                            <BreadcrumbsWithIcon />
+                            <BreadcrumbsWithIcon/>
                         </div>
                     </div>
                     <h1 className="text-3xl italic">{}</h1>
                     <div className="mt-4 flex justify-between items-center">
-                        <div className="flex gap-2">
-                            <button onClick={()=>fetchProducts()}  className='inline-flex items-center px-1 pt-1 border-b-2 border-b-transparent text-sm font-medium leading-5 transition duration-150 ease-in-out focus:outline-none text-gray-700 hover:border-b-gray-300 '>New Arrivals</button >
-                            <button onClick={()=>fetchProducts('bestsellers', 1)}  className='inline-flex items-center px-1 pt-1 border-b-2 border-b-transparent text-sm font-medium leading-5 transition duration-150 ease-in-out focus:outline-none text-gray-700 hover:border-b-gray-300 '>Best Sellers</button >
-                            <button onClick={()=>fetchProducts('newest', 1)}  className='inline-flex items-center px-1 pt-1 border-b-2 border-b-transparent text-sm font-medium leading-5 transition duration-150 ease-in-out focus:outline-none text-gray-700 hover:border-b-gray-300 '>Newest</button >
 
-                        </div>
                         <div className="flex justify-center items-center gap-2">
                             <Tooltip children={"Filter & Sort"} position={"left"} className={""} />
                             <AdvancedFilter />
