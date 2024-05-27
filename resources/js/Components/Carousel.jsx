@@ -35,7 +35,7 @@ export default function Carousel1({secondary_images}){
         <Carousel className="w-full z-0 " responsive={responsive}>
             {secondary_images.map((image)=>{
                 return <div class="bg-gray-800   p-[2px] h-[8rem] w-[7rem] flex-none">
-                    <img onClick={(e)=>dispatch(changeImage(e.target.src))} src={`/storage/${image}`} alt="Product1"
+                    <img onClick={(e)=>{dispatch(changeImage(e.target.src));console.log(e.target.src)}} src={`/storage/${image}`} alt="Product1"
                 class={`${(productImage === import.meta.env.VITE_APP_PRODUCT_IMAGE1)?` opacity-30`:` opacity-100`} object-cover size-full cursor-pointer `} />
                 </div>
             })}

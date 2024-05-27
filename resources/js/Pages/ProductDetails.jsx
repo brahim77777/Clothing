@@ -71,6 +71,15 @@ export default function ProductDetails({product}){
     }, [product.id]);
 
     console.log("relatedProducts: ",relatedProducts)
+
+    let arrImages = product.secondary_images.split(',')
+    arrImages.unshift(product.main_image)
+    const productImageR = useSelector((state)=>state.productImage.value)
+    const [productImage,setProductImage] = useState(arrImages[0])
+    useEffect(()=>{
+        setProductImage(productImageR)
+    },[productImageR])
+
     return(
         <div className="font-[sans-serif]  ">
             <Toaster  className="mt-[2.5rem] -mr-[4rem]" toastOptions={{
@@ -88,16 +97,16 @@ export default function ProductDetails({product}){
         <div class="grid items-start grid-cols-1 lg:grid-cols-5 gap-12">
           <div class="lg:col-span-3 w-full lg:sticky top-0 text-center">
             <div class=" relative h-[85vh] m-auto  shadow  ">
-              <img   src={`/storage/${product.main_image}`}
+              <img   src={`${productImage}`}
                 alt="Product"
                 className=" z-10 duration-300 ease-in-out absolute top-0 left-0 object-cover hover:object-contain w-full h-full" />
                 <div className="  relative overflow-hidden  h-full">
-              <img src={product.secondary_images} alt="Product"
-               className="blur-md z-0 scale-110   object-cover hover:object-contain h-full w-full" />
+              {/* <img src={product.secondary_images} alt="Product"
+               className="blur-md z-0 scale-110   object-cover hover:object-contain h-full w-full" /> */}
                 </div>
             </div>
             {product.secondary_images.split(',').length > 0&&<div className="Parent mt-1 flex items-center relative h-[8rem]   " >
-            <Carousel secondary_images={product.secondary_images.split(',')}/>
+            <Carousel secondary_images={arrImages}/>
             </div>}
           </div>
           <div class="lg:col-span-2">
