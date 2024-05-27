@@ -1,4 +1,4 @@
-import { useState  } from "react"
+import { useState , useEffect } from "react"
 import { Rating } from "@mui/material";
 import { add } from "../redux/addToCartSlice";
 import { useDispatch, useSelector } from 'react-redux'
@@ -43,29 +43,34 @@ function RatioOfReview(productReviews) {
 
 export default function ProductDetails({product}){
 
-    console.log("det:",product)
+    const [relatedProducts, setRelatedProducts] = useState([]);
 
     const colors = product.colors.split(",")
     const sizes = product.sizes.split(",")
-
     const cart = useSelector(state=>state.cart.value)
-
-    console.log("cart data: ",cart)
-
-    console.log("this is PRoductDeatils---> Product", product)
     const ratios = RatioOfReview(product.reviews);
-
     RatioOfReview(product.reviews)
     const dispatch = useDispatch()
-
     const[qnt,setQnt] = useState(1)
-
     const[size , setSize] = useState(product.sizes.split(",")[0])
     const[color , setColor] = useState(product.colors.split(",")[0])
-
+    const [readAll,setReadAll] = useState(false)
+    console.log("det:",product)
+    console.log("cart data: ",cart)
+    console.log("this is PRoductDeatils---> Product", product)
     console.log("sizes: ",product.sizes)
 
-    const [readAll,setReadAll] = useState(false)
+    useEffect(() => {
+        axios.get(`/products/related/${product.id}`)
+            .then(response => {
+                setRelatedProducts(response.data);
+            })
+            .catch(error => {
+                console.error("There was an error fetching the related products!", error);
+            });
+    }, [product.id]);
+
+    console.log("relatedProducts: ",relatedProducts)
     return(
         <div className="font-[sans-serif]  ">
             <Toaster  className="mt-[2.5rem] -mr-[4rem]" toastOptions={{
@@ -292,6 +297,19 @@ export default function ProductDetails({product}){
             </div>
           </div>
         </div>
+            <div className="mt-12">
+                    <h2 className="text-2xl font-bold mb-4">Related Products</h2>
+                    <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-4 gap-6">
+                        {relatedProducts.map((relatedProduct) => (
+                            <div key={relatedProduct.id} className="border rounded p-4">
+                                <img src={`/storage/${relatedProduct.main_image}`} alt={relatedProduct.title} className="w-full h-48 object-cover mb-2" />
+                                <h3 className="text-lg font-bold">{relatedProduct.title}</h3>
+                                <p className="text-sm">{relatedProduct.price} MAD</p>
+                                <Link href={`/products/${relatedProduct.slug}`} className="text-blue-500 hover:underline">View Product</Link>
+                            </div>
+                        ))}
+                    </div>
+                </div>
       </div>
     </div>
     )

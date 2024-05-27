@@ -287,6 +287,17 @@ Route::get('/calculs', function () {
     ]);
 });
 
+Route::get('/products/related/{product}',function(Product $product)
+    {
+        // Fetch related products based on the same category
+        $relatedProducts = Product::where('category_id', $product->category_id)
+            ->where('id', '!=', $product->id) // Exclude the current product
+            ->take(4) // Limit the number of related products
+            ->get();
+
+        return response()->json($relatedProducts);
+    })->name('relatedProducts');;
+
 Route::get('/dashboard/simplex', function () {
     return Inertia::render('Simplex');
 });

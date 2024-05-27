@@ -14,6 +14,7 @@ const Commands = () => {
     const fetchCommands = (page = 1) => {
         axios.get(`/commands?page=${page}`)
             .then((res) => {
+                console.log("commands: ",res.data.commands.data)
                 setCommands(res.data.commands.data);
                 setPageCount(res.data.commands.last_page); // Assuming 'last_page' is correct
                 setCurrentPage(res.data.commands.current_page); // Set the current page
