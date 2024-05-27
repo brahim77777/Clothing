@@ -21,7 +21,7 @@ class ProductFactory extends Factory
             'category_id' => fake()->randomElement([1, 2, 3, 4, 5, 6, 7, 8, 9, 10]),
             'description' => fake()->sentence(),
             'main_image' => fake()->randomElement(["product1.jpeg", "product2.jpeg", "product3.jpeg", "product4.jpeg", "product5.jpeg"]),
-            'secondary_images' => fake()->randomElement(["product1.jpeg", "product2.jpeg", "product3.jpeg"]) . fake()->randomElement(["product1.jpeg", "product2.jpeg", "product3.jpeg"]) . fake()->randomElement(["product1.jpeg", "product2.jpeg", "product3.jpeg"]),
+            'secondary_images' => fake()->randomElement(["product1.jpeg", "product2.jpeg", "product3.jpeg"]) . "," . fake()->randomElement(["product1.jpeg", "product2.jpeg", "product3.jpeg"]) . "," . fake()->randomElement(["product1.jpeg", "product2.jpeg", "product3.jpeg"]),
             'colors' => fake()->hexColor() . "," . fake()->hexColor() . "," . fake()->hexColor(),
             'sizes' => implode(',', fake()->randomElements(['S', 'M', 'L', 'XL'], fake()->randomElement([1, 2, 3, 4]))),
             'price' => fake()->numberBetween(100, 1000),
