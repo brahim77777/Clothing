@@ -52,6 +52,34 @@ export default function EditProduct({ product }) {
         }]
     });
 
+    function hexToRgba(hex, alpha = 1) {
+        hex = hex.replace(/^#/, '');
+
+        if (hex.length === 3) {
+            hex = hex.split('').map(char => char + char).join('');
+        }
+
+        const bigint = parseInt(hex, 16);
+        const r = (bigint >> 16) & 255;
+        const g = (bigint >> 8) & 255;
+        const b = bigint & 255;
+
+        return {r: r,g: g,b: b,a: alpha}
+    }
+    function rgbToHex(colors) {
+        return colors?.map(color => {
+            const { r, g, b, a } = color;
+            // Convert RGB values to hexadecimal format
+            const red = parseInt(r).toString(16).padStart(2, '0');
+            const green = parseInt(g).toString(16).padStart(2, '0');
+            const blue = parseInt(b).toString(16).padStart(2, '0');
+            // If alpha value exists, include it in the result
+            const alpha = a ? Math.round(parseFloat(a) * 255).toString(16).padStart(2, '0') : '';
+            // Construct hexadecimal color string
+            return `#${red}${green}${blue}${alpha}`.toUpperCase();
+        });
+    }
+
     const { data, setData, post, progress, reset } = useForm({
         title: product.title,
         slug: product.slug,
@@ -70,13 +98,8 @@ export default function EditProduct({ product }) {
         // Fetch existing product data by ID and populate the form fields
 
             setSelectedSizes(product.sizes);
-            setColors(product.colors.split(",")?.map(color => ({
-                r: parseInt(color.slice(1, 3), 16),
-                g: parseInt(color.slice(3, 5), 16),
-                b: parseInt(color.slice(5, 7), 16),
-                a: parseInt(color.slice(7, 9), 16) / 255,
-            })));
-            setFiles(product.secondary_images.map(image => ({
+            setColors(product.colors.split(",")?.map(color => hexToRgba(color) ));
+            setFiles(product.secondary_images.split(",").map(image => ({
                 source: image,
                 options: {
                     type: 'local',
