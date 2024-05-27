@@ -340,7 +340,7 @@ Route::get('/commands', [CommandController::class, 'index'])->middleware('auth')
 
 Route::get('/commands/save', [CommandController::class, 'storeCsv'])->name('commands.save');
 Route::get('/commands/all', [CommandController::class, 'readCsv'])->name('commands.read');
-Route::get('/dashboard/command/{command}', [CommandController::class, 'show'])->middleware(\app\Http\Middleware\admin::class)->name('commands.show');
+Route::get('/dashboard/command/{command}', [CommandController::class, 'show'])->middleware('admin')->name('commands.show');
 Route::get('/dashboard/products/{product}/edit', [ProductController::class, 'edit']);
 
 require __DIR__ . '/auth.php';
