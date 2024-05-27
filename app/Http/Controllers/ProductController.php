@@ -96,6 +96,7 @@ class ProductController extends Controller
 
     public function update(Request $request, Product $product)
     {
+        return response()->json(['image0' => $request->all()]);
         $data = $request->validate([
             'title' => 'required',
             'description' => 'required',
@@ -104,7 +105,7 @@ class ProductController extends Controller
             'colors' => 'required',
             'sizes' => 'required',
             'category_id' => 'required',
-            'secondary_images.*' => 'required|image',
+            'secondary_images' => 'required|array',
         ]);
         $secondaryImages = $request->file('secondary_images');
 
