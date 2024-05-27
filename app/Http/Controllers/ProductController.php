@@ -73,6 +73,7 @@
 //     public function destroy(Product $product)
 //     {
 //         $product->delete();
+
 //         $products = Product::orderBy("rating", "desc")->with("category")->paginate(10); // Use pagination for updated list
 //         return response()->json([
 //             "success" => true,
@@ -106,8 +107,8 @@ class ProductController extends Controller
             'category_id' => 'required',
         ]);
 
-        $data["colors"];
-        $data["sizes"];
+        $data["colors"] = implode(',', $data["colors"]);
+        $data["sizes"] = implode(',', $data["sizes"]);
 
 
         $product->update($data);
