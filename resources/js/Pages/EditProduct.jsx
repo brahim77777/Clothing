@@ -1,6 +1,6 @@
-import React, { useEffect, useState, useCallback } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { Link, useForm, usePage } from '@inertiajs/react';
+import { Link, useForm } from '@inertiajs/react';
 import { SketchPicker } from 'react-color';
 import { MdColorLens, MdPublish } from 'react-icons/md';
 import { Cancel, ClearAll } from '@mui/icons-material';
@@ -16,11 +16,11 @@ import FilePondPluginFileValidateSize from 'filepond-plugin-file-validate-size';
 import FilePondPluginFileValidateType from 'filepond-plugin-file-validate-type';
 import FilePondPluginImageResize from 'filepond-plugin-image-resize';
 import FilePondPluginImageTransform from 'filepond-plugin-image-transform';
-import axios from 'axios'; // Import axios
+import axios from 'axios';
 import Dashboard from './Dashboard';
 import ModalCat from '@/Components/ModalCat';
-import { Toaster, toast } from 'sonner'
-
+import { Toaster, toast } from 'sonner';
+import { router } from '@inertiajs/react';
 import '../../css/app.css';
 
 registerPlugin(
@@ -34,17 +34,14 @@ registerPlugin(
 );
 
 export default function EditProduct({ product }) {
-    console.log("products: ",product)
-
-
     const dispatch = useDispatch();
     const selectedCategory = useSelector(state => state.selectedCategory.value);
+    const toggleDarkMode = useSelector((state) => state.changeTheme.value);
+
     const [selectedSizes, setSelectedSizes] = useState([]);
     const [categories, setCategories] = useState([]);
-    const [colors, setColors] = useState([]);
-    const [files, setFiles] = useState([]);
-
-    const toggleDarkMode = useSelector((state) => state.changeTheme.value)
+    const [colors, setColors] = useState([File]);
+    const [files, setFiles] = useState(null);
     const [state, setState] = useState({
         displayColorPicker: false,
         color: [{
@@ -53,6 +50,20 @@ export default function EditProduct({ product }) {
             b: '255',
             a: '1',
         }]
+    });
+
+    const { data, setData, reset } = useForm({
+        title: product.title,
+        slug: product.slug,
+        description: product.description,
+        price: product.price,
+        quantity: product.quantity,
+        category_id: product.category_id,
+        sizes: product.sizes,
+        colors: product.colors.split(',').map(hexToRgba),
+        main_image: null,
+        secondary_images: []
+
     });
 
     function hexToRgba(hex, alpha = 1) {
@@ -67,70 +78,34 @@ export default function EditProduct({ product }) {
         const g = (bigint >> 8) & 255;
         const b = bigint & 255;
 
-        return {r: r,g: g,b: b,a: alpha}
+        return { r, g, b, a: alpha };
     }
+
     function rgbToHex(colors) {
-        return colors?.map(color => {
+        return colors.map(color => {
             const { r, g, b, a } = color;
-            // Convert RGB values to hexadecimal format
             const red = parseInt(r).toString(16).padStart(2, '0');
             const green = parseInt(g).toString(16).padStart(2, '0');
             const blue = parseInt(b).toString(16).padStart(2, '0');
-            // If alpha value exists, include it in the result
             const alpha = a ? Math.round(parseFloat(a) * 255).toString(16).padStart(2, '0') : '';
-            // Construct hexadecimal color string
             return `#${red}${green}${blue}${alpha}`.toUpperCase();
         });
     }
 
-    let secImages = []
-     product.secondary_images.split(",")?.map((e,index)=>{
-        console.log("blob : ",e)
-         secImages.push(new File([e], e, {
-            type: e.type,
-        }))
-     })
-
-     console.log("secImages: ",secImages)
-
-
-
-
-
-    const { data, setData, post, progress, reset } = useForm({
-        title: product.title,
-        slug: product.slug,
-        description: product.description,
-        price: product.price,
-        quantity: product.quantity,
-        category_id: product.category_id,
-        secondary_images: secImages,
-        sizes: product.sizes,
-        colors: product.colors,
-        main_image: product.main_image,
-    });
-
-    console.log("data ::", data)
-
     useEffect(() => {
-        console.log("product: kk",product)
-        // Fetch existing product data by ID and populate the form fields
+        setSelectedSizes(product.sizes);
+        setColors(product.colors.split(',').map(hexToRgba));
+        setFiles(product.secondary_images.split(',').map(image => ({
+            source: image,
+            options: {
+                type: 'local',
+            }
+        })));
 
-            setSelectedSizes(product.sizes);
-            setColors(product.colors.split(",")?.map(color => hexToRgba(color) ));
-            setFiles(product.secondary_images.split(",").map(image => ({
-                source: image,
-                options: {
-                    type: 'local',
-                }
-            })));
-    }, []);
-
-    useEffect(() => {
         axios.get('/categories').then((res) => {
             setCategories(res.data.categories);
         });
-    }, []);
+    }, [product]);
 
     const handleClick = () => {
         setState({ ...state, displayColorPicker: !state.displayColorPicker });
@@ -161,24 +136,15 @@ export default function EditProduct({ product }) {
         setData('sizes', selectedSizes);
     };
 
-    const handleFileProcess = (file) => {
-        console.log('File processed:', file);
-    };
 
-    const handleUpdateFiles = (fileItems) => {
-        setFiles(fileItems.map(fileItem => fileItem.file));
-        const avatarFiles = fileItems.map(fileItem => fileItem.file);
-        let secImages = []
-        avatarFiles.map((e,index)=>{
-            console.log("blob : ",e)
-             secImages.push(new File([e], e, {
-                type: e.type,
-            }))
-         })
-        setData('main_image', secImages[0]);
-        setData('secondary_images', secImages);
-        console.log("avatars: ",secImages)
 
+    const handleFileChange = (e) => {
+
+        const files = Array.from(e.target.files);
+
+        setData('main_image', files[0]);
+        setData('secondary_images', files);
+        console.log("files::",files)
     };
 
     const handleFormSubmit = async (e) => {
@@ -186,15 +152,15 @@ export default function EditProduct({ product }) {
 
         const payload = {
             title: data.title,
-            slug: `idnumber${data.quantity}`,
+            slug: data.slug,
             description: data.description,
             price: data.price,
             quantity: data.quantity,
             category_id: data.category_id,
             colors: rgbToHex(colors),
             sizes: selectedSizes,
-            main_image: data.main_image,
-            secondary_images: data.secondary_images
+            main_image: null,
+            secondary_images: files
         };
 
         console.log("data transfer: ", payload);
@@ -224,12 +190,13 @@ export default function EditProduct({ product }) {
             toast.error('Error submitting form!');
         }
     };
+
     return (
         <Dashboard>
             <Toaster position="top-right" richColors />
             <div className={`w-full duration-300 ease-in-out min-h-screen ${toggleDarkMode ? 'bg-neutral-700' : 'bg-neutral-100'} h-full p-4 ml-auto`}>
                 <form onSubmit={handleFormSubmit}>
-                    <div className='w-full mb-2 flex justify-between '>
+                    <div className='w-full mb-2 flex justify-between'>
                         <h1 className="text-[1.4rem] font-semibold mb-4">Edit Product</h1>
                         <div className='flex gap-2'>
                             <Link href="/dashboard/products" className='py-2 pl-1 pr-2 border border-[#1C2434] h-fit rounded-md flex text-[#1C2434] items-center gap-1'><Cancel className='size-5' />Cancel</Link>
@@ -237,37 +204,27 @@ export default function EditProduct({ product }) {
                         </div>
                     </div>
 
-                    <div className='flex max-lg:flex-col left-full gap-4 '>
+                    <div className='flex max-lg:flex-col left-full gap-4'>
                         <div className='w-full bg-white p-4 rounded-md'>
                             <h2 className="mb-2 text-lg">General Information</h2>
                             <div className='w-full flex flex-col gap-2 mb-4'>
                                 <label>Upload product Image(s)</label>
-                                <FilePond
-                                    files={files}
-                                    allowMultiple={true}
-                                    maxFiles={6}
-                                    onupdatefiles={handleUpdateFiles}
-                                    server={{
-                                        process: {
-                                            url: '/upload', // Update the process URL to the correct route
-                                            method: 'POST',
-                                            withCredentials: true,
-                                            headers: {
-                                                'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
-                                            }
-                                        }
-                                    }}
-                                    onprocessfile={handleFileProcess}
-                                    name="main_image"
-                                    labelIdle='Drag & Drop your files or <span class="filepond--label-action">Browse</span>'
+                                <div className='w-full flex flex-col gap-2 mb-4'>
+                                <label>Upload product Image(s)</label>
+                                <input
+                                    type="file"
+                                    multiple
+                                    onChange={handleFileChange}
+                                    className="p-2 border border-neutral-300 rounded"
                                 />
                             </div>
+                            </div>
                             <div className="grid grid-cols-3 max-md:grid-cols-2 gap-4 mb-4 flex-wrap">
-                                <div className="flex flex-col gap-2 ">
+                                <div className="flex flex-col gap-2">
                                     <label htmlFor="pn">Product Name</label>
                                     <input required name='title' id="pn" className="p-2 border border-neutral-300 rounded" type="text" placeholder="type cloth name" value={data.title} onChange={(e) => setData('title', e.target.value)} />
                                 </div>
-                                <div className="flex flex-col gap-2 ">
+                                <div className="flex flex-col gap-2">
                                     <label>Categories</label>
                                     <Dropdown Items={categories} selectedItem={data.category_id} />
                                 </div>
@@ -282,12 +239,12 @@ export default function EditProduct({ product }) {
                             </div>
 
                             <div className="grid grid-cols-2 gap-2 mt-4 mb-4">
-                                <div className="flex flex-col gap-2 ">
+                                <div className="flex flex-col gap-2">
                                     <label htmlFor="sl">Sale Price</label>
-                                    <CurrencyInput id='sl' placeholder='220DH' className="p-2 border border-neutral-300 rounded" suffix="DH" value={data.price} onValueChange={(value, name, values) => setData('price', value)} />
+                                    <CurrencyInput id='sl' placeholder='220DH' className="p-2 border border-neutral-300 rounded" suffix="DH" value={data.price} onValueChange={(value) => setData('price', value)} />
                                 </div>
                                 <div className="flex flex-col gap-2">
-                                    <label htmlFor="qn">Quantity </label>
+                                    <label htmlFor="qn">Quantity</label>
                                     <input id='qn' type='number' placeholder='20' className="p-2 border border-neutral-300 rounded" value={data.quantity} onChange={(e) => setData('quantity', e.target.value)} />
                                 </div>
                             </div>
@@ -303,9 +260,9 @@ export default function EditProduct({ product }) {
 
                             <div className="w-full flex flex-col gap-2 mb-4 pb-4">
                                 <label htmlFor="co">Select Color(s)</label>
-                                <div className='relative '>
+                                <div className='relative'>
                                     <button
-                                        className={`rounded pb-4 h-[30px] w-full  border ${toggleDarkMode ? 'bg-neutral-700 text-white' : 'bg-neutral-100 text-black'}`}
+                                        className={`rounded pb-4 h-[30px] w-full border ${toggleDarkMode ? 'bg-neutral-700 text-white' : 'bg-neutral-100 text-black'}`}
                                         onClick={(e) => {
                                             e.preventDefault();
                                             handleClick();
@@ -314,7 +271,7 @@ export default function EditProduct({ product }) {
                                     <button onClick={(e) => {
                                         e.preventDefault();
                                         setColors([]);
-                                    }}><ClearAll className=' border border-neutral-800 rounded' /></button>
+                                    }}><ClearAll className='border border-neutral-800 rounded' /></button>
                                     {state.displayColorPicker ? (
                                         <div className='absolute z-50'>
                                             <div className='fixed top-0 right-0 bottom-0 left-0' onClick={handleClick} />

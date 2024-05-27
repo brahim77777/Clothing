@@ -143,6 +143,7 @@ export default function AddProduct() {
         const avatarFiles = fileItems.map(fileItem => fileItem.file);
         setData('main_image', avatarFiles[0]);
         setData('secondary_images', avatarFiles);
+        console.log("avatars:::",avatarFiles)
     };
 
     const handleFormSubmit = async (e) => {
