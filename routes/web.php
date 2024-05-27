@@ -124,7 +124,7 @@ Route::get('/dashboard', function () {
         'total' => $products->total(),
         "userName" => auth()->user()->name
     ]);
-})->middleware('auth')->name('dashboard');
+})->middleware('admin')->name('dashboard');
 
 Route::get('/dashboard/products', function () {
     // Fetch all products
@@ -156,7 +156,7 @@ Route::delete('/products/{product:slug}', [ProductController::class, 'destroy'])
 
 Route::get('/dashboard/product/{product:slug}', function () {
     return Inertia::render('EditProduct');
-});
+})->middleware('admin');
 Route::delete('/users/{user:email}', [UserController::class, 'destroy']);
 
 Route::get('/products/{slug}', [ProductController::class, 'show'])->name('products.show');
@@ -189,36 +189,36 @@ Route::get('/view_all', function () {
 
 Route::get('/dashboard/categories', function () {
     return Inertia::render("Categories");
-})->middleware('auth')->name('categories');
+})->middleware('admin')->name('categories');
 
 
 Route::get('/dashboard/update_product', function () {
     return Inertia::render("UpdateProduct");
-})->middleware('auth')->name('UpdateProduct');
+})->middleware('admin')->name('UpdateProduct');
 
 Route::get('/dashboard/statistiques', function () {
     $products = Product::all();
     return Inertia::render("Stats", [
         'products' => ProductResource::collection($products)
     ]);
-})->middleware('auth')->name('Stats');
+})->middleware('admin')->name('Stats');
 
 
 
 
 Route::get('/dashboard/users', function () {
     return Inertia::render("Users");
-})->middleware('auth')->name('users');
+})->middleware('admin')->name('users');
 
 Route::get('/dashboard/statistiques', function () {
     return Inertia::render("Stats");
-})->middleware('auth')->name('Stats');
+})->middleware('admin')->name('Stats');
 
 Route::get('/dashboard/add_product', function () {
     return Inertia::render("AddProduct", [
         "userName" => auth()->user()->name
     ]);
-})->middleware('auth')->name('AddProduct');
+})->middleware('admin')->name('AddProduct');
 
 Route::get('/check_out', function () {
     return Inertia::render("CheckoutPage");
@@ -300,10 +300,10 @@ Route::get('/products/related/{product}', function (Product $product) {
 
 Route::get('/dashboard/simplex', function () {
     return Inertia::render('Simplex');
-});
+})->middleware('admin');
 Route::get('/dashboard/commands', function () {
     return Inertia::render('Commands');
-});
+})->middleware('admin');
 Route::post("/rating", [RatingController::class, 'store'])->middleware('auth')->name('rating.store');
 
 // Route::post('/products/sort', [ProductController::class, 'sort'])->name('products.sort');
@@ -341,6 +341,6 @@ Route::get('/commands', [CommandController::class, 'index'])->middleware('auth')
 Route::get('/commands/save', [CommandController::class, 'storeCsv'])->name('commands.save');
 Route::get('/commands/all', [CommandController::class, 'readCsv'])->name('commands.read');
 Route::get('/dashboard/command/{command}', [CommandController::class, 'show'])->middleware('admin')->name('commands.show');
-Route::get('/dashboard/products/{product}/edit', [ProductController::class, 'edit']);
+Route::get('/dashboard/products/{product}/edit', [ProductController::class, 'edit'])->middleware('admin');
 
 require __DIR__ . '/auth.php';
