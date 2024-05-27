@@ -7,6 +7,7 @@ use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\RatingController;
 use App\Http\Controllers\SearchController;
 use App\Http\Controllers\UserController;
+use App\Http\Middleware\admin;
 use App\Http\Resources\ProductResource;
 use App\Models\Category;
 use App\Models\Command;
@@ -335,32 +336,11 @@ Route::get('/dashboard/products/sort', function (Request $request) {
 })->name('products');
 
 Route::post('/commands', [CommandController::class, 'store'])->name('commands.store');
-Route::get('/commands', [CommandController::class, 'index'])->name('commands');
+Route::get('/commands', [CommandController::class, 'index'])->middleware('auth')->name('commands');
 
 Route::get('/commands/save', [CommandController::class, 'storeCsv'])->name('commands.save');
 Route::get('/commands/all', [CommandController::class, 'readCsv'])->name('commands.read');
-
-Route::get('/commands/seed', function () {
-    Command::create(
-        [
-            'first_name' => "test",
-            'last_name' => "test",
-            'enterprise_name',
-            'address' => "test",
-            'city' => "test",
-            'cin' => "test",
-            'phone' => "test",
-            'email' => "amin@amin.com",
-            'products' => "test",
-            'total_price' => 12.99,
-            'free_shipping' => false,
-            'status' => "failed",
-
-        ]
-    );
-});
-
-Route::get('/dashboard/command/{command}', [CommandController::class, 'show'])->name('api.products.rating');
+Route::get('/dashboard/command/{command}', [CommandController::class, 'show'])->middleware('admin')->name('commands.show');
 Route::get('/dashboard/products/{product}/edit', [ProductController::class, 'edit']);
 
 require __DIR__ . '/auth.php';
