@@ -105,7 +105,10 @@ class ProductController extends Controller
             ]
         );
     }
-
+    public function edit(Product $product)
+    {
+        return Inertia::render("EditProduct", ["product" => $product]);
+    }
     private function filtering(Request $request, $query)
     {
         // Initialize the query

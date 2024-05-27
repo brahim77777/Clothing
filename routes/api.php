@@ -56,4 +56,4 @@ Route::get("/commands", function () {
     );
 });
 Route::patch('/command/{command}', [CommandController::class, 'update'])->name('api.products.rating');
-Route::put('products/product/{product}', [ProductController::class, 'update'])->name('api.products.update');
+Route::put('products/{product}', [ProductController::class, 'update'])->name('api.products.update');
