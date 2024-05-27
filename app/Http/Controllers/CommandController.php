@@ -6,6 +6,7 @@ use App\Models\Command;
 use App\Models\Product;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\File;
+use Inertia\Inertia;
 
 
 class CommandController extends Controller
@@ -31,12 +32,12 @@ class CommandController extends Controller
             $products[$counter]->quantity = explode(",", $products_string)[3];
             $counter++;
         }
-        return response()->json(
-            [
-                "products" => $products,
-                "command" => $command
-            ]
-        );
+
+
+        return Inertia::render('CommandDetails', [
+            "products" => $products,
+            "command" => $command
+        ]);
     }
 
     public function store(Request $request)
