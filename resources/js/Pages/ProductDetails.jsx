@@ -75,7 +75,7 @@ export default function ProductDetails({product}){
     let arrImages = product.secondary_images.split(',')
     arrImages.unshift(product.main_image)
     const productImageR = useSelector((state)=>state.productImage.value)
-    const [productImage,setProductImage] = useState('/storage/'+arrImages[0])
+    const [productImage,setProductImage] = useState('/storage/'+arrImages[1])
     useEffect(()=>{
         setProductImage(productImageR)
     },[productImageR])
@@ -97,7 +97,7 @@ export default function ProductDetails({product}){
         <div class="grid items-start grid-cols-1 lg:grid-cols-5 gap-12">
           <div class="lg:col-span-3 w-full lg:sticky top-0 text-center">
             <div class=" relative h-[85vh] m-auto  shadow  ">
-              <img   src={`${productImage}`}
+              <img   src={productImage || '/storage/'+arrImages[0]}
                 alt="Product"
                 className=" z-10 duration-300 ease-in-out absolute top-0 left-0 object-cover hover:object-contain w-full h-full" />
                 <div className="  relative overflow-hidden  h-full">

@@ -28,6 +28,9 @@ export default function CommandDetails({ command, products }) {
 
     return (
         <Dashboard>
+                        <Toaster position="top-right" richColors />
+
+
             <div className="container mx-auto py-6 bg-gray-0">
                 <h1 className="text-2xl font-bold mb-6">Command Details (ID: {command.id})</h1>
 
