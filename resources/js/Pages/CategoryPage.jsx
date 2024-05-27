@@ -56,7 +56,7 @@ console.log("category: ",products)
                             <Link href="/" className="opacity-60">
                                 <span>Home</span>
                             </Link>
-                            <Link href="/products">Category</Link>
+                            <Link href="/products">Products</Link>
                             <Link href="/products">{productsData[0]?.category || ""}</Link>
                         </Breadcrumbs>
                         </div>
