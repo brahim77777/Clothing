@@ -90,12 +90,12 @@ class CommandController extends Controller
 
     public function update(Request $request, Command $command)
     {
-
         $data = $request->validate([
             "status" => "required",
             "products" => "required",
             "total_price" => "required",
         ]);
+
         $command->update($data);
     }
     public function storeCsv()

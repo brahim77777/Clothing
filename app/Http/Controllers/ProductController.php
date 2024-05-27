@@ -93,6 +93,19 @@ use Illuminate\Support\Str;
 class ProductController extends Controller
 {
 
+    public function update(Request $request, Product $product)
+    {
+
+
+        $product->update($request->all());
+        return response()->json(
+            [
+                "success" => true,
+                "product" => new ProductResource($product),
+            ]
+        );
+    }
+
     private function filtering(Request $request, $query)
     {
         // Initialize the query
