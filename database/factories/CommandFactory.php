@@ -26,7 +26,7 @@ class CommandFactory extends Factory
             'phone' => $this->faker->phoneNumber(),
             'email' => $this->faker->email(),
             //"1,#ffffff,S 2,#000000,L 3,#000ff0,XL 4,#003200,M 5,#ff0000,S"
-            'products' => implode(',', $this->faker->randomElements(['1,#ffffff,S', '2,#000000,L ', '3,#000ff0,XL', '4,#003200,M', '5,#ff0000,S'])) . " " . implode(',', $this->faker->randomElements(["1,#ffffff,S", "2,#000000,L ", "3,#000ff0,XL", "4,#003200,M", "5,#ff0000,S"])),
+            'products' => implode(',', $this->faker->randomElements(['1,#ffffff,S,1', '2,#000000,L,3 ', '3,#000ff0,XL,2', '4,#003200,M,1', '5,#ff0000,S,1'])) . " " . implode(',', $this->faker->randomElements(["1,#ffffff,S,1", "2,#000000,L,1 ", "3,#000ff0,XL,1", "4,#003200,M,1", "5,#ff0000,S,1"])),
             'total_price' => $this->faker->randomFloat(2, 0, 1000),
             'free_shipping' => $this->faker->boolean(),
             'created_at' => $this->faker->dateTimeBetween('-1 year', 'now'),
