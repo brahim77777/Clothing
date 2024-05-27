@@ -197,7 +197,7 @@ export default  function  Products({pageCount ,products, total,auth})  {
                                             <button
                                                 onClick={()=>{
                                                     dispatch(setDataToUpdate(e))
-                                                    router.visit("/dashboard/update_product")
+                                                    router.visit("/dashboard/products/"+e.id+"/edit")
                                                 }
                                                 }
                                                      className='flex justify-between items-center gap-1 p-1 rounded bg-blue-600 border font-normal text-white hover:bg-blue-500'>Edit<TbEdit className=''/>
