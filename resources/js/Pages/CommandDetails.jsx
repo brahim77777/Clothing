@@ -1,7 +1,7 @@
 
 import React from 'react'
 
-export const CommandDetails = () => {
+export default function CommandDetails () {
   return (
     <div>
         <div>CommandDetails</div>
