@@ -50,14 +50,7 @@ export default function CategoryPage({category}) {
                             <BreadcrumbsWithIcon/>
                         </div>
                     </div>
-                    <h1 className="text-3xl italic">{}</h1>
-                    <div className="mt-4 flex justify-between items-center">
-
-                        <div className="flex justify-center items-center gap-2">
-                            <Tooltip children={"Filter & Sort"} position={"left"} className={""} />
-                            <AdvancedFilter />
-                        </div>
-                    </div>
+                    
                 </div>
                 <div className='m-auto mt-[3rem] gap-6 grid grid-cols-5 max-xl:grid-cols-4 max-lg:grid-cols-3 max-md:grid-cols-2 max-sm:grid-cols-1' style={{ placeItems: 'center' }}>
                     {productsData?.map((e, index) => (
