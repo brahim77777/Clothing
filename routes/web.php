@@ -296,7 +296,7 @@ Route::get('/products/related/{product}',function(Product $product)
             ->get();
 
         return response()->json($relatedProducts);
-    })->name('relatedProducts');;
+    })->name('relatedProducts');
 
 Route::get('/dashboard/simplex', function () {
     return Inertia::render('Simplex');
