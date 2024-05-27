@@ -33,13 +33,15 @@ registerPlugin(
     FilePondPluginFileValidateType
 );
 
-export default function EditProduct({ productId }) {
+export default function EditProduct({ product }) {
     const dispatch = useDispatch();
     const selectedCategory = useSelector(state => state.selectedCategory.value);
     const [selectedSizes, setSelectedSizes] = useState([]);
     const [categories, setCategories] = useState([]);
     const [colors, setColors] = useState([]);
     const [files, setFiles] = useState([]);
+
+    const toggleDarkMode = useSelector((state) => state.changeTheme.value)
     const [state, setState] = useState({
         displayColorPicker: false,
         color: [{
@@ -51,36 +53,24 @@ export default function EditProduct({ productId }) {
     });
 
     const { data, setData, post, progress, reset } = useForm({
-        title: '',
-        slug: '',
-        description: '',
-        price: '',
-        quantity: '',
-        category_id: '',
-        secondary_images: [],
-        sizes: [],
-        colors: [],
-        main_image: '',
+        title: product.title,
+        slug: product.slug,
+        description: product.description,
+        price: product.price,
+        quantity: product.quantity,
+        category_id: product.category_id,
+        secondary_images: product.secondary_images,
+        sizes: product.sizes,
+        colors: product.colors,
+        main_image: product.main_image,
     });
 
     useEffect(() => {
+        console.log("product: kk",product)
         // Fetch existing product data by ID and populate the form fields
-        axios.get(`/api/products/${productId}`).then((response) => {
-            const product = response.data.product;
-            setData({
-                title: product.title,
-                slug: product.slug,
-                description: product.description,
-                price: product.price,
-                quantity: product.quantity,
-                category_id: product.category_id,
-                secondary_images: product.secondary_images,
-                sizes: product.sizes,
-                colors: product.colors,
-                main_image: product.main_image,
-            });
+
             setSelectedSizes(product.sizes);
-            setColors(product.colors.map(color => ({
+            setColors(product.colors.split(",")?.map(color => ({
                 r: parseInt(color.slice(1, 3), 16),
                 g: parseInt(color.slice(3, 5), 16),
                 b: parseInt(color.slice(5, 7), 16),
@@ -92,8 +82,7 @@ export default function EditProduct({ productId }) {
                     type: 'local',
                 }
             })));
-        });
-    }, [productId]);
+    }, []);
 
     useEffect(() => {
         axios.get('/categories').then((res) => {
