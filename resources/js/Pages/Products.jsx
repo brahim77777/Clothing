@@ -126,15 +126,14 @@ export default  function  Products({pageCount ,products, total,auth})  {
 <div className={`w-full duration-300  ease-in-out min-h-screen ${toggleDarkMode ? 'bg-neutral-700' : 'bg-white text-gray-900'} h-full  mt-2 ml-auto `}>
 
 
-                        <div className=' w-full flex justify-between '>
-                            <div className='p-2 rounded-md border  w-fit shadow bg-green-600 text-white font-medium text-lg flex justify-between gap-2'>Products total<span className='text-xl '>{total}</span></div>
+                        <div className=' w-full relative h-8 '>
 
                         <Link
                             href='/dashboard/add_product'
-                            className="flex bg-white bg-opacity-75 items-center py-1   w-[4rem] rounded-md pl-2 pr-[4px] justify-between border border-gray-500">Add<MdAdd/>
+                            className="flex bg-neutral-900 text-white absolute right-0 bg-opacity-75 items-center py-1 w-[4rem] rounded-md pl-2 pr-[4px] justify-between border border-gray-500">Add<MdAdd/>
                         </Link>
                         </div>
-                        <div class="overflow-x-auto w-full mx-auto   ">
+                        <div class="overflow-x-auto w-full shadow-lg border mt-4 rounded-md mx-auto   ">
                             <div class="inline-block min-w-full py-2  rounded-md  ">
                             <div class="overflow-hidden  ">
                                 <table
@@ -193,7 +192,7 @@ export default  function  Products({pageCount ,products, total,auth})  {
                                             <td class="whitespace-nowrap px-6 py-4">{(e.updated_at)}</td>
                                             <td class="whitespace-nowrap px-6 py-4">{(e.created_at)}</td>
                                             <td class="whitespace-nowrap px-6 py-4">{e.price}</td>
-                                            <td class="whitespace-nowrap px-6 py-4"><Link href={'/products/'+e.slug} className='px-2 bg-gray-50 hover:bg-neutral-100 py-1 border-gray-500  rounded border'>Click here</Link></td>
+                                            <td class="whitespace-nowrap px-6 py-4"><Link href={'/products/'+e.slug} className='px-2 bg-neutral-700 text-white font-normal hover:bg-neutral-600 py-1 border-gray-500  rounded border'>Click here</Link></td>
                                             <td class="whitespace-nowrap px-6 py-4 flex items-center gap-2">
                                             <button
                                                 onClick={()=>{
@@ -201,9 +200,9 @@ export default  function  Products({pageCount ,products, total,auth})  {
                                                     router.visit("/dashboard/update_product")
                                                 }
                                                 }
-                                                     className='flex justify-between items-center gap-1 p-1 rounded bg-green-50 border border-green-500 text-green-500 hover:bg-green-200 hover:text-green-600'><TbEdit className=''/>Edit
+                                                     className='flex justify-between items-center gap-1 p-1 rounded bg-blue-600 border font-normal text-white hover:bg-blue-500'>Edit<TbEdit className=''/>
                                             </button>
-                                                <button onClick={()=>deleteProduct(e.slug)} className='flex  justify-between items-center gap-1 p-1 rounded bg-red-50 border border-red-500 text-red-500 hover:bg-red-200 hover:text-red-600'>Delete<RiDeleteBin6Line/></button>
+                                                <button onClick={()=>deleteProduct(e.slug)} className='flex  justify-between items-center gap-1 p-1 rounded bg-red-600  text-white hover:bg-red-500 '>Delete<RiDeleteBin6Line/></button>
                                             </td>
                                             </tr>
                                         ))
@@ -213,7 +212,8 @@ export default  function  Products({pageCount ,products, total,auth})  {
                                 </table>
                                 {/* { Object.entries(products.links).map((e)=>{return <h1>{e[0]}</h1>})} */}
                                 {/* <Pagination links={Object.entries(products.links)}/> */}
-                                <ReactPaginate
+                             <div className='mx-2'>
+                             <ReactPaginate
                                     pageCount={pageCount}
                                     onPageChange={handlePageChange}
                                     forcePage={page}
@@ -224,6 +224,7 @@ export default  function  Products({pageCount ,products, total,auth})  {
                                     nextClassName="bg-white border border-gray-300 text-gray-700 hover:bg-gray-100 rounded-md px-4 py-2"
                                     breakClassName="bg-white border border-gray-300 text-gray-700 rounded-md px-4 py-2"
                                 />
+                             </div>
 
                             </div>
                             </div>
