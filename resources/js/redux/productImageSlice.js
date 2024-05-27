@@ -11,10 +11,13 @@ export const productImageSlice = createSlice({
     changeImage: (state,action) => {
       state.value = action.payload;
     },
+    refresh: (state) => {
+      state.value = null
+    },
   },
 })
 
 // Action creators are generated for each case reducer function
-export const { changeImage } = productImageSlice.actions
+export const { changeImage ,refresh} = productImageSlice.actions
 
 export default productImageSlice.reducer

@@ -6,6 +6,7 @@ import { GoHeartFill } from "react-icons/go";
 import {add} from "../redux/addToFavorite"
 import {remove} from "../redux/addToFavorite"
 import { useDispatch, useSelector } from "react-redux";
+import { refresh } from "@/redux/productImageSlice";
 
 export default function Card({product,isHome}){
 
@@ -37,7 +38,7 @@ export default function Card({product,isHome}){
         animate= {mainConrols}
         transition={{duration:0.5, delay:0.25}}
         className={`${isHome&&`max-md:w-[13rem]`} relative flex flex-col max-w-[18rem]k w-[15rem] overflow-hidden  rounded-md  shadow-lg border border-black  `}>
-        <div className=" opacity-0 hover:opacity-100 transition-all duration-200 absolute w-full backdrop-filter backdrop-blur-lg  h-full flex items-center justify-center">
+        <div onMouseEnter={()=>dispatch(refresh())} className=" opacity-0 hover:opacity-100 transition-all duration-200 absolute w-full backdrop-filter backdrop-blur-lg  h-full flex items-center justify-center">
             <Link href={'/products/'+product?.slug} as="button" method="get" className="bg-yellow-500 p-2 rounded-full border text-black border-black  font-bold">Buy now!</Link>
         </div>
 
