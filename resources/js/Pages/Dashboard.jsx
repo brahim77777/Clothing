@@ -50,16 +50,18 @@ const Dashboard =  ({ children , auth,userName}) => {
 
     const [sidebarOpen, setSidebarOpen] = useState(false)
 
+      const [currentPath,setCurrentPath] = useState(window.location.pathname);
+
 
 
   const navigation = [
-    { name: 'Products', icon: HomeIcon, current: true, href: "/dashboard/products"},
-    { name: 'Categories', icon: TbCategory2, current: false , href:"/dashboard/categories"},
-    { name: 'Users', icon: UsersIcon, current: false ,href:"/dashboard/users"},
-    { name: 'Orders', icon: PiShoppingBagLight, current: false ,href:"/dashboard/commands"},
+    { name: 'Products', icon: HomeIcon, current: (currentPath === "/dashboard/products"), href: "/dashboard/products"},
+    { name: 'Categories', icon: TbCategory2, current: (currentPath === "/dashboard/categories") , href:"/dashboard/categories"},
+    { name: 'Users', icon: UsersIcon, current: (currentPath === "/dashboard/users") ,href:"/dashboard/users"},
+    { name: 'Orders', icon: PiShoppingBagLight, current: (currentPath === "/dashboard/commands") ,href:"/dashboard/commands"},
     // { name: 'Sales', icon: GiPriceTag, current: false },
-    { name: 'Calculations Space',href:"/dashboard/simplex", icon: CalculateOutlined, current: false },
-    { name: 'Statistiques', icon: ChartBarIcon, current: false, href :"/dashboard/statistiques"}
+    { name: 'Calculations Space',href:"/dashboard/simplex", icon: CalculateOutlined, current: (currentPath === "/dashboard/simplex") },
+    { name: 'Statistiques', icon: ChartBarIcon, current: (currentPath === "/dashboard/statistiques"), href :"/dashboard/statistiques"}
   ]
   const userNavigation = [
     { name: 'Your Profile', href: '/profile' },

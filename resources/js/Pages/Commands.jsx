@@ -5,6 +5,8 @@ import ReactPaginate from 'react-paginate';
 import { BsSortAlphaDown, BsSortAlphaUp } from 'react-icons/bs';
 import Dashboard from './Dashboard';
 import { Link } from '@inertiajs/react';
+import { ShoppingBag } from "@mui/icons-material";
+import { ShoppingBagIcon } from "@heroicons/react/24/outline";
 
 const Commands = () => {
     const [commands, setCommands] = useState([]);
@@ -58,13 +60,13 @@ const Commands = () => {
         <Dashboard>
             <div className='my-2 overflow-hidden bg-gray-50 font-semibold relative flex font-Nunito justify-between p-4 border rounded-lg text-[1.5rem]'>
                 Commands List
-                <HiUsers className='absolute right-0 size-[9rem] opacity-10 -rotate-12 -translate-y-10' />
+                <ShoppingBagIcon className='absolute right-5 md:right-10 size-[9rem] opacity-10 -rotate-12 -translate-y-10' />
             </div>
 
-            <div className="overflow-x-auto w-full mx-auto">
+            <div className="overflow-x-auto w-full mx-auto  shadow-lg">
                 <div className="inline-block min-w-full py-2 rounded-md">
                     <div className="overflow-hidden">
-                        <table className="min-w-full bg-white rounded-md text-left text-sm text-surface">
+                        <table className="min-w-full border  bg-white rounded-md text-left text-sm text-surface">
                             <thead className="border-b border-neutral-200 font-medium text-nowrap">
                                 <tr>
                                     <th scope="col" className="px-6 py-4 pr-10">ID</th>
@@ -115,7 +117,7 @@ const Commands = () => {
                                 ))}
                             </tbody>
                         </table>
-
+                        <div  className="mx-2">
                         <ReactPaginate
                             pageCount={pageCount}
                             onPageChange={handlePageClick}
@@ -126,6 +128,7 @@ const Commands = () => {
                             nextClassName="bg-white border border-gray-300 text-gray-700 hover:bg-gray-100 rounded-md px-4 py-2"
                             breakClassName="bg-white border border-gray-300 text-gray-700 rounded-md px-4 py-2"
                         />
+                        </div>
                     </div>
                 </div>
             </div>
