@@ -68,7 +68,7 @@ const Stats = () => {
 
        useEffect(()=>{
         axios.get("/commands").then(res=>{
-            setCommands(res.data.commands)
+            setCommands(res.data.commands.data)
           })
        },[])
 
