@@ -20,6 +20,20 @@ class CommandController extends Controller
 
     }
 
+    public function updateStatus(Request $request, Command $command)
+    {
+        $status = $request->validate([
+            "status" => "required|in:pending,verified,paid,failed,canceld",
+        ]);
+
+        $command->status = $status["status"];
+        $command->save();
+        return response()->json([
+            "success" => true,
+            "command" => $command
+        ]);
+    }
+
     public function show(Request $request, Command $command)
     {
         $products_list = explode(" ", trim($command->products));

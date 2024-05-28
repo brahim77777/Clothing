@@ -46,6 +46,8 @@ Route::post('/upload', function (Request $request) {
     return Inertia::render('/dashboard');
 });
 
+Route::patch('/commands/{command}', [CommandController::class, 'updateStatus'])->name('commands.updateStatus');
+
 Route::post('/dashboard/add_product', function (Request $request) {
     $request->validate([
         'title' => 'required|string|max:255',

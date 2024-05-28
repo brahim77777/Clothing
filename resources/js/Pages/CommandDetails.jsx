@@ -15,7 +15,7 @@ export default function CommandDetails({ command, products }) {
         e.preventDefault();
 
         try {
-            const response = await axios.put(`/api/commands/${command.id}`, { status });
+            const response = await axios.patch(`/commands/${command.id}`, { status });
             console.log('Status updated successfully:', response.data);
             toast.success('status changed successfully!');
 
@@ -60,10 +60,10 @@ export default function CommandDetails({ command, products }) {
                                     className="p-2 border border-neutral-300 rounded"
                                 >
                                     <option value="pending">Pending</option>
-                                    <option value="processing">Paid</option>
-                                    <option value="shipped">Verified</option>
-                                    <option value="delivered">Failed</option>
-                                    <option value="cancelled">Cancelled</option>
+                                    <option value="paid">Paid</option>
+                                    <option value="verified">Verified</option>
+                                    <option value="failed">Failed</option>
+                                    <option value="canceld">Cancelled</option>
                                 </select>
                             </div>
                             <Button type="submit" className="bg-indigo-700 text-white">Update Status</Button>
