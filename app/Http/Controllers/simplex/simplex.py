@@ -400,6 +400,8 @@ if __name__ == "__main__":
 
     # sys.argv = sys.argv[1].split()
     # print("this is argv->", sys.argv[1])
+
+    #  python3 simplex.py max
     problem_type = sys.argv[1]
     number_of_variables = int(sys.argv[2])
     number_of_constraints = int(sys.argv[3])

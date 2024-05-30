@@ -107,7 +107,7 @@ const Commands = () => {
                                         <td className="whitespace-nowrap px-6 py-4">{command.id}</td>
                                         <td className="whitespace-nowrap px-6 py-4">{command.first_name} {command.last_name}</td>
                                         <td className="whitespace-nowrap px-6 py-4">{command.city}</td>
-                                        <td className="whitespace-nowrap px-6 py-4">{command.status}</td>
+                                        <td className={`whitespace-nowrap px-6 py-4 ${command.status==`paid`? `text-green-500`: command.status==`pending`? `text-amber-600`:command.status==`verified`? `text-indigo-600`:command.status==`failed`? `text-red-500` : command.status==`canceld`? `text-gray-600`:``}`}>{command.status}</td>
                                         <td className="whitespace-nowrap px-6 py-4">{command.cin}</td>
                                         <td className="whitespace-nowrap px-6 py-4">{command.phone}</td>
                                         <td className="whitespace-nowrap px-6 py-4">

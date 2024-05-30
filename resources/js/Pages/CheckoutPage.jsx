@@ -56,7 +56,12 @@ const CheckoutPage = () => {
             console.log("orderData::::::::::::: ");console.log( orderData)
             const response = await axios.post('/commands', orderData);
             console.log('Order response:', response.data);
-            toast.success('Order submitted successfully!');
+            toast.success('Order submitted successfully!',{
+                className: 'my-classname',
+                // description: 'My description',
+                duration: 1000,
+                // icon: <MyIcon />,
+              });
 
             // handle success (e.g., show a success message, redirect to another page, etc.)
         } catch (error) {
@@ -69,6 +74,7 @@ const CheckoutPage = () => {
 
     return (
         <div className="py-10">
+            <Toaster richColors position='top-right' />
             <div className="mx-auto px-4">
                 {cart?.length === 0 ? (
                     <div className="text-center bg-white p-8 rounded-lg shadow-lg border border-rose-400">

@@ -60,7 +60,9 @@ const Dashboard =  ({ children , auth,userName}) => {
     { name: 'Users', icon: UsersIcon, current: (currentPath === "/dashboard/users") ,href:"/dashboard/users"},
     { name: 'Orders', icon: PiShoppingBagLight, current: (currentPath === "/dashboard/commands") ,href:"/dashboard/commands"},
     // { name: 'Sales', icon: GiPriceTag, current: false },
-    { name: 'Calculations Space',href:"/dashboard/simplex", icon: CalculateOutlined, current: (currentPath === "/dashboard/simplex") },
+    { name: 'Optimization ',href:"/dashboard/simplex", icon: CalculateOutlined, current: (currentPath === "/dashboard/simplex") },
+    { name: 'Formule de Wilson ',href:"/dashboard/wilson", icon: CalculateOutlined, current: (currentPath === "/dashboard/wilson") },
+
     { name: 'Statistiques', icon: ChartBarIcon, current: (currentPath === "/dashboard/statistiques"), href :"/dashboard/statistiques"}
   ]
   const userNavigation = [

@@ -300,9 +300,15 @@ Route::get('/products/related/{product}', function (Product $product) {
     return response()->json($relatedProducts);
 })->name('relatedProducts');
 
+
+
 Route::get('/dashboard/simplex', function () {
     return Inertia::render('Simplex');
 })->middleware('admin');
+
+Route::get('/dashboard/wilson', function () {
+    return Inertia::render('Wilson');
+});
 Route::get('/dashboard/commands', function () {
     return Inertia::render('Commands');
 })->middleware('admin');

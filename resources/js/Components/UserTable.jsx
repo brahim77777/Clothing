@@ -13,13 +13,13 @@ const UserTable = () => {
     const [pageCount, setPageCount] = useState(0);
     const [currentPage, setCurrentPage] = useState(1);
 
+
     const fetchUsers = (page = 1) => {
         axios.get(`/users?page=${page}`).then((res) => {
             setUsers(res.data.users);
             setPageCount(res.data.last_page); // Assuming 'last_page' represents the total pages
             setCurrentPage(res.data.current_page); // Set the current page
             console.log("Hello data: ",res.data)
-
         }).catch((error) => {
             console.error("Error fetching users:", error);
         });

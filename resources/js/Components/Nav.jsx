@@ -59,7 +59,7 @@ console.log("Current Path: ",currentPath)
     { name: 'Contact us', url: auth ? auth?.email+'/contact_usTURE': auth?.email+'/contact_usFALSE', className: " inline-flex items-center border-b-2 border-transparent px pt-1 text-sm font-medium text-gray-500 hover:border-gray-300 hover:text-gray-700  px-0 " },
   ];
   if(auth?.user?.role === "admin"){
-    menu.push(    { name: 'dashboard', url: '/dashboard', className: "inline-flex items-center border-b-2 border-transparent px pt-1 text-sm font-medium text-gray-500 hover:border-gray-300 hover:text-gray-700  px-0 " })
+    menu.push(    { name: 'dashboard', url: '/dashboard/products', className: "inline-flex items-center border-b-2 border-transparent px pt-1 text-sm font-medium text-gray-500 hover:border-gray-300 hover:text-gray-700  px-0 " })
   }
 
   function classNames(...classes) {

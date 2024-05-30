@@ -152,7 +152,9 @@ const Stats = () => {
   };
 
   // Process data for the line chart (Total Prices over Time)
-  const priceTrends = commands.reduce((acc, order) => {
+
+  const priceTrends = commands.filter((e)=>e.status ==  "paid").reduce((acc, order) => {
+
     const year = new Date(order.created_at).getFullYear();
     if (year === selectedYear) {
       const month = dayjs(order.created_at).format('MMMM');
@@ -173,6 +175,7 @@ const Stats = () => {
 
   const monthsForPrices = Object.keys(sortedPriceTrends);
   const totalPricesPerMonth = Object.values(sortedPriceTrends);
+  console.log("-----" ,commands)
 
   const lineChartData = {
     labels: monthsForPrices,
@@ -212,7 +215,8 @@ const Stats = () => {
   products.forEach(e => stock += e.quantity);
 
   let revenue = 0;
-  commands.forEach(e => revenue += e.total_price);
+
+  commands.forEach(e => e.status == "paid" ? revenue += e.total_price : revenue+=0);
 
   // Function to handle year selection change
   const handleYearChange = (event) => {
@@ -307,7 +311,7 @@ const Stats = () => {
         </div>
 
         <div className="mb-8 p-2 border border-orange-500 rounded-md">
-            <h2 className="text-xl font-semibold mb-2">Payment Status</h2>
+            <h2 className="text-xl font-semibold mb-2">Order Status</h2>
             <div className='m-auto flex justify-center lg:max-w-[30rem]'>
             <Doughnut data={pieData} />
             </div>
